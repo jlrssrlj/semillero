@@ -15,11 +15,15 @@ conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_
 
 @app.route('/')
 def index():
-    cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    s="SELECT * FROM login"
-    cur.execute(s)
-    list_users =cur.fetchall()
-    return render_template('index.html',list_users=list_users)
+    return render_template('index.html')
+
+@app.route('/index.html')
+def index2():
+    return render_template('index.html')
+
+@app.route('/Login.html')
+def Login():
+    return render_template('Login.html')
 
 
 
