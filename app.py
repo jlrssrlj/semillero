@@ -27,7 +27,6 @@ def index2():
 def Login():
     return render_template('Login.html')    
 
-
 # Ruta para mostrar el formulario de inicio de sesión
 @app.route('/login', methods=['GET'])
 def mostrar_formulario():
@@ -50,12 +49,13 @@ def login():
         cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         # Consultar la base de datos para obtener el hash de la contraseña
-        query = "SELECT * FROM login WHERE Correo = %s"
+        query = "SELECT * FROM login WHERE correo = %s"
         cursor.execute(query, (correo,))
         employee = cursor.fetchone()
 
         if employee:
             hashed_password = employee['Password']
+
             if check_password_hash(hashed_password, password):
                 session['loggedin'] = True
                 session['id'] = employee['Idempleado']
@@ -74,7 +74,6 @@ def login():
             cursor.close()
         if connection:
             connection.close()
-
 
 if __name__ == "__main__":
     app.run(debug=True)
