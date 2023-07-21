@@ -35,10 +35,10 @@ def mostrar_formulario():
 # Ruta para manejar el inicio de sesión
 @app.route('/hacer_login', methods=['POST'])
 def login():
-    correo = request.form.get('Correo')
+    Correo = request.form.get('Correo')
     password = request.form.get('pass')
 
-    if not correo or not password:
+    if not Correo or not password:
         return jsonify({'message': 'Correo y contraseña son campos requeridos'}), 400
 
     connection = None
@@ -49,8 +49,8 @@ def login():
         cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         # Consultar la base de datos para obtener el hash de la contraseña
-        query = "SELECT * FROM login WHERE correo = %s"
-        cursor.execute(query, (correo,))
+        query = "SELECT * FROM Login WHERE correo = %s"
+        cursor.execute(query, (Correo,))
         employee = cursor.fetchone()
 
         if employee:
@@ -58,7 +58,7 @@ def login():
 
             if check_password_hash(hashed_password, password):
                 session['loggedin'] = True
-                session['id'] = employee['Idempleado']
+                session['id'] = employee['id']
                 session['Correo'] = employee['Correo']
                 return jsonify({'message': 'Inicio de sesión exitoso'})
             else:
