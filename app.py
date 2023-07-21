@@ -1,12 +1,15 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_bcrypt import Bcrypt
 import psycopg2
 import psycopg2.extras
-from werkzeug.security import generate_password_hash, check_password_hash
-import bcrypt
+
 
 app = Flask(__name__)
 
 app.secret_key = "prueba"
+bcrypt = Bcrypt(app)
+
+
 
 DB_HOST = "localhost"
 DB_NAME = "semillero"
@@ -14,6 +17,14 @@ DB_USER = "ted127"
 DB_PASS = "1273458"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
+
+def connect_to_database():
+    return psycopg2.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS
+    )
 
 @app.route('/')
 def index():
@@ -27,53 +38,47 @@ def index2():
 def Login():
     return render_template('Login.html')    
 
-# Ruta para mostrar el formulario de inicio de sesión
-@app.route('/login', methods=['GET'])
-def mostrar_formulario():
+@app.route('/prueba.html')
+def prueba():
+    return render_template('prueba.html')   
+    
+
+
+@app.route('/hacer_login', methods=['POST'])
+def hacer_login():
+    conn = connect_to_database()
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    # Check if "username" and "password" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        correo = request.form['username']
+        password = request.form['password']
+        print(password)
+
+        # Check if account exists using PostgreSQL
+        cursor.execute('SELECT * FROM Login WHERE correo = %s AND password =%s', (correo, password))
+        # Fetch one record and return result
+        account = cursor.fetchone()
+
+        if account:
+            password_rs = account['password']
+            print(password_rs)
+           
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['correo'] = account['correo']
+            # Redirect to home page
+            return redirect(url_for('prueba'))
+        else:
+            # Incorrect password
+            flash('Incorrect username/password')
+    else:
+        # Incorrect username or account doesn't exist
+        flash('Incorrect username/password')
+
     return render_template('login.html')
 
-# Ruta para manejar el inicio de sesión
-@app.route('/hacer_login', methods=['POST'])
-def login():
-    Correo = request.form.get('Correo')
-    password = request.form.get('pass')
 
-    if not Correo or not password:
-        return jsonify({'message': 'Correo y contraseña son campos requeridos'}), 400
-
-    connection = None
-    cursor = None
-    try:
-        # Establecer conexión a la base de datos
-        connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
-        cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-        # Consultar la base de datos para obtener el hash de la contraseña
-        query = "SELECT * FROM Login WHERE correo = %s"
-        cursor.execute(query, (Correo,))
-        employee = cursor.fetchone()
-
-        if employee:
-            hashed_password = employee['Password']
-
-            if check_password_hash(hashed_password, password):
-                session['loggedin'] = True
-                session['id'] = employee['id']
-                session['Correo'] = employee['Correo']
-                return jsonify({'message': 'Inicio de sesión exitoso'})
-            else:
-                return jsonify({'message': 'Correo o contraseña incorrectos'}), 401
-        else:
-            return jsonify({'message': 'Correo o contraseña incorrectos'}), 401
-
-    except Exception as e:
-        return jsonify({'message': 'Error al procesar la solicitud', 'error': str(e)}), 500
-    finally:
-        # Cerrar la conexión y el cursor en caso de que existan
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
 
 if __name__ == "__main__":
     app.run(debug=True)
