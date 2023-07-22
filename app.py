@@ -49,15 +49,12 @@ def hacer_login():
     conn = connect_to_database()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # Check if "username" and "password" POST requests exist (user submitted form)
+    
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         correo = request.form['username']
         password = request.form['password']
-        print(password)
-
-        # Check if account exists using PostgreSQL
+        
         cursor.execute('SELECT * FROM Login WHERE correo = %s AND password =%s', (correo, password))
-        # Fetch one record and return result
         account = cursor.fetchone()
 
         if account:
@@ -67,14 +64,14 @@ def hacer_login():
             session['loggedin'] = True
             session['id'] = account['id']
             session['correo'] = account['correo']
-            # Redirect to home page
+            
             return redirect(url_for('prueba'))
         else:
-            # Incorrect password
-            flash('Incorrect username/password')
+            
+            flash('Correo o Contraseña incorrecto')
     else:
-        # Incorrect username or account doesn't exist
-        flash('Incorrect username/password')
+        
+        flash('Correo o Contraseña incorrecto')
 
     return render_template('login.html')
 
