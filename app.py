@@ -38,11 +38,6 @@ def index2():
 def Login():
     return render_template('Login.html')    
 
-@app.route('/prueba.html')
-def prueba():
-    return render_template('prueba.html')   
-    
-
 
 @app.route('/hacer_login', methods=['POST'])
 def hacer_login():
