@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Contacto</title>
+</head>
+<body>
+    <h1>Contacto</h1>
+    <form action="/enviar_correo" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" required><br><br>
+        
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" name="correo" required><br><br>
+        
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" name="telefono" required><br><br>
+        
+        <label for="descripcion">Descripción:</label><br>
+        <textarea name="descripcion" rows="4" cols="50" required></textarea><br><br>
+        
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
