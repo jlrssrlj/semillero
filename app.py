@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 import psycopg2
 import psycopg2.extras
@@ -11,40 +10,12 @@ app = Flask(__name__)
 app.secret_key = "prueba"
 bcrypt = Bcrypt(app)
 
-# Configuración de Flask-Mail
-app.config['MAIL_SERVER'] = 'smtp.office365.com'  # Servidor SMTP (por ejemplo, Gmail)
-app.config['MAIL_PORT'] = 587  # Puerto del servidor SMTP
-app.config['MAIL_USE_TLS'] = True  # Usar TLS para la conexión
-app.config['MAIL_USERNAME'] = 'ramos014@hotmail.com'  # Tu dirección de correo
-app.config['MAIL_PASSWORD'] = 'Jorgeramos123.'  # Tu contraseña de correo
-
-mail = Mail(app)
-
-@app.route('/send_email', methods=['POST'])
-def send_email():
-    if request.method == 'POST':
-        recipient = request.form['recipient']
-        subject = request.form['subject']
-        message_body = request.form['message_body']
-        
-        msg = Message(subject=subject, recipients=[recipient])
-        msg.body = message_body
-        
-        try:
-            mail.send(msg)
-            flash('Correo enviado exitosamente', 'success')
-        except Exception as e:
-            flash(f'Error al enviar el correo: {e}', 'danger')
-        
-        return redirect(url_for('send_email'))
-    
-    return render_template('index.html')
 
 #Configuracion base de datos
 DB_HOST = "localhost"
 DB_NAME = "semillero"
 DB_USER = "postgres"
-DB_PASS = "Srljjlrs2023*"
+DB_PASS = "1273458mN"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 
@@ -60,15 +31,12 @@ def connect_to_database():
 def index():
     return render_template('index.html')
 
-@app.route('/index.html')
-def index2():
+@app.route('/login')
+def index():
     return render_template('index.html')
 
-@app.route('/Login.html')
-def Login():
-    return render_template('Login.html')    
 
-
+    
 @app.route('/hacer_login', methods=['POST'])
 def hacer_login():
     conn = connect_to_database()
