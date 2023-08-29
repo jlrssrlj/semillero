@@ -31,10 +31,13 @@ def connect_to_database():
 def index():
     return render_template('index.html')
 
-@app.route('/login')
-def index():
-    return render_template('index.html')
+@app.route('/herramienta')
+def herramienta():
+    return render_template('principalaplicativo.html')
 
+@app.route('/login')
+def login():
+    return render_template('/login.html')
 
     
 @app.route('/hacer_login', methods=['POST'])
