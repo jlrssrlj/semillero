@@ -35,7 +35,7 @@ def index():
 def herramienta():
     return render_template('principalaplicativo.html')
 
-@app.route('/login')
+@app.route('/login/')
 def login():
     return render_template('/login.html')
 
@@ -70,6 +70,9 @@ def hacer_login():
         flash('Correo o Contraseña incorrecto')
 
     return render_template('login.html')
+
+
+
 
 
 
