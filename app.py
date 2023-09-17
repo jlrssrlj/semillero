@@ -14,8 +14,8 @@ bcrypt = Bcrypt(app)
 #Configuracion base de datos
 DB_HOST = "localhost"
 DB_NAME = "semillero"
-DB_USER = "postgres"
-DB_PASS = "DiegoRuiz5605@!"
+DB_USER = "ted127"
+DB_PASS = "1273458"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 
