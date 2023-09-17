@@ -59,60 +59,9 @@
         </nav>
     </header>
 
-    <div class="container">
-        <div class="section">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="table-responsive">
-                        <div class="table-wrapper">
-                            <div class="table-title">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <h2><b>Productos</b></h2>
-                                    </div>
 
-                                </div>
-                            </div>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>ID Producto</th>
-                                        <th>Nombre Producto</th>
-                                        <th>Precio</th>
-                                        <th>Código</th>
-                                        <th>ID Proveedores</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for producto in productos %}
-                                        <tr>
-                                            <td>{{ producto.idproducto }}</td>
-                                            <td>{{ producto.nombreproducto }}</td>
-                                            <td>{{ producto.precio }}</td>
-                                            <td>{{ producto.codigo }}</td>
-                                            <td>{{ producto.idproveedores }}</td>
-                                            <td>
-                                                <a class="edit" title="Editar" data-toggle="tooltip" href="{{ url_for('edit_producto', id=producto.idproducto) }}"><i class="material-icons">&#xE254;</i></a>
-                                                <a class="delete" title="Eliminar" data-toggle="tooltip" href="{{ url_for('delete_producto', id=producto.idproducto) }}"><i class="material-icons">&#xE872;</i></a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <form method="POST" action="{{ url_for('add_producto') }}">
-                                <input type="text" class="form-control" name="idproducto" placeholder="ID Producto" required>
-                                <input type="text" class="form-control" name="nombreproducto" placeholder="Nombre del Producto" required>
-                                <input type="text" class="form-control" name="precio" placeholder="Precio" required>
-                                <input type="text" class="form-control" name="codigo" placeholder="Código" required>
-                                <input type="text" class="form-control" name="idproveedores" placeholder="ID Proveedores" required>
-                                <button type="submit" class="btn btn-success">Agregar</button>
-                            </form>
-                        </div>
-                    </div>
-            </div>
-
-                <div class="col-md-6">
+       <div class="row text-center">
+           <div class="col-md-6">
                     <div class="col-sm-8">
                         <h2><b>Productos</b></h2>
                     <div>
@@ -137,11 +86,69 @@
                             </form>
                         </div>
                 </div>
-        </div>
-    </div>
+
+
+            </div>
+
+           </div>
+           <div class="col-md-6">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h2><b>Productos</b></h2>
+                                </div>
+
+                            </div>
+                        </div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID Producto</th>
+                                    <th>Nombre Producto</th>
+                                    <th>Precio</th>
+                                    <th>Código</th>
+                                    <th>ID Proveedores</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for producto in productos %}
+                                    <tr>
+                                        <td>{{ producto.idproducto }}</td>
+                                        <td>{{ producto.nombreproducto }}</td>
+                                        <td>{{ producto.precio }}</td>
+                                        <td>{{ producto.codigo }}</td>
+                                        <td>{{ producto.idproveedores }}</td>
+                                        <td>
+                                            <a class="edit" title="Editar" data-toggle="tooltip" href="{{ url_for('edit_producto', id=producto.idproducto) }}"><i class="material-icons">&#xE254;</i></a>
+                                            <a class="delete" title="Eliminar" data-toggle="tooltip" href="{{ url_for('delete_producto', id=producto.idproducto) }}"><i class="material-icons">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <form method="POST" action="{{ url_for('add_producto') }}">
+                            <input type="text" class="form-control" name="idproducto" placeholder="ID Producto" required>
+                            <input type="text" class="form-control" name="nombreproducto" placeholder="Nombre del Producto" required>
+                            <input type="text" class="form-control" name="precio" placeholder="Precio" required>
+                            <input type="text" class="form-control" name="codigo" placeholder="Código" required>
+                            <input type="text" class="form-control" name="idproveedores" placeholder="ID Proveedores" required>
+                            <button type="submit" class="btn btn-success">Agregar</button>
+                        </form>
+                    </div>
+                </div>
+           </div>
+       </div>
+
+
+
+
 
     <!-- Pie de pagina -->
-    <footer class="footer">
+
+<footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -159,7 +166,8 @@
             <p>&copy; All rights reserved.</p>
         </div>
 
-    </footer>
+</footer>
+
 </body>
 
 </html>
