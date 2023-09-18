@@ -1,0 +1,54 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Color de fondo gris claro */
+}
+
+.container {
+    padding: 20px;
+    background-color: #ffffff; /* Color de fondo blanco para el contenido */
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Barra de navegación */
+.navbar {
+    background-color: #333; /* Color de fondo negro para la barra de navegación */
+    color: #fff; /* Color del texto en la barra de navegación */
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+    color: #333; /* Color de texto negro para los títulos */
+}
+
+/* Botones */
+.btn-primary {
+    background-color: #d9534f; /* Color de fondo rojo para los botones primarios */
+    border-color: #d9534f; /* Color del borde de los botones primarios */
+}
+
+.btn-primary:hover {
+    background-color: #c9302c; /* Color de fondo rojo oscuro al pasar el mouse sobre los botones primarios */
+    border-color: #ac2925; /* Color del borde al pasar el mouse sobre los botones primarios */
+}
+
+.btn-success {
+    background-color: #5bc0de; /* Color de fondo azul para los botones de éxito */
+    border-color: #5bc0de; /* Color del borde de los botones de éxito */
+}
+
+.btn-success:hover {
+    background-color: #46b8da; /* Color de fondo azul claro al pasar el mouse sobre los botones de éxito */
+    border-color: #39a0c2; /* Color del borde al pasar el mouse sobre los botones de éxito */
+}
+
+/* Tabla */
+.table {
+    background-color: #fff; /* Color de fondo blanco para las tablas */
+}
+
+/* Clase de error para resaltar campos de entrada vacíos */
+.error {
+    border-color: #d9534f; /* Color de borde rojo para campos de entrada con error */
+}
