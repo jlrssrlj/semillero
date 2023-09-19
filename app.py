@@ -14,7 +14,7 @@ bcrypt = Bcrypt(app)
 #Configuracion base de datos
 DB_HOST = "localhost"
 DB_NAME = "semillero"
-DB_USER = "ted127"
+DB_USER = "postgres"
 DB_PASS = "1273458"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
@@ -35,12 +35,12 @@ def index():
 def herramienta():
     return render_template('principalaplicativo.html')
 
-@app.route('/login/')
+@app.route('/login')
 def login():
     return render_template('/login.html')
 
     
-@app.route('/hacer_login', methods=['POST'])
+@app.route('/hacer_login', methods=["POST","GET"])
 def hacer_login():
     conn = connect_to_database()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -50,37 +50,27 @@ def hacer_login():
         correo = request.form['username']
         password = request.form['password']
         
-        cursor.execute('SELECT * FROM Login WHERE correo = %s AND password =%s', (correo, password))
+        cursor.execute('SELECT * FROM empleado WHERE usuario = %s AND clave =%s', (correo, password))
         account = cursor.fetchone()
 
         if account:
-            password_rs = account['password']
-            print(password_rs)
-           
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['correo'] = account['correo']
-            
-            return redirect(url_for('prueba'))
+            session['logueado']=True
+            return render_template("principalaplicativo.html")
         else:
-            
-            flash('Correo o Contraseña incorrecto')
-    else:
-        
-        flash('Correo o Contraseña incorrecto')
+
+            return render_template("login.html")
 
     return render_template('login.html')
 
 
 cur = conn.cursor()
 
-# Ruta para la página principal
-
-def index():
+@app.route('/herramienta')
+def index1():
     # Obtén los datos de productos desde la base de datos
     cur.execute("SELECT * FROM producto")
     productos = cur.fetchall()
-    return render_template('herramienta.html', productos=productos)
+    return render_template('principalaplicativo.html', productos=productos)
 
 # Ruta para agregar un nuevo producto
 @app.route('/add_producto', methods=['POST'])
@@ -121,7 +111,132 @@ def delete_producto(id):
     conn.commit()
     return redirect(url_for('herramienta'))
 
+# --------------------------------------------------------------------------- CLIENTE -----------------------------------------------------------------------------------------------------
 
+#Client vista
+@app.route('/cliente')
+def listar_cliente():
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM cliente")
+    cliente = cursor.fetchall()
+    cursor.close()
+    return render_template('clientes.html', cliente=cliente)
+
+#Agregar cliente 
+@app.route('/agregar_cliente', methods=['POST'])
+def agregar_cliente():
+    if request.method == 'POST':
+        idcliente = request.form['idcliente']
+        nombrec = request.form['nombre']
+        telefonoc = request.form['telefono']
+        direccionc = request.form['direccion']
+        
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO cliente (idcliente, nombrec, telefonoc, direccionc) VALUES (%s,%s,%s,%s)", (idcliente,nombrec,telefonoc,direccionc))
+        conn.commit()
+        cursor.close()
+        flash('cliente agregado con éxito', 'success')
+    
+    return redirect(url_for('listar_cliente'))
+
+# Editar un Cliente
+@app.route('/editar_cliente/<int:idcliente>', methods=['GET', 'POST'])
+def editar_cliente(idcliente):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM cliente WHERE idcliente = %s", (idcliente))
+    cliente = cursor.fetchone()
+    
+    if request.method == 'POST':
+        nombrec = request.form['nombre']
+        telefonoc = request.form['telefono']
+        direccionc = request.form['direccion']
+       
+        
+        cursor = conn.cursor()
+        cursor.execute("UPDATE cliente SET nombrec=%s, telefonoc=%s, direccionc=%s WHERE idcliente=%s", (nombrec,telefonoc,direccionc,idcliente))
+        conn.commit()
+        cursor.close()
+        flash('cliente actualizado con éxito', 'success')
+        return redirect(url_for('listar_cliente'))
+    
+    return render_template('cliente/editar_cliente.html', cliente=cliente)
+
+# Eliminar un cliente
+@app.route('/eliminar_cliente/<int:idcliente>')
+def eliminar_cliente(idcliente):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM cliente WHERE idcliente = %s", (idcliente,))
+    conn.commit()
+    cursor.close()
+    flash('cliente eliminado con éxito', 'success')
+    return redirect(url_for('listar_cliente'))
+
+#------------------------------------------------------Empleado----------------------------------------------------------------------#
+#------------------------------------------------------Empleado----------------------------------------------------------------------#
+
+@app.route('/empleado')
+def listar_empleado():
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM empleado")
+    empleado = cursor.fetchall()
+    cursor.close()
+    return render_template('empleado.html', empleado=empleado)
+
+@app.route('/agregar_empleado', methods=['POST'])
+def agregar_empleado():
+    if request.method == 'POST':
+        idempleado = request.form['idempleado']
+        nombre = request.form['nombre']
+        fechaingreso = request.form['fechaingreso']
+        fechasalida = request.form['fechasalida']
+        cargo = request.form['cargo']
+        correo = request.form['correo']
+        usuario = request.form['usuario']
+        clave = request.form['clave']
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO empleado (idempleado, nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (idempleado,nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        conn.commit()
+        cursor.close()
+        flash('Empleado agregado con éxito', 'success')
+    
+    return redirect(url_for('listar_empleado'))
+
+# Editar un empleado
+@app.route('/editar_empleado/<int:idempleado>', methods=['GET', 'POST'])
+def editar_empleado(idempleado):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM empleado WHERE idempleado = %s", (idempleado,))
+    empleado = cursor.fetchone()
+    
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        fechaingreso = request.form['fechaingreso']
+        fechasalida = request.form['fechasalida']
+        cargo = request.form['cargo']
+        correo = request.form['correo']
+        usuario = request.form['usuario']
+        clave = request.form['clave']
+        
+        cursor = conn.cursor()
+        cursor.execute("UPDATE empleado SET nombre = %s, fechaingreso = %s, fechasalida = %s, cargo = %s, correo = %s, usuario = %s, clave = %s", (nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        conn.commit()
+        cursor.close()
+        flash('Empleado actualizado con éxito', 'success')
+        return redirect(url_for('listar_empleado'))
+    
+    return render_template('empleado/editar_empleado.html', empleado=empleado)
+
+# Eliminar un empleado
+@app.route('/eliminar_empleado/<int:idempleado>')
+def eliminar_empleado(idempleado):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM empleado WHERE idempleado = %s", (idempleado,))
+    conn.commit()
+    cursor.close()
+    flash('Empleado eliminado con éxito', 'success')
+    return redirect(url_for('listar_empleado'))
 
 
 if __name__ == "__main__":

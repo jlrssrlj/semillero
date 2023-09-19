@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proveedores</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aplicativoback.css') }}">
+    <style>
+        /* Agregar estilos CSS para ocultar la columna "ID Proveedores" */
+        #tablaclientes th:nth-child(1),
+        #tablaclientes td:nth-child(1) {
+            display: none;
+        }
+
+        /* Estilos para el diseño con flexbox */
+        #contenedorTablaFormulario {
+            display: flex;
+        }
+
+        #tablaclientes {
+            flex: 1;
+            /* La tabla ocupa 1/2 del ancho total */
+            margin-right:10px;
+            /* Espacio entre la tabla y el formulario */
+        }
+
+        /* Estilo para resaltar la fila seleccionada */
+        .seleccionado {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <!-- Barra de navegación-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="your-logo.png" alt="Company Logo" class="navbar-logo">
+                </a>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Clientes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Cliente</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Nombres</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Telefono</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Dirección</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Botón para mostrar/ocultar formulario -->
+
+    <div class="container">
+        <button class="btn btn-secondary btn-outline-dark" id="btnMostrarFormulario">Agregar Cliente</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="section">
+            <!-- Tabla de proveedores y formulario -->
+            <div id="contenedorTablaFormulario">
+                <div class="table-responsive" id="tablaClientes">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <!-- La siguiente línea oculta la columna "ID Proveedores" -->
+                                <th style="display: none;">Id Cliente</th>
+                                <th>Nombres</th>
+                                <th>telefono</th>
+                                <th>Dirección</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for Cliente in cliente %}
+                            <tr>
+                                <!-- La siguiente línea oculta la columna "ID Cliente" -->
+                                <td style="display: none;">{{ Cliente[0] }}</td>
+                                <td>{{ Cliente[1] }}</td>
+                                <td>{{ Cliente[2] }}</td>
+                                <td>{{ Cliente[3] }}</td>
+                                <td>{{ Cliente[4] }}</td>
+                                <td>
+                                    <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ cliente[0] }}"
+                                        href="#"><i class="material-icons">&#xE254;</i></a>
+                                    <a class="delete" title="Eliminar" data-toggle="tooltip"
+                                        href="{{ url_for('eliminar_cliente', idcliente=cliente[0]) }}"><i
+                                            class="material-icons">&#xE872;</i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Formulario para agregar un nuevo proveedor -->
+                <div id="formularioAgregar" style="display: none;">
+                    <h2>Agregar Cliente</h2>
+                    <form method="POST" action="/agregar_cliente">
+                        <div class="form-group">
+                            <label for="nombre">Id Cliente</label>
+                            <input type="text" class="form-control" id="idcliente" name="idcliente" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombres</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Telefono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Agregar</button>
+                    </form>
+                </div>
+                <!-- Formulario para editar un proveedor -->
+                <div id="formularioEditar" style="display: none;">
+                    <h2>Editar Cliente</h2>
+                    <form method="POST" action="/editar_cliente">
+                        <div class="form-group">
+                            <label for="nombreEditar">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEditar" name="nombreEditar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoEditar">NIT</label>
+                            <input type="text" class="form-control" id="telefonoEditar" name="telefonoEditar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionEditar">Dirección</label>
+                            <input type="text" class="form-control" id="direccionEditar" name="direccionEditar" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- JavaScript para mostrar/ocultar el formulario -->
+        <script>
+            $(document).ready(function () {
+                $("#btnMostrarFormulario").click(function () {
+                    $("#tablacliente").toggleClass("col-lg-8"); // Reducir el ancho de la tabla
+                    $("#formularioAgregar").toggle(); // Mostrar u ocultar el formulario de agregar
+                    $("#formularioEditar").hide(); // Ocultar el formulario de editar al mostrar el de agregar
+                    $("#tablacliente tr").removeClass("seleccionado"); // Desmarcar cualquier filCliente seleccionada
+                });
+
+                // Manejar la acción de editar
+                $(".edit").click(function () {
+                    var idcliente = $(this).data("id");
+                    // Rellenar el formulario de editar con los datos de la fila seleccionada
+                    $("#nombreEditar").val($("#tablacliente tr[data-id='" + idCliente + "'] td:nth-child(2)").text());
+                    $("#telefonoEditar").val($("#tablacliente tr[data-id='" + idCliente + "'] td:nth-child(3)").text());
+                    $("#direccionEditar").val($("#tablacliente tr[data-id='" + idCliente + "'] td:nth-child(4)").text());
+
+                    // Marcar la fila seleccionada
+                    $("#tablacliente tr").removeClass("seleccionado");
+                    $("#tablacliente tr[data-id='" + idCliente + "']").addClass("seleccionado");
+
+                    // Mostrar el formulario de editar y ocultar el de agregar
+                    $("#formularioEditar").show();
+                    $("#formularioAgregar").hide();
+                });
+            });
+        </script>
+
+    </div>
+</body>
+
+</html>
