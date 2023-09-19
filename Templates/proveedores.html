@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Producto</title>
+    <title>Proveedores</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/aplicativoback.css') }}">
     <style>
-        /* Agregar estilos CSS para ocultar la columna "ID Producto" */
-        #tablaProductos th:nth-child(1),
-        #tablaProductos td:nth-child(1) {
+        /* Agregar estilos CSS para ocultar la columna "ID Proveedores" */
+        #tablaProveedores th:nth-child(1),
+        #tablaProveedores td:nth-child(1) {
             display: none;
         }
 
@@ -19,7 +19,7 @@
             display: flex;
         }
 
-        #tablaProductos {
+        #tablaProveedores {
             flex: 1;
             /* La tabla ocupa 1/2 del ancho total */
             margin-right: 10px;
@@ -48,10 +48,10 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('listar_productos') }}">Productos</a>
+                            <a class="nav-link" href="{{ url_for('listar_proveedores') }}">Proveedores</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Proveedores</a>
+                            <a class="nav-link" href="#">Productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Empleados</a>
@@ -74,41 +74,41 @@
     <!-- Botón para mostrar/ocultar formulario -->
 
     <div class="container">
-        <button class="btn btn-secondary btn-outline-dark" id="btnMostrarFormulario">Agregar Producto</button>
+        <button class="btn btn-secondary btn-outline-dark" id="btnMostrarFormulario">Agregar Proveedor</button>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="section">
-            <!-- Tabla de productos y formulario -->
+            <!-- Tabla de proveedores y formulario -->
             <div id="contenedorTablaFormulario">
-                <div class="table-responsive" id="tablaProductos">
+                <div class="table-responsive" id="tablaProveedores">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <!-- La siguiente línea oculta la columna "ID Producto" -->
-                                <th style="display: none;">ID Producto</th>
-                                <th>Nombre Producto</th>
-                                <th>Precio</th>
-                                <th>Código</th>
-                                <th>ID Proveedores</th>
+                                <!-- La siguiente línea oculta la columna "ID Proveedores" -->
+                                <th style="display: none;">ID Proveedores</th>
+                                <th>Nombre</th>
+                                <th>NIT</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for producto in productos %}
+                            {% for proveedor in proveedores %}
                             <tr>
-                                <!-- La siguiente línea oculta la columna "ID Producto" -->
-                                <td style="display: none;">{{ producto[0] }}</td>
-                                <td>{{ producto[1] }}</td>
-                                <td>{{ producto[2] }}</td>
-                                <td>{{ producto[3] }}</td>
-                                <td>{{ producto[4] }}</td>
+                                <!-- La siguiente línea oculta la columna "ID Proveedores" -->
+                                <td style="display: none;">{{ proveedor[0] }}</td>
+                                <td>{{ proveedor[1] }}</td>
+                                <td>{{ proveedor[2] }}</td>
+                                <td>{{ proveedor[3] }}</td>
+                                <td>{{ proveedor[4] }}</td>
                                 <td>
-                                    <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ producto[0] }}"
+                                    <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ proveedor[0] }}"
                                         href="#"><i class="material-icons">&#xE254;</i></a>
                                     <a class="delete" title="Eliminar" data-toggle="tooltip"
-                                        href="{{ url_for('eliminar_producto', idproducto=producto[0]) }}"><i
+                                        href="{{ url_for('eliminar_proveedor', idproveedores=proveedor[0]) }}"><i
                                             class="material-icons">&#xE872;</i></a>
                                 </td>
                             </tr>
@@ -116,57 +116,55 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Formulario para agregar un nuevo producto -->
+                <!-- Formulario para agregar un nuevo proveedor -->
                 <div id="formularioAgregar" style="display: none;">
-                    <h2>Agregar Producto</h2>
-                    <form method="POST" action="/agregar">
+                    <h2>Agregar Proveedor</h2>
+                    <form method="POST" action="/agregar_proveedor">
                         <div class="form-group">
-                            <label for="nombreproducto">id Producto</label>
-                            <input type="text" class="form-control" id="idproducto" name="idproducto" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nombreproducto">Nombre Producto</label>
-                            <input type="text" class="form-control" id="nombreproducto" name="nombreproducto" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="precio">Precio</label>
-                            <input type="text" class="form-control" id="precio" name="precio" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="codigo">Código</label>
-                            <input type="text" class="form-control" id="codigo" name="codigo" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="idproveedores">ID Proveedores</label>
+                            <label for="nombre">Id proveedores</label>
                             <input type="text" class="form-control" id="idproveedores" name="idproveedores" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nit">NIT</label>
+                            <input type="text" class="form-control" id="nit" name="nit" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
                         </div>
                         <button type="submit" class="btn btn-success">Agregar</button>
                     </form>
                 </div>
-                <!-- Formulario para editar un producto -->
-                <!-- Formulario para editar un producto (inicialmente oculto) -->
+                <!-- Formulario para editar un proveedor -->
                 <div id="formularioEditar" style="display: none;">
-                    <h2>Editar Producto</h2>
-                    <form method="POST" action="/editar_producto">
+                    <h2>Editar Proveedor</h2>
+                    <form method="POST" action="/editar_proveedor">
                         <div class="form-group">
-                            <label for="nombreproductoEditar">Nombre Producto</label>
-                            <input type="text" class="form-control" id="nombreproductoEditar" name="nombreproductoEditar" required>
+                            <label for="nombreEditar">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEditar" name="nombreEditar" required>
                         </div>
                         <div class="form-group">
-                            <label for="precioEditar">Precio</label>
-                            <input type="text" class="form-control" id="precioEditar" name="precioEditar" required>
+                            <label for="nitEditar">NIT</label>
+                            <input type="text" class="form-control" id="nitEditar" name="nitEditar" required>
                         </div>
                         <div class="form-group">
-                            <label for="codigoEditar">Código</label>
-                            <input type="text" class="form-control" id="codigoEditar" name="codigoEditar" required>
+                            <label for="direccionEditar">Dirección</label>
+                            <input type="text" class="form-control" id="direccionEditar" name="direccionEditar" required>
                         </div>
                         <div class="form-group">
-                            <label for="idproveedoresEditar">ID Proveedores</label>
-                            <input type="text" class="form-control" id="idproveedoresEditar" name="idproveedoresEditar" required>
+                            <label for="telefonoEditar">Teléfono</label>
+                            <input type="text" class="form-control" id="telefonoEditar" name="telefonoEditar" required>
                         </div>
                         <button type="submit" class="btn btn-success">Guardar Cambios</button>
                     </form>
-                    
                 </div>
 
             </div>
@@ -176,25 +174,24 @@
         <script>
             $(document).ready(function () {
                 $("#btnMostrarFormulario").click(function () {
-                    $("#tablaProductos").toggleClass("col-lg-6"); // Reducir el ancho de la tabla
+                    $("#tablaProveedores").toggleClass("col-lg-6"); // Reducir el ancho de la tabla
                     $("#formularioAgregar").toggle(); // Mostrar u ocultar el formulario de agregar
                     $("#formularioEditar").hide(); // Ocultar el formulario de editar al mostrar el de agregar
-                    $("#tablaProductos tr").removeClass("seleccionado"); // Desmarcar cualquier fila seleccionada
+                    $("#tablaProveedores tr").removeClass("seleccionado"); // Desmarcar cualquier fila seleccionada
                 });
 
                 // Manejar la acción de editar
                 $(".edit").click(function () {
-                    var idProducto = $(this).data("id");
+                    var idProveedor = $(this).data("id");
                     // Rellenar el formulario de editar con los datos de la fila seleccionada
-                    $("#idproductoEditar").val(idProducto);
-                    $("#nombreproductoEditar").val($("#tablaProductos tr[data-id='" + idProducto + "'] td:nth-child(2)").text());
-                    $("#precioEditar").val($("#tablaProductos tr[data-id='" + idProducto + "'] td:nth-child(3)").text());
-                    $("#codigoEditar").val($("#tablaProductos tr[data-id='" + idProducto + "'] td:nth-child(4)").text());
-                    $("#idproveedoresEditar").val($("#tablaProductos tr[data-id='" + idProducto + "'] td:nth-child(5)").text());
+                    $("#nombreEditar").val($("#tablaProveedores tr[data-id='" + idProveedor + "'] td:nth-child(2)").text());
+                    $("#nitEditar").val($("#tablaProveedores tr[data-id='" + idProveedor + "'] td:nth-child(3)").text());
+                    $("#direccionEditar").val($("#tablaProveedores tr[data-id='" + idProveedor + "'] td:nth-child(4)").text());
+                    $("#telefonoEditar").val($("#tablaProveedores tr[data-id='" + idProveedor + "'] td:nth-child(5)").text());
 
                     // Marcar la fila seleccionada
-                    $("#tablaProductos tr").removeClass("seleccionado");
-                    $("#tablaProductos tr[data-id='" + idProducto + "']").addClass("seleccionado");
+                    $("#tablaProveedores tr").removeClass("seleccionado");
+                    $("#tablaProveedores tr[data-id='" + idProveedor + "']").addClass("seleccionado");
 
                     // Mostrar el formulario de editar y ocultar el de agregar
                     $("#formularioEditar").show();
@@ -203,6 +200,7 @@
             });
         </script>
 
+    </div>
 </body>
 
 </html>
