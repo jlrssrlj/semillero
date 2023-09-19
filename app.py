@@ -41,6 +41,9 @@ def herramienta():
 def login():
     return render_template('login.html')
 
+# --------------------------------------------------Producto---------------------------------------------------------------------
+#---------------------------------------------------Producto---------------------------------------------------------------------
+
 # Listar productos
 @app.route('/productos')
 def listar_productos():
@@ -111,6 +114,7 @@ def listar_proveedores():
 
 # --------------------------------------------------Proveedores---------------------------------------------------------------------
 #---------------------------------------------------Proveedores---------------------------------------------------------------------
+
 @app.route('/agregar_proveedor', methods=['POST'])
 def agregar_proveedor():
     if request.method == 'POST':
@@ -160,6 +164,74 @@ def eliminar_proveedor(idproveedores):
     flash('Proveedor eliminado con éxito', 'success')
     return redirect(url_for('listar_proveedores'))
 
+#------------------------------------------------------Empleado----------------------------------------------------------------------#
+#------------------------------------------------------Empleado----------------------------------------------------------------------#
+
+@app.route('/empleado')
+def listar_empleado():
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM empleado")
+    empleado = cursor.fetchall()
+    cursor.close()
+    return render_template('empleado.html', empleado=empleado)
+
+@app.route('/agregar_empleado', methods=['POST'])
+def agregar_empleado():
+    if request.method == 'POST':
+        idempleado = request.form['idempleado']
+        nombre = request.form['nombre']
+        fechaingreso = request.form['fechaingreso']
+        fechasalida = request.form['fechasalida']
+        cargo = request.form['cargo']
+        correo = request.form['correo']
+        usuario = request.form['usuario']
+        clave = request.form['clave']
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO empleado (idempleado, nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (idempleado,nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        conn.commit()
+        cursor.close()
+        flash('Empleado agregado con éxito', 'success')
+    
+    return redirect(url_for('listar_empleado'))
+
+# Editar un empleado
+@app.route('/editar_empleado/<int:idempleado>', methods=['GET', 'POST'])
+def editar_empleado(idempleado):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM empleado WHERE idempleado = %s", (idempleado,))
+    empleado = cursor.fetchone()
+    
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        fechaingreso = request.form['fechaingreso']
+        fechasalida = request.form['fechasalida']
+        cargo = request.form['cargo']
+        correo = request.form['correo']
+        usuario = request.form['usuario']
+        clave = request.form['clave']
+        
+        cursor = conn.cursor()
+        cursor.execute("UPDATE empleado SET nombre = %s, fechaingreso = %s, fechasalida = %s, cargo = %s, correo = %s, usuario = %s, clave = %s", (nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        conn.commit()
+        cursor.close()
+        flash('Empleado actualizado con éxito', 'success')
+        return redirect(url_for('listar_empleado'))
+    
+    return render_template('empleado/editar_empleado.html', empleado=empleado)
+
+# Eliminar un empleado
+@app.route('/eliminar_empleado/<int:idempleado>')
+def eliminar_empleado(idempleado):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM empleado WHERE idempleado = %s", (idempleado,))
+    conn.commit()
+    cursor.close()
+    flash('Empleado eliminado con éxito', 'success')
+    return redirect(url_for('listar_empleado'))
+
+#------------------------------------------------------Clientes----------------------------------------------------------------------#
+#------------------------------------------------------Clientes----------------------------------------------------------------------#
 
 
 

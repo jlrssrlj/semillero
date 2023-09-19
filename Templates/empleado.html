@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proveedores</title>
+    <title>Empleado</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/aplicativoback.css') }}">
     <style>
-        /* Agregar estilos CSS para ocultar la columna "ID Proveedores" */
+        /* Agregar estilos CSS para ocultar la columna "ID Empleado" */
         #tablaProveedores th:nth-child(1),
         #tablaProveedores td:nth-child(1) {
             display: none;
@@ -74,41 +74,46 @@
     <!-- Botón para mostrar/ocultar formulario -->
 
     <div class="container">
-        <button class="btn btn-secondary btn-outline-dark" id="btnMostrarFormulario">Agregar Proveedor</button>
+        <button class="btn btn-secondary btn-outline-dark" id="btnMostrarFormulario">Agregar Empleado</button>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="section">
-            <!-- Tabla de proveedores y formulario -->
+            <!-- Tabla de empleados y formulario -->
             <div id="contenedorTablaFormulario">
-                <div class="table-responsive" id="tablaProveedores">
+                <div class="table-responsive" id="tablaempleados">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <!-- La siguiente línea oculta la columna "ID Proveedores" -->
-                                <th style="display: none;">ID Proveedores</th>
+                                <th style="display: none;">ID Empleado</th>
                                 <th>Nombre</th>
-                                <th>NIT</th>
-                                <th>Dirección</th>
-                                <th>Teléfono</th>
-                                <th>Acciones</th>
+                                <th>fecha de ingreso</th>
+                                <th>fecha de salida</th>
+                                <th>cargo</th>
+                                <th>correo</th>
+                                <th>usuario</th>
+                                <th>clave</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for proveedor in proveedores %}
+                            {% for empleado in empleado %}
                             <tr>
-                                <!-- La siguiente línea oculta la columna "ID Proveedores" -->
-                                <td style="display: none;">{{ proveedor[0] }}</td>
-                                <td>{{ proveedor[1] }}</td>
-                                <td>{{ proveedor[2] }}</td>
-                                <td>{{ proveedor[3] }}</td>
-                                <td>{{ proveedor[4] }}</td>
+                                <!-- La siguiente línea oculta la columna "ID Empleado" -->
+                                <td style="display: none;">{{ empleado[0] }}</td>
+                                <td>{{ empleado[1] }}</td>
+                                <td>{{ empleado[2] }}</td>
+                                <td>{{ empleado[3] }}</td>
+                                <td>{{ empleado[4] }}</td>
+                                <td>{{ empleado[5] }}</td>
+                                <td>{{ empleado[6] }}</td>
+                                <td>{{ empleado[7] }}</td>
                                 <td>
-                                    <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ proveedor[0] }}"
+                                    <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ empleado[0] }}"
                                         href="#"><i class="material-icons">&#xE254;</i></a>
                                     <a class="delete" title="Eliminar" data-toggle="tooltip"
-                                        href="{{ url_for('eliminar_proveedor', idproveedores=proveedor[0]) }}"><i
+                                        href="{{ url_for('eliminar_empleado', idempleado=empleado[0]) }}"><i
                                             class="material-icons">&#xE872;</i></a>
                                 </td>
                             </tr>
@@ -116,52 +121,76 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Formulario para agregar un nuevo proveedor -->
+                <!-- Formulario para agregar un nuevo empleado -->
                 <div id="formularioAgregar" style="display: none;">
-                    <h2>Agregar Proveedor</h2>
-                    <form method="POST" action="/agregar_proveedor">
+                    <h2>Agregar Empleado</h2>
+                    <form method="POST" action="/agregar_empleado">
                         <div class="form-group">
-                            <label for="nombre">Id proveedores</label>
-                            <input type="text" class="form-control" id="idproveedores" name="idproveedores" required>
+                            <label for="nombre">Id empleado</label>
+                            <input type="text" class="form-control" id="idempleado" name="idempleado" required>
                         </div>
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del empleado" required>
                         </div>
                         <div class="form-group">
-                            <label for="nit">NIT</label>
-                            <input type="text" class="form-control" id="nit" name="nit" required>
+                            <label for="fechaingreso">Fecha de Ingreso</label>
+                            <input type="date" class="form-control" id="fechaingreso" name="fechaingreso" placeholder="Fecha de ingreso" required>
                         </div>
                         <div class="form-group">
-                            <label for="direccion">Dirección</label>
-                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                            <label for="fechasalida">Fecha de Salida</label>
+                            <input type="date" class="form-control" id="fechasalida" name="fechasalida" placeholder="Fecha de salida">
                         </div>
                         <div class="form-group">
-                            <label for="telefono">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono" required>
+                            <label for="cargo">Cargo</label>
+                            <input type="text" class="form-control" id="cargo" name="cargo" placeholder="cargo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="correo">Correo</label>
+                            <input type="text" class="form-control" id="correo" name="correo" placeholder="correo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuario">Usuario</label>
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="usuario" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clave">Clave</label>
+                            <input type="text" class="form-control" id="clave" name="clave" placeholder="clave" required>
                         </div>
                         <button type="submit" class="btn btn-success">Agregar</button>
                     </form>
                 </div>
-                <!-- Formulario para editar un proveedor -->
+                <!-- Formulario para editar un empleado -->
                 <div id="formularioEditar" style="display: none;">
-                    <h2>Editar Proveedor</h2>
-                    <form method="POST" action="/editar_proveedor">
+                    <h2>Editar Empleado</h2>
+                    <form method="POST" action="/editar_empleado">
                         <div class="form-group">
                             <label for="nombreEditar">Nombre</label>
                             <input type="text" class="form-control" id="nombreEditar" name="nombreEditar" required>
                         </div>
                         <div class="form-group">
-                            <label for="nitEditar">NIT</label>
-                            <input type="text" class="form-control" id="nitEditar" name="nitEditar" required>
+                            <label for="fechaingresoEditar">Fecha de Ingreso</label>
+                            <input type="date" class="form-control" id="fechaingresoEditar" name="fechaingresoEditar" required>
                         </div>
                         <div class="form-group">
-                            <label for="direccionEditar">Dirección</label>
-                            <input type="text" class="form-control" id="direccionEditar" name="direccionEditar" required>
+                            <label for="fechasalidaEditar">Fecha de Salida</label>
+                            <input type="date" class="form-control" id="fechasalidaEditar" name="fechasalidaEditar" required>
                         </div>
                         <div class="form-group">
-                            <label for="telefonoEditar">Teléfono</label>
-                            <input type="text" class="form-control" id="telefonoEditar" name="telefonoEditar" required>
+                            <label for="cargoEditar">Cargo</label>
+                            <input type="text" class="form-control" id="cargoEditar" name="cargoEditar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="correoEditar">Correo</label>
+                            <input type="text" class="form-control" id="correoEditar" name="correoEditar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuarioEditar">Usuario</label>
+                            <input type="text" class="form-control" id="usuarioEditar" name="usuarioEditar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="claveEditar">Clave</label>
+                            <input type="text" class="form-control" id="tclaveEditar" name="claveEditar" required>
                         </div>
                         <button type="submit" class="btn btn-success">Guardar Cambios</button>
                     </form>
