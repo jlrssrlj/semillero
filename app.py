@@ -23,6 +23,29 @@ def index():
 def login():
     return render_template('login.html')
 
+
+@app.route('/hacer_login', methods=["POST","GET"])
+def hacer_login():
+    conn = connect_to_database()
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        correo = request.form['username']
+        password = request.form['password']
+        
+        cursor.execute('SELECT * FROM empleado WHERE usuario = %s AND clave =%s', (correo, password))
+        account = cursor.fetchone()
+
+        if account:
+            session['logueado']=True
+            return render_template("principalaplicativo.html")
+        else:
+
+            return render_template("login.html")
+
+    return render_template('login.html')
+
 # --------------------------------------------------Producto---------------------------------------------------------------------
 #---------------------------------------------------Producto---------------------------------------------------------------------
 
