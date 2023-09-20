@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block body %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +10,7 @@
     <title>Producto</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/aplicativoback.css') }}">
+    
     <style>
         /* Agregar estilos CSS para ocultar la columna "ID Producto" */
         #tablaProductos th:nth-child(1),
@@ -37,40 +41,7 @@
 </head>
 
 <body>
-    <header>
-        <!-- Barra de navegación-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="your-logo.png" alt="Company Logo" class="navbar-logo">
-                </a>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('listar_productos') }}">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('listar_proveedores') }}">Proveedores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('listar_empleado') }}">Empleados</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('listar_clientes') }}">Clientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Ventas</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">Buscar</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-    </header>
+    
     <!-- Botón para mostrar/ocultar formulario -->
 
     <div class="container">
@@ -87,7 +58,7 @@
                         <thead>
                             <tr>
                                 <!-- La siguiente línea oculta la columna "ID Producto" -->
-                                <th style="display: none;">ID Producto</th>
+                                <th>ID Producto</th>
                                 <th>Nombre Producto</th>
                                 <th>Precio</th>
                                 <th>Código</th>
@@ -99,14 +70,15 @@
                             {% for producto in productos %}
                             <tr>
                                 <!-- La siguiente línea oculta la columna "ID Producto" -->
-                                <td style="display: none;">{{ producto[0] }}</td>
+                                <td>{{ producto[0] }}</td>
                                 <td>{{ producto[1] }}</td>
                                 <td>{{ producto[2] }}</td>
                                 <td>{{ producto[3] }}</td>
                                 <td>{{ producto[4] }}</td>
+                                <td>{{ producto[5] }}</td>
                                 <td>
                                     <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ producto[0] }}"
-                                        href="#"><i class="material-icons">&#xE254;</i></a>
+                                        href="{{ url_for('editar_producto', idproducto=producto[0]) }}"><i class="material-icons">&#xE254;</i></a>
                                     <a class="delete" title="Eliminar" data-toggle="tooltip"
                                         href="{{ url_for('eliminar_producto', idproducto=producto[0]) }}"><i
                                             class="material-icons">&#xE872;</i></a>
@@ -149,9 +121,14 @@
                     <h2>Editar Producto</h2>
                     <form method="POST" action="/editar_producto">
                         <div class="form-group">
+                            <label for="nombreproductoEditar">id</label>
+                            <input type="text" class="form-control" id="idproducto" name="idproducto" required>
+                        </div>
+                        <div class="form-group">
                             <label for="nombreproductoEditar">Nombre Producto</label>
                             <input type="text" class="form-control" id="nombreproductoEditar" name="nombreproductoEditar" required>
                         </div>
+                    
                         <div class="form-group">
                             <label for="precioEditar">Precio</label>
                             <input type="text" class="form-control" id="precioEditar" name="precioEditar" required>
@@ -206,3 +183,5 @@
 </body>
 
 </html>
+
+{% endblock  %}

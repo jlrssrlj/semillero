@@ -7,35 +7,17 @@ app = Flask(__name__)
 app.secret_key = "prueba"
 
 
-
-# Cargar la configuración desde appsettings.json
 with open('appsettings.json') as config_file:
     config = json.load(config_file)
 
 db_url = config.get('DefaultConnection')
 
-# Configurar la conexión a la base de datos PostgreSQL
+
 conn = psycopg2.connect(db_url)
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/productos')
-def prodcutos():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM producto")
-    productos = cursor.fetchall()
-    cursor.close()
-    return render_template('principalaplicativo.html', productos=productos)
-
-@app.route('/herramienta')
-def herramienta():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM producto")
-    productos = cursor.fetchall()
-    cursor.close()
-    return render_template('principalaplicativo.html', productos=productos)
 
 @app.route('/login')
 def login():
@@ -75,14 +57,14 @@ def agregar_producto():
 @app.route('/editar_producto/<int:idproducto>', methods=['GET', 'POST'])
 def editar_producto(idproducto):
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM producto WHERE idproducto = %s", (idproducto,))
+    cursor.execute(f"SELECT * FROM producto WHERE idproducto={idproducto}")
     producto = cursor.fetchone()
     
     if request.method == 'POST':
         nombreproducto = request.form['nombreproducto']
         precio = request.form['precio']
         codigo = request.form['codigo']
-        idproveedores = request.form['idproveedores']
+        idproveedores = request.form['idproductos']
         
         cursor = conn.cursor()
         cursor.execute("UPDATE producto SET nombreproducto=%s, precio=%s, codigo=%s, idproveedores=%s WHERE idproducto=%s", (nombreproducto, precio, codigo, idproveedores, idproducto))
@@ -136,7 +118,7 @@ def agregar_proveedor():
 @app.route('/editar_proveedor/<int:idproveedores>', methods=['GET', 'POST'])
 def editar_proveedor(idproveedores):
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM proveedores WHERE idproveedores = %s", (idproveedores,))
+    cursor.execute("SELECT * FROM proveedores WHERE idproveedores = %s", (idproveedores))
     proveedor = cursor.fetchone()
     
     if request.method == 'POST':
