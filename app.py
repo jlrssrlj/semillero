@@ -54,26 +54,27 @@ def agregar_producto():
     return redirect(url_for('listar_productos'))
 
 # Editar producto
-@app.route('/editar_producto/<int:idproducto>', methods=['GET', 'POST'])
+# En tu aplicación Flask
+@app.route('/editar_producto/<int:idproducto>', methods=['POST'])
 def editar_producto(idproducto):
     cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM producto WHERE idproducto={idproducto}")
+    cursor.execute("SELECT * FROM producto WHERE idproducto = %s", (idproducto,))
     producto = cursor.fetchone()
-    
-    if request.method == 'POST':
-        nombreproducto = request.form['nombreproducto']
-        precio = request.form['precio']
-        codigo = request.form['codigo']
-        idproveedores = request.form['idproductos']
-        
-        cursor = conn.cursor()
-        cursor.execute("UPDATE producto SET nombreproducto=%s, precio=%s, codigo=%s, idproveedores=%s WHERE idproducto=%s", (nombreproducto, precio, codigo, idproveedores, idproducto))
-        conn.commit()
-        cursor.close()
-        flash('Producto actualizado con éxito', 'success')
-        return redirect(url_for('listar_productos'))
-    
-    return render_template('principalaplicativo.html', producto=producto)
+    return render_template('editar_producto.html', producto=producto)
+
+
+@app.route('/actualizar_producto/<int:idproducto>', methods=['POST'])
+def actualizar_tarea(idproducto):
+    nombreproducto = request.form['nombreproducto']
+    precio = request.form['precio']
+    codigo = request.form['codigo']
+    idproveedores = request.form['idproveedores']
+    cursor = conn.cursor()
+    cursor.execute("UPDATE producto SET nombreproducto = %s, precio = %s, codigo = %s, idproveedores = %s WHERE idproducto = %s", (nombreproducto, precio, codigo, idproveedores,idproducto))
+    conn.commit()
+    cursor.close()
+    return redirect('/productos')
+
 
 
 # Eliminar producto
