@@ -78,29 +78,6 @@ def agregar_producto():
     return redirect(url_for('listar_productos'))
 
 # Editar producto
-<<<<<<< HEAD
-# En tu aplicación Flask
-@app.route('/editar_producto/<int:idproducto>', methods=['POST'])
-def editar_producto(idproducto):
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM producto WHERE idproducto = %s", (idproducto,))
-    producto = cursor.fetchone()
-    return render_template('editar_producto.html', producto=producto)
-
-
-@app.route('/actualizar_producto/<int:idproducto>', methods=['POST'])
-def actualizar_tarea(idproducto):
-    nombreproducto = request.form['nombreproducto']
-    precio = request.form['precio']
-    codigo = request.form['codigo']
-    idproveedores = request.form['idproveedores']
-    cursor = conn.cursor()
-    cursor.execute("UPDATE producto SET nombreproducto = %s, precio = %s, codigo = %s, idproveedores = %s WHERE idproducto = %s", (nombreproducto, precio, codigo, idproveedores,idproducto))
-    conn.commit()
-    cursor.close()
-    return redirect('/productos')
-
-=======
 @app.route('/editar_producto/<id>')
 def get_producto(id):
     cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -108,7 +85,6 @@ def get_producto(id):
     data=cur.fetchall()
     
     return render_template('edit_producto.html', producto=data[0])
->>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
 
 @app.route('/actualizar_producto/<id>', methods=["POST"])
 def update_producto(id):

@@ -9,100 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producto</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/aplicativoback.css') }}">
-
-    <style>
-        /* Agregar estilos CSS para ocultar la columna "ID Producto" */
-        #tablaProductos th:nth-child(1),
-        #tablaProductos td:nth-child(1) {
-            display: none;
-        }
-
-        /* Estilos para el diseño con flexbox */
-        #contenedorTablaFormulario {
-            display: flex;
-        }
-
-        #tablaProductos {
-            flex: 1;
-            /* La tabla ocupa 1/2 del ancho total */
-            margin-right: 10px;
-            /* Espacio entre la tabla y el formulario */
-        }
-
-        /* Estilo para resaltar la fila seleccionada */
-        .seleccionado {
-            background-color: #f0f0f0;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-=======
->>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
 </head>
 
 
 <body>
-<<<<<<< HEAD
-
-    <!-- Botón para mostrar/ocultar formulario -->
-
-    <div class="container">
-        <button class="btn btn-secondary btn-outline-dark" id="btnMostrarFormulario">Agregar Producto</button>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="section">
-            <!-- Tabla de productos y formulario -->
-            <div id="contenedorTablaFormulario">
-                <div class="table-responsive" id="tablaProductos">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <!-- La siguiente línea oculta la columna "ID Producto" -->
-                                <th>ID Producto</th>
-                                <th>Nombre Producto</th>
-                                <th>Precio</th>
-                                <th>Código</th>
-                                <th>ID Proveedores</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for producto in productos %}
-                            <tr>
-                                <!-- La siguiente línea oculta la columna "ID Producto" -->
-                                <td>{{ producto[0] }}</td>
-                                <td>{{ producto[1] }}</td>
-                                <td>{{ producto[2] }}</td>
-                                <td>{{ producto[3] }}</td>
-                                <td>{{ producto[4] }}</td>
-                                <td>{{ producto[5] }}</td>
-                                <td>
-                                    <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ producto[0] }}"
-                                        href="{{ url_for('editar_producto', idproducto=producto[0]) }}"><i
-                                            class="material-icons">&#xE254;</i></a>
-
-                                    <a class="delete" title="Eliminar" data-toggle="tooltip"
-                                        href="{{ url_for('eliminar_producto', idproducto=producto[0]) }}"><i
-                                            class="material-icons">&#xE872;</i></a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Formulario para agregar un nuevo producto -->
-                <div id="formularioAgregar" style="display: none;">
-                    <h2>Agregar Producto</h2>
-                    <form method="POST" action="/agregar">
-                        <div class="form-group">
-                            <label for="nombreproducto">id Producto</label>
-                            <input type="text" class="form-control" id="idproducto" name="idproducto" required>
-=======
     
     <div class="container">
         <div class="row text-center">
@@ -111,13 +21,15 @@
                     <form action='/agregar_producto' method="POST" >
                         <div class="from-group">
                             <input type"text" name="nombreproducto" placeholder="Nombre Del Producto" class="form-control" >
->>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
                         </div>
                         <div class="from-group">
                             <input type"text" name="precio" placeholder="Precio"  class="form-control">
                         </div>
                         <div class="from-group">
                             <input type"text" name="codigo" placeholder="Codigo Del Producto"  class="form-control" >
+                        </div>
+                        <div class="from-group">
+                            <input type"text" name="codigo" placeholder="Codigo proveedor"  class="form-control" >
                         </div>
                         <div class="from-group d-grid gap-2 pt-2 ">
                             <button type="submit"class="btn btn-succes btn-block" >
@@ -126,13 +38,6 @@
                         </div>
                     </form>
                 </div>
-<<<<<<< HEAD
-               
-                
-                    
-
-=======
->>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
             </div>
                        
             <div class="col-md-6">
@@ -141,8 +46,9 @@
                         <tr>
                             <td>Nombre</td>
                             <td>Precio</td>
-                            <td>Codigo</td>
-                            <td>opereciones</td>
+                            <td>Codigo producto</td>
+                            <td>codigo proveedor</td>
+                            <td>opciones</td>
                             
                         </tr>
                     </thead>
@@ -152,6 +58,7 @@
                             <td> {{row.1}}</td>
                             <td> {{row.2}}</td>
                             <td> {{row.3}}</td>
+                            <td> {{row.4}}</td>
                             
                             <td> 
                                 <a href="/editar_producto/{{row.0}} " class="btn btn-secondary " >Editar</a>
@@ -167,13 +74,6 @@
 
     </div>
 
-<<<<<<< HEAD
-                
-                
-            });
-        </script>
-=======
->>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
 
 </body>
 
