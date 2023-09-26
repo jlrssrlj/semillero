@@ -1,0 +1,27 @@
+{% extends 'layout.html' %} 
+
+{%block body%}
+<div class="col-md-4 offset-md-4" >
+    <div class="card card-body" >
+        <form action="/actualizar/{{proveedores.0}}" method="POST" >
+            <div class="from-group">
+                <input type"text" name="nombre" placeholder="Nombre" value={{proveedores.1}} class="form-control" >
+            </div>
+            <div class="from-group">
+                <input type"integer" name="nit" placeholder="Nit" value={{proveedores.2}} class="form-control">
+            </div>
+            <div class="from-group">
+                <input type"text" name="direccion" placeholder="Direccion" value={{proveedores.3}} class="form-control" >
+            </div>
+            <div class="from-group">
+                <input type"text" name="telefono" placeholder="Telefono" value={{proveedores.4}} class="form-control" >
+            </div>
+            <div class="from-group d-grid gap-2 pt-2 ">
+                <button type="submit"class="btn btn-succes btn-block" >
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{%endblock%}

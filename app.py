@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
@@ -26,10 +27,31 @@ def connect_to_database():
         user=DB_USER,
         password=DB_PASS
     )
+=======
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+import psycopg2
+from psycopg2 import extras
+from flask_session import Session
+import json
+
+
+app = Flask(__name__)
+app.secret_key = "prueba"
+
+
+with open('appsettings.json') as config_file:
+    config = json.load(config_file)
+
+db_url = config.get('DefaultConnection')
+
+
+conn = psycopg2.connect(db_url)
+>>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
 
 @app.route('/')
 def index():
     return render_template('index.html')
+<<<<<<< HEAD
 
 @app.route('/herramienta')
 def herramienta():
@@ -46,6 +68,22 @@ def hacer_login():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     
+=======
+    
+@app.route('/salir')
+def salir():
+    return redirect(url_for('index'))
+  
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/hacer_login', methods=["POST","GET"])
+def hacer_login():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+>>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         correo = request.form['username']
         password = request.form['password']
@@ -55,13 +93,18 @@ def hacer_login():
 
         if account:
             session['logueado']=True
+<<<<<<< HEAD
             return render_template("principalaplicativo.html")
+=======
+            return redirect(url_for('listar_productos'))
+>>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
         else:
 
             return render_template("login.html")
 
     return render_template('login.html')
 
+<<<<<<< HEAD
 
 cur = conn.cursor()
 
@@ -171,6 +214,121 @@ def eliminar_cliente(idcliente):
     cursor.close()
     flash('cliente eliminado con éxito', 'success')
     return redirect(url_for('listar_cliente'))
+=======
+# --------------------------------------------------Producto---------------------------------------------------------------------
+#---------------------------------------------------Producto---------------------------------------------------------------------
+
+# Listar productos
+@app.route('/productos')
+def listar_productos():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    s = "SELECT * FROM producto ORDER BY idproducto ASC"
+    cur.execute(s)
+    list_users = cur.fetchall()
+    return render_template('principalaplicativo.html', list_users=list_users)
+
+
+# Agregar producto
+@app.route('/agregar_producto', methods=['POST'])
+def agregar_producto():
+    if request.method == 'POST':
+        nombreproducto = request.form['nombreproducto']
+        precio = request.form['precio']
+        codigo = request.form['codigo']
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO producto (nombreproducto, precio, codigo) VALUES (%s, %s, %s)", (nombreproducto, precio, codigo))
+        conn.commit()
+        cursor.close()
+    return redirect(url_for('listar_productos'))
+
+# Editar producto
+@app.route('/editar_producto/<id>')
+def get_producto(id):
+    cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute('SELECT*FROM producto WHERE idproducto=%s', (id))
+    data=cur.fetchall()
+    
+    return render_template('edit_producto.html', producto=data[0])
+
+@app.route('/actualizar_producto/<id>', methods=["POST"])
+def update_producto(id):
+    if request.method== 'POST':
+        nombreproducto=request.form['nombreproducto']
+        precio=request.form['precio']
+        codigo=request.form['codigo']
+        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute(""" UPDATE producto SET nombreproducto=%s, precio=%s, codigo=%s WHERE idproducto=%s""", (nombreproducto,precio,codigo, id))
+        conn.commit()
+        return redirect(url_for('listar_productos'))
+
+# Eliminar producto
+@app.route('/eliminar_producto/<int:idproducto>')
+def eliminar_producto(idproducto):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM producto WHERE idproducto = %s", (idproducto,))
+    conn.commit()
+    cursor.close()
+    flash('Producto eliminado con éxito', 'success')
+    return redirect(url_for('listar_productos'))
+
+
+
+# --------------------------------------------------Proveedores---------------------------------------------------------------------
+#---------------------------------------------------Proveedores---------------------------------------------------------------------
+
+@app.route('/proveedores')
+def proveedores():
+    cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    s="SELECT* FROM proveedores ORDER BY idproveedores ASC"
+    cur.execute(s)
+    list_users=cur.fetchall()
+    return render_template('proveedores.html' ,list_users=list_users  )
+
+
+@app.route('/agregar_proveedor', methods=['POST'])
+def agregar_proveedor():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        nit = request.form['nit']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO proveedores (nombre, nit, direccion, telefono) VALUES (%s, %s, %s, %s)", (nombre, nit, direccion, telefono))
+        conn.commit()
+        cursor.close()
+    return redirect(url_for('proveedores'))
+
+# Editar un proveedor
+@app.route('/editar_proveedores/<id>')
+def get_contact(id):
+    cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute('SELECT*FROM proveedores WHERE idproveedores=%s', (id))
+    data=cur.fetchall()
+    return render_template('edit_proveedores.html', proveedores=data[0])
+
+@app.route('/actualizar/<id>', methods=["POST"])
+def update_contact(id):
+    if request.method== 'POST':
+        nombre=request.form['nombre']
+        nit=request.form['nit']
+        direccion=request.form['direccion']
+        telefono=request.form['telefono']
+        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute(""" UPDATE proveedores SET nombre=%s, nit=%s, direccion=%s, telefono=%s  WHERE idproveedores=%s""", (nombre,nit,direccion,telefono, id))
+        conn.commit()
+        return redirect(url_for('proveedores'))
+
+# Eliminar un proveedor
+@app.route('/eliminar_proveedores/<string:id>')
+def delet_contact(id):
+    cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute('DELETE FROM proveedores WHERE idproveedores={0}'.format(id))
+    conn.commit()
+    flash('el contacto se a eliminado satisfactoriamente')
+    return redirect(url_for('proveedores'))
+>>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
 
 #------------------------------------------------------Empleado----------------------------------------------------------------------#
 #------------------------------------------------------Empleado----------------------------------------------------------------------#
@@ -238,6 +396,72 @@ def eliminar_empleado(idempleado):
     flash('Empleado eliminado con éxito', 'success')
     return redirect(url_for('listar_empleado'))
 
+<<<<<<< HEAD
+=======
+#------------------------------------------------------Clientes----------------------------------------------------------------------#
+#------------------------------------------------------Clientes----------------------------------------------------------------------#
+
+#Client vista
+@app.route('/cliente')
+def listar_cliente():
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM cliente")
+    cliente = cursor.fetchall()
+    cursor.close()
+    return render_template('clientes.html', cliente=cliente)
+
+#Agregar cliente 
+@app.route('/agregar_cliente', methods=['POST'])
+def agregar_cliente():
+    if request.method == 'POST':
+        idcliente = request.form['idcliente']
+        nombrec = request.form['nombre']
+        telefonoc = request.form['telefono']
+        direccionc = request.form['direccion']
+        
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO cliente (idcliente, nombrec, telefonoc, direccionc) VALUES (%s,%s,%s,%s)", (idcliente,nombrec,telefonoc,direccionc))
+        conn.commit()
+        cursor.close()
+        flash('cliente agregado con éxito', 'success')
+    
+    return redirect(url_for('listar_cliente'))
+
+# Editar un Cliente
+@app.route('/editar_cliente/<int:idcliente>', methods=['GET', 'POST'])
+def editar_cliente(idcliente):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM cliente WHERE idcliente = %s", (idcliente))
+    cliente = cursor.fetchone()
+    
+    if request.method == 'POST':
+        nombrec = request.form['nombre']
+        telefonoc = request.form['telefono']
+        direccionc = request.form['direccion']
+       
+        
+        cursor = conn.cursor()
+        cursor.execute("UPDATE cliente SET nombrec=%s, telefonoc=%s, direccionc=%s WHERE idcliente=%s", (nombrec,telefonoc,direccionc,idcliente))
+        conn.commit()
+        cursor.close()
+        flash('cliente actualizado con éxito', 'success')
+        return redirect(url_for('listar_cliente'))
+    
+    return render_template('cliente/editar_cliente.html', cliente=cliente)
+
+# Eliminar un cliente
+@app.route('/eliminar_cliente/<int:idcliente>')
+def eliminar_cliente(idcliente):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM cliente WHERE idcliente = %s", (idcliente,))
+    conn.commit()
+    cursor.close()
+    flash('cliente eliminado con éxito', 'success')
+    return redirect(url_for('listar_cliente'))
+
+
+>>>>>>> fbf0f3dcefa685f4efb026d8608a6a749549b718
 
 if __name__ == "__main__":
     app.run(debug=True)
