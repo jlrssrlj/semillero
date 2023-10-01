@@ -29,6 +29,10 @@ def salir():
 def login():
     return render_template('login.html')
 
+@app.route('/caja')
+def caja():
+    return render_template('caja.html')
+
 
 @app.route('/hacer_login', methods=["POST","GET"])
 def hacer_login():
