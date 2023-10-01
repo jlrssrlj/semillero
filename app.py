@@ -74,9 +74,10 @@ def agregar_producto():
         nombreproducto = request.form['nombreproducto']
         precio = request.form['precio']
         codigo = request.form['codigo']
+        idproveedores = request.form['idproveedores']
         
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO producto (nombreproducto, precio, codigo) VALUES (%s, %s, %s)", (nombreproducto, precio, codigo))
+        cursor.execute("INSERT INTO producto (nombreproducto, precio, codigo, idproveedores) VALUES (%s, %s, %s, %s)", (nombreproducto, precio, codigo,idproveedores))
         conn.commit()
         cursor.close()
     return redirect(url_for('listar_productos'))

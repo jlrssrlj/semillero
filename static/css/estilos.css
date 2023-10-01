@@ -1,0 +1,106 @@
+
+
+/* Estilos para el contenedor principal */
+.container-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide en dos columnas de igual tamaño */
+    gap: 20px; /* Espacio entre las dos secciones */
+    padding: 20px;
+}
+
+/* Estilo del contenedor de la tabla */
+.table-section {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo del contenedor del formulario */
+.form-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el título "Inventario" */
+.titulo {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333; /* Color del título */
+}
+
+/* Estilo para el botón "Guardar" */
+.btn-submit {
+    background-color: #007bff; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Estilos para la tabla */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+/* Estilos para el contenedor del formulario */
+.form-section {
+    background-color: #f0f0f0; /* Color de fondo del formulario */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el título "Ingreso de productos" */
+.titulo {
+    text-align: center;
+    margin-top: 0;
+    font-size: 24px;
+    color: #333; /* Color del título */
+}
+
+/* Estilo para los campos del formulario */
+.input-form {
+    margin-bottom: 15px;
+}
+
+.input-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Estilo para el botón "Guardar" */
+.btn-success {
+    background-color: #28a745; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Cambio de color al pasar el mouse sobre el botón */
+}
+
+/* Media query para dispositivos con un ancho máximo de 767px */
+@media (max-width: 767px) {
+    .container-form {
+        grid-template-columns: 1fr; /* Cambia a una sola columna en dispositivos más pequeños */
+    }
+}
