@@ -97,8 +97,9 @@ def update_producto(id):
         nombreproducto=request.form['nombreproducto']
         precio=request.form['precio']
         codigo=request.form['codigo']
+        idproveedores = request.form['idproveedores']
         cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(""" UPDATE producto SET nombreproducto=%s, precio=%s, codigo=%s WHERE idproducto=%s""", (nombreproducto,precio,codigo, id))
+        cur.execute(""" UPDATE producto SET nombreproducto=%s, precio=%s, codigo=%s, idproveedores=%s  WHERE idproducto=%s""", (nombreproducto,precio,codigo,idproveedores, id))
         conn.commit()
         return redirect(url_for('listar_productos'))
 

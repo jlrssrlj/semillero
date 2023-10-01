@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/menu.css">
+    
     <link rel="stylesheet" href="../static/css/estilos.css">
     <title>Producto</title>
 
@@ -54,19 +54,19 @@
                 <h3 class="titulo">Ingreso de productos</h3>
                 <form action='/agregar_producto' method="POST">
                     <div class="input-form">
-                        <input type"text" name="nombreproducto" placeholder="Nombre Del Producto" class="form-control">
+                        <label for="nombreproducto">Nombre</label><input type"text" name="nombreproducto" placeholder="Nombre Del Producto" class="form-control">
                     </div>
                     <div class="input-form">
-                        <input type"text" name="precio" placeholder="Precio" class="form-control">
+                        <label for="precio">Precio</label><input type"text" name="precio" placeholder="Precio" class="form-control">
                     </div>
                     <div class="input-form">
-                        <input type"text" name="codigo" placeholder="Codigo Del Producto" class="form-control">
+                        <label for="Codigoproducto">Codigo</label><label for="Codigo Producto"></label><input type"text" name="codigo" placeholder="Codigo Del Producto" class="form-control">
                     </div>
                     <div class="input-form">
-                        <input type"text" name="idproveedores" placeholder="Codigo proveedor" class="form-control">
+                        <label for="proveedor">Proveedor</label><input type"text" name="idproveedores" placeholder="Codigo proveedor" class="form-control">
                     </div>
                     <div class="input-form">
-                        <button type="submit" class="btn btn-succes btn-block">
+                        <button type="submit" class="btn">
                             Guardar
                         </button>
                     </div>
