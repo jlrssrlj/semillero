@@ -7,41 +7,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/estilos.css">
     <title>Proveedores</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        
+     
 </head>
 
 <body>
 
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-6">     
-                <div class="card card-body">
-                    <form action='/agregar_proveedor' method="POST" >
-                        <div class="from-group">
-                            <input type"text" name="nombre" placeholder="Nombre"  class="form-control" >
-                        </div>
-                        <div class="from-group">
-                            <input type"text" name="nit" placeholder="Nit"  class="form-control">
-                        </div>
-                        <div class="from-group">
-                            <input type"text" name="direccion" placeholder="Direccion"  class="form-control" >
-                        </div>
-                        <div class="from-group">
-                            <input type"text" name="telefono" placeholder="Telefono"  class="form-control" >
-                        </div>
-                        <div class="from-group d-grid gap-2 pt-2 ">
-                            <button type="submit"class="btn btn-succes btn-block" >
-                                Guardar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-                       
-            <div class="col-md-6">
+    
+        <div class="container-form">                       
+            <div class="table-section">
+                <h3 class="titulo">Proveedores</h3>
                 <table class="table table-striped table-bordered bg-white tables-sm">
                     <thead>
                         <tr>
@@ -49,7 +26,7 @@
                             <td>Nit</td>
                             <td>Direccion</td>
                             <td>Telefono</td>
-                            <td>opereciones</td>
+                            <td>opciones</td>
                             
                         </tr>
                     </thead>
@@ -61,18 +38,43 @@
                             <td> {{row.3}}</td>
                             <td> {{row.4}}</td>
                             <td> 
-                                <a href="/editar_proveedores/{{row.0}} " class="btn btn-secondary " >Editar</a>
-                                <a href="/eliminar_proveedores/{{row.0}} " class="btn btn-danger  btn-delete" >Eliminar</a>
+                                <a href="/editar_proveedores/{{row.0}} "  ><i class="ri-edit-line"></a>
+                                <a href="/eliminar_proveedores/{{row.0}} "  ><i class="ri-delete-bin-line"></i></a>
                             </td>
                         </tr>
                         {%endfor%}
                     </tbody>
                 </table>
             </div>
+            <div class="form-section">     
+                <div class="contenedor-form">
+                    <h3 class="titulo">Ingreso Proveedor</h3>
+                    <form action='/agregar_proveedor' method="POST" >
+                        <div class="input-form">
+                            <label for="nombre">Nombre Proveedor</label><br><input type"text" name="nombre" placeholder="Nombre"  class="form-control" >
+                        </div>
+                        <div class="input-form">
+                            <label for="nit">Nit</label><br><input type"text" name="nit" placeholder="Nit"  class="form-control">
+                        </div>
+                        <div class="input-form">
+                            <label for="Direccion">Direccion</label><br><input type"text" name="direccion" placeholder="Direccion"  class="form-control" >
+                        </div>
+                        <div class="input-form">
+                            <label for="telefono">Telefono</label><br><input type"text" name="telefono" placeholder="Telefono"  class="form-control" >
+                        </div>
+                        <div class="input-form">
+                            <button type="submit"class="btn" >
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
 
         </div>
 
-    </div>
+    
 
 </body>
 

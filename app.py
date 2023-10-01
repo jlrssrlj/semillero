@@ -130,13 +130,13 @@ def proveedores():
 @app.route('/agregar_proveedor', methods=['POST'])
 def agregar_proveedor():
     if request.method == 'POST':
-        nombre = request.form['nombre']
+        nombrepro = request.form['nombre']
         nit = request.form['nit']
         direccion = request.form['direccion']
         telefono = request.form['telefono']
         
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO proveedores (nombre, nit, direccion, telefono) VALUES (%s, %s, %s, %s)", (nombre, nit, direccion, telefono))
+        cursor.execute("INSERT INTO proveedores (nombrepro, nit, direccion, telefono) VALUES (%s, %s, %s, %s)", (nombrepro, nit, direccion, telefono))
         conn.commit()
         cursor.close()
     return redirect(url_for('proveedores'))
@@ -152,12 +152,12 @@ def get_contact(id):
 @app.route('/actualizar/<id>', methods=["POST"])
 def update_contact(id):
     if request.method== 'POST':
-        nombre=request.form['nombre']
+        nombrepro=request.form['nombre']
         nit=request.form['nit']
         direccion=request.form['direccion']
         telefono=request.form['telefono']
         cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(""" UPDATE proveedores SET nombre=%s, nit=%s, direccion=%s, telefono=%s  WHERE idproveedores=%s""", (nombre,nit,direccion,telefono, id))
+        cur.execute(""" UPDATE proveedores SET nombrepro=%s, nit=%s, direccion=%s, telefono=%s  WHERE idproveedores=%s""", (nombrepro,nit,direccion,telefono, id))
         conn.commit()
         return redirect(url_for('proveedores'))
 
