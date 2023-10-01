@@ -292,7 +292,33 @@ def eliminar_cliente(idcliente):
     flash('cliente eliminado con éxito', 'success')
     return redirect(url_for('listar_cliente'))
 
+#---------------------------------------------------------------------VENTAS-----------------------------------------------------------------------
+
+@app.route('/ventas')
+def listar_ventas():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    s = "SELECT * FROM arqueo"
+    cur.execute(s)
+    list_users = cur.fetchall()
+    return render_template('ventas.html',  list_users= list_users)
+
+# Agregar Caja
+@app.route('/agregar_arqueo', methods=['POST'])
+def agregar_arqueo():
+    if request.method == 'POST':
+        monto = request.form['monto'] 
+        apertura = request.form['apertura']
+        cierra = request.form['cierra']
+        idempleado = request.form['idempleado']
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO arqueo (monto, apertura, cierra, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
+        conn.commit()
+        cursor.close()
+    return redirect(url_for('listar_ventas'))
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
