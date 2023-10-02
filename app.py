@@ -294,12 +294,12 @@ def eliminar_cliente(idcliente):
 
 #Mostrar la tabla de arqueo
 @app.route('/ventas')
-def listar_ventas():
+def listar_arqueo():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     s = "SELECT * FROM arqueo"
     cur.execute(s)
     list_users = cur.fetchall()
-    return render_template('ventas.html',  list_users= list_users)
+    return render_template('Arqueo.html',  list_users= list_users)
 
 # Agregar Caja
 @app.route('/agregar_arqueo', methods=['POST'])
@@ -314,11 +314,12 @@ def agregar_arqueo():
         cursor.execute("INSERT INTO arqueo (monto, apertura, cierra, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
         conn.commit()
         cursor.close()
-    return redirect(url_for('listar_ventas'))
+    return redirect(url_for('listar_arqueo'))
+
+
 
 #Actualizar arqueo
-
-
+#NO FUNCIONA AUN, HELP MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE @TED
 @app.route('/actualizar/<id>', methods=["POST"])
 def update_arqueo(id):
     if request.method== 'POST':
@@ -330,7 +331,7 @@ def update_arqueo(id):
         cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute(""" UPDATE arqueo SET monto=%s, apertura=%s, cierra=%s, idempleado=%s  WHERE idarqueo=%s""", (monto, apertura, cierra, idempleado, id))
         conn.commit()
-        return redirect(url_for('listar_ventas'))
+        return redirect(url_for('listar_arqueo'))
     
 
 
