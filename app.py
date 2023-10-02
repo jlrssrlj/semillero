@@ -173,67 +173,64 @@ def delet_contact(id):
 #------------------------------------------------------Empleado----------------------------------------------------------------------#
 #------------------------------------------------------Empleado----------------------------------------------------------------------#
 
+#------------------------------------------------------Empleado----------------------------------------------------------------------#
+
+# Listar empleados
 @app.route('/empleado')
 def listar_empleado():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM empleado")
-    empleado = cursor.fetchall()
-    cursor.close()
-    return render_template('empleado.html', empleado=empleado)
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    s = "SELECT * FROM empleado ORDER BY idempleado ASC"
+    cur.execute(s)
+    list_users = cur.fetchall()
+    return render_template('empleado.html', list_users=list_users)
 
+
+# Agregar empleado
 @app.route('/agregar_empleado', methods=['POST'])
 def agregar_empleado():
     if request.method == 'POST':
-        idempleado = request.form['idempleado']
-        nombre = request.form['nombre']
-        fechaingreso = request.form['fechaingreso']
-        fechasalida = request.form['fechasalida']
+        nombreempleado = request.form['nombreempleado']
         cargo = request.form['cargo']
         correo = request.form['correo']
         usuario = request.form['usuario']
         clave = request.form['clave']
         
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO empleado (idempleado, nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (idempleado,nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        cursor.execute("INSERT INTO empleado (nombreempleado, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s)", (nombreempleado, cargo, correo,usuario, clave))
         conn.commit()
         cursor.close()
-        flash('Empleado agregado con éxito', 'success')
-    
     return redirect(url_for('listar_empleado'))
 
-# Editar un empleado
-@app.route('/editar_empleado/<int:idempleado>', methods=['GET', 'POST'])
-def editar_empleado(idempleado):
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM empleado WHERE idempleado = %s", (idempleado,))
-    empleado = cursor.fetchone()
+# Editar empleado
+@app.route('/editar_empleado/<id>')
+def get_empleado(id):
+    cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute('SELECT*FROM empleado WHERE idempleado=%s', (id))
+    data=cur.fetchall()
     
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        fechaingreso = request.form['fechaingreso']
-        fechasalida = request.form['fechasalida']
-        cargo = request.form['cargo']
-        correo = request.form['correo']
+    return render_template('edit_empleado.html', empleado=data[0])
+
+@app.route('/actualizar_empleado/<id>', methods=["POST"])
+def update_empleado(id):
+    if request.method== 'POST':
+        nombreempleado=request.form['nombreempleado']
+        cargo=request.form['cargo']
+        correo=request.form['correo']
         usuario = request.form['usuario']
         clave = request.form['clave']
-        
-        cursor = conn.cursor()
-        cursor.execute("UPDATE empleado SET nombre = %s, fechaingreso = %s, fechasalida = %s, cargo = %s, correo = %s, usuario = %s, clave = %s", (nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute(""" UPDATE empleado SET nombreempleado=%s, cargo=%s, correo=%s, usuario=%s, clave=%s  WHERE idempleado=%s""", (nombreempleado, cargo, correo, usuario, clave, id))
         conn.commit()
-        cursor.close()
-        flash('Empleado actualizado con éxito', 'success')
         return redirect(url_for('listar_empleado'))
-    
-    return render_template('empleado/editar_empleado.html', empleado=empleado)
 
-# Eliminar un empleado
+# Eliminar empleado
 @app.route('/eliminar_empleado/<int:idempleado>')
 def eliminar_empleado(idempleado):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM empleado WHERE idempleado = %s", (idempleado,))
     conn.commit()
     cursor.close()
-    flash('Empleado eliminado con éxito', 'success')
+    flash('empleado eliminado con éxito', 'success')
     return redirect(url_for('listar_empleado'))
 
 #------------------------------------------------------Clientes----------------------------------------------------------------------#
@@ -252,14 +249,14 @@ def listar_cliente():
 @app.route('/agregar_cliente', methods=['POST'])
 def agregar_cliente():
     if request.method == 'POST':
-        idcliente = request.form['idcliente']
-        nombrec = request.form['nombre']
+        
+        nombrecliente = request.form['nombre']
         telefonoc = request.form['telefono']
         direccionc = request.form['direccion']
         
         
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO cliente (idcliente, nombrec, telefonoc, direccionc) VALUES (%s,%s,%s,%s)", (idcliente,nombrec,telefonoc,direccionc))
+        cursor.execute("INSERT INTO cliente (nombrecliente, telefono, direccion) VALUES (%s,%s,%s)", (nombrecliente,telefonoc,direccionc))
         conn.commit()
         cursor.close()
         flash('cliente agregado con éxito', 'success')
@@ -274,13 +271,13 @@ def editar_cliente(idcliente):
     cliente = cursor.fetchone()
     
     if request.method == 'POST':
-        nombrec = request.form['nombre']
+        nombrecliente = request.form['nombre']
         telefonoc = request.form['telefono']
         direccionc = request.form['direccion']
        
         
         cursor = conn.cursor()
-        cursor.execute("UPDATE cliente SET nombrec=%s, telefonoc=%s, direccionc=%s WHERE idcliente=%s", (nombrec,telefonoc,direccionc,idcliente))
+        cursor.execute("UPDATE cliente SET nombrecliente=%s, telefono=%s, direccionc=%s WHERE idcliente=%s", (nombrecliente,telefonoc,direccionc,idcliente))
         conn.commit()
         cursor.close()
         flash('cliente actualizado con éxito', 'success')
