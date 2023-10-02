@@ -124,13 +124,13 @@ def proveedores():
 @app.route('/agregar_proveedor', methods=['POST'])
 def agregar_proveedor():
     if request.method == 'POST':
-        nombre = request.form['nombre']
+        nombrepro = request.form['nombrepro']
         nit = request.form['nit']
         direccion = request.form['direccion']
         telefono = request.form['telefono']
         
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO proveedores (nombre, nit, direccion, telefono) VALUES (%s, %s, %s, %s)", (nombre, nit, direccion, telefono))
+        cursor.execute("INSERT INTO proveedores (nombrepro, nit, direccion, telefono) VALUES (%s, %s, %s, %s)", (nombrepro, nit, direccion, telefono))
         conn.commit()
         cursor.close()
     return redirect(url_for('proveedores'))
@@ -146,12 +146,12 @@ def get_contact(id):
 @app.route('/actualizar/<id>', methods=["POST"])
 def update_contact(id):
     if request.method== 'POST':
-        nombre=request.form['nombre']
+        nombrepro=request.form['nombrepro']
         nit=request.form['nit']
         direccion=request.form['direccion']
         telefono=request.form['telefono']
         cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(""" UPDATE proveedores SET nombre=%s, nit=%s, direccion=%s, telefono=%s  WHERE idproveedores=%s""", (nombre,nit,direccion,telefono, id))
+        cur.execute(""" UPDATE proveedores SET nombrepro=%s, nit=%s, direccion=%s, telefono=%s  WHERE idproveedores=%s""", (nombrepro,nit,direccion,telefono, id))
         conn.commit()
         return redirect(url_for('proveedores'))
 
@@ -179,7 +179,7 @@ def listar_empleado():
 def agregar_empleado():
     if request.method == 'POST':
         idempleado = request.form['idempleado']
-        nombre = request.form['nombre']
+        nombreempleado = request.form['nombreempleado']
         fechaingreso = request.form['fechaingreso']
         fechasalida = request.form['fechasalida']
         cargo = request.form['cargo']
@@ -188,7 +188,7 @@ def agregar_empleado():
         clave = request.form['clave']
         
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO empleado (idempleado, nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (idempleado,nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        cursor.execute("INSERT INTO empleado (idempleado, nombreempleado, fechaingreso, fechasalida, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (idempleado,nombreempleado, fechaingreso, fechasalida, cargo, correo, usuario, clave))
         conn.commit()
         cursor.close()
         flash('Empleado agregado con éxito', 'success')
@@ -203,7 +203,7 @@ def editar_empleado(idempleado):
     empleado = cursor.fetchone()
     
     if request.method == 'POST':
-        nombre = request.form['nombre']
+        nombreempleado = request.form['nombreempleado']
         fechaingreso = request.form['fechaingreso']
         fechasalida = request.form['fechasalida']
         cargo = request.form['cargo']
@@ -212,7 +212,7 @@ def editar_empleado(idempleado):
         clave = request.form['clave']
         
         cursor = conn.cursor()
-        cursor.execute("UPDATE empleado SET nombre = %s, fechaingreso = %s, fechasalida = %s, cargo = %s, correo = %s, usuario = %s, clave = %s", (nombre, fechaingreso, fechasalida, cargo, correo, usuario, clave))
+        cursor.execute("UPDATE empleado SET nombreempleado = %s, fechaingreso = %s, fechasalida = %s, cargo = %s, correo = %s, usuario = %s, clave = %s", (nombreempleado, fechaingreso, fechasalida, cargo, correo, usuario, clave))
         conn.commit()
         cursor.close()
         flash('Empleado actualizado con éxito', 'success')
@@ -247,13 +247,11 @@ def listar_cliente():
 def agregar_cliente():
     if request.method == 'POST':
         idcliente = request.form['idcliente']
-        nombrec = request.form['nombre']
-        telefonoc = request.form['telefono']
-        direccionc = request.form['direccion']
-        
-        
+        nombrecliente = request.form['nombrecliente']
+        telefono = request.form['telefono']
+        direccion = request.form['direccion']
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO cliente (idcliente, nombrec, telefonoc, direccionc) VALUES (%s,%s,%s,%s)", (idcliente,nombrec,telefonoc,direccionc))
+        cursor.execute("INSERT INTO cliente (idcliente, nombrecliente, telefono, direccion) VALUES (%s,%s,%s,%s)", (idcliente,nombrecliente,telefono,direccion))
         conn.commit()
         cursor.close()
         flash('cliente agregado con éxito', 'success')
@@ -268,13 +266,13 @@ def editar_cliente(idcliente):
     cliente = cursor.fetchone()
     
     if request.method == 'POST':
-        nombrec = request.form['nombre']
-        telefonoc = request.form['telefono']
-        direccionc = request.form['direccion']
+        nombrecliente = request.form['nombrecliente']
+        telefono = request.form['telefono']
+        direccion = request.form['direccion']
        
         
         cursor = conn.cursor()
-        cursor.execute("UPDATE cliente SET nombrec=%s, telefonoc=%s, direccionc=%s WHERE idcliente=%s", (nombrec,telefonoc,direccionc,idcliente))
+        cursor.execute("UPDATE cliente SET nombrecliente=%s, telefono=%s, direccion=%s WHERE idcliente=%s", (nombrecliente,telefono,direccion,idcliente))
         conn.commit()
         cursor.close()
         flash('cliente actualizado con éxito', 'success')
@@ -292,8 +290,9 @@ def eliminar_cliente(idcliente):
     flash('cliente eliminado con éxito', 'success')
     return redirect(url_for('listar_cliente'))
 
-#---------------------------------------------------------------------VENTAS-----------------------------------------------------------------------
+#---------------------------------------------------------------------VENTAS / ARQUEO-----------------------------------------------------------------------
 
+#Mostrar la tabla de arqueo
 @app.route('/ventas')
 def listar_ventas():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -316,6 +315,23 @@ def agregar_arqueo():
         conn.commit()
         cursor.close()
     return redirect(url_for('listar_ventas'))
+
+#Actualizar arqueo
+
+
+@app.route('/actualizar/<id>', methods=["POST"])
+def update_arqueo(id):
+    if request.method== 'POST':
+        monto = request.form['monto'] 
+        apertura = request.form['apertura']
+        cierra = request.form['cierra']
+        idempleado = request.form['idempleado']
+
+        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute(""" UPDATE arqueo SET monto=%s, apertura=%s, cierra=%s, idempleado=%s  WHERE idarqueo=%s""", (monto, apertura, cierra, idempleado, id))
+        conn.commit()
+        return redirect(url_for('listar_ventas'))
+    
 
 
 if __name__ == "__main__":
