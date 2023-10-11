@@ -290,10 +290,10 @@ def eliminar_cliente(idcliente):
     flash('cliente eliminado con éxito', 'success')
     return redirect(url_for('listar_cliente'))
 
-#---------------------------------------------------------------------VENTAS / ARQUEO-----------------------------------------------------------------------
+#---------------------------------------------------------------------ARQUEO-----------------------------------------------------------------------
 
 #Mostrar la tabla de arqueo
-@app.route('/ventas')
+@app.route('/arqueo')
 def listar_arqueo():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     s = "SELECT * FROM arqueo"
@@ -333,7 +333,25 @@ def update_arqueo(id):
         conn.commit()
         return redirect(url_for('listar_arqueo'))
     
+    # Eliminar arqueo
+@app.route('/eliminar_arqueo/<int:idarqueo>')
+def eliminar_arqueo(idarqueo):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM arqueo WHERE idarqueo = %s", (idarqueo,))
+    conn.commit()
+    cursor.close()
+    flash('Arqueo eliminado con éxito', 'success')
+    return redirect(url_for('listar_arqueo'))
+    
+#----------------------------------------------------------------------------VENTAS--------------------------------------------------------------------------------
 
+@app.route('/ventas')
+def listar_ventas():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    s = "SELECT v.idventa, p.nombreproducto, p.precio, v.pago, c.nombrecliente, e.nombreempleado, v.horainicial FROM venta v inner JOIN empleado e ON v.idempleado = e.idempleado INNER JOIN cliente c ON v.idcliente = c.idcliente INNER JOIN producto p ON v.idproducto = p.idproducto"
+    cur.execute(s)
+    list_users = cur.fetchall()
+    return render_template('ventas.html',  list_users= list_users)
 
 if __name__ == "__main__":
     app.run(debug=True)

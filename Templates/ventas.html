@@ -14,41 +14,61 @@
 </head>
 
 <body>
+
+    <!-- Barra de navegación-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/productos">
+                <img src="SUBMENU" alt="SUBMENU" class="navbar-logo">
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/arqueo' %}active{% endif %}" href="/arqueo">Arqueo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/ventas' %}active{% endif %}" href="/ventas">Ventas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <div class="row text-center">
-            <!-- Tabla de ventas-->
-                <div class="container mt-5">
-                    <h1>Ventas</h1>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID Venta</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Medio de Pago</th>
-                                <th>Cliente</th>
-                                <th>Empleado</th>
-                                <th>Fecha Venta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {%for row in list_users %}
-                            <tr>
-                                <td>{{row.1}}</td>
-                                <td>{{row.2}}</td>
-                                <td>{{row.3}}</td>
-                                <td>{{row.4}}</td>
-                                <td>{{row.5}}</td>
-                                <td>{{row.6}}</td>
-                                <td>{{row.7}}</td>
-                            </tr>
-                            {%endfor%}
-                        </tbody>
-                    </table>
-                </div>
+            <!-- Tabla de ventas -->
+            <h1>Ventas del día</h1>
+            <div class="container mt-5">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id Venta</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Medio de Pago</th>
+                            <th>Cliente</th>
+                            <th>Empleado</th>
+                            <th>Fecha Venta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in list_users %}
+                        <tr>
+                            <td>{{ row.0 }}</td>
+                            <td>{{ row.1 }}</td>
+                            <td>{{ row.2 }}</td>
+                            <td>{{ row.3 }}</td>
+                            <td>{{ row.4 }}</td>
+                            <td>{{ row.5 }}</td>
+                            <td>{{ row.6 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-
     </div>
+    
 
 </body>
 
