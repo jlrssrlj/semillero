@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, sessions, url_for
 import psycopg2
 from psycopg2 import extras
 from flask_session import Session
@@ -6,7 +6,7 @@ import json
 
 
 app = Flask(__name__)
-
+app.secret_key = 'semillero'
 
 
 with open('appsettings.json') as config_file:
@@ -17,39 +17,52 @@ db_url = config.get('DefaultConnection')
 
 conn = psycopg2.connect(db_url)
 
+def proteger_ruta(func):
+    def wrapper(*args, **kwargs):
+        if 'logueado' in session and session['logueado']:
+            return func(*args, **kwargs)
+        else:
+            return redirect(url_for('login'))
+    wrapper.__name__ = func.__name__
+    return wrapper
+
 @app.route('/')
 def index():
     return render_template('index.html')
-    
+
 @app.route('/salir')
 def salir():
+    session.pop('logueado', None)
+    session.pop('username', None)
     return redirect(url_for('index'))
-  
+
 @app.route('/login')
 def login():
     return render_template('login.html')
 
 @app.route('/caja')
+@proteger_ruta
 def caja():
     return render_template('caja.html')
 
 
-@app.route('/hacer_login', methods=["POST","GET"])
+
+@app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         correo = request.form['username']
         password = request.form['password']
-        
-        cursor.execute('SELECT * FROM empleado WHERE usuario = %s AND clave =%s', (correo, password))
+
+        cursor.execute('SELECT * FROM empleado WHERE usuario = %s AND clave = %s', (correo, password))
         account = cursor.fetchone()
 
         if account:
-            session['logueado']=True
+            session['logueado'] = True
+            session['username'] = correo  # Almacena el nombre de usuario en la sesión
             return redirect(url_for('listar_productos'))
         else:
-
             return render_template("login.html")
 
     return render_template('login.html')
@@ -59,6 +72,7 @@ def hacer_login():
 
 # Listar productos
 @app.route('/productos', methods =['GET'])
+@proteger_ruta
 def listar_productos():
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -79,7 +93,6 @@ def agregar_producto():
             precio = request.form['precio']
             codigo = request.form['codigo']
             idproveedores = request.form['idproveedores']
-            
             cursor = conn.cursor()
             cursor.execute("INSERT INTO producto (nombreproducto, precio, codigo, idproveedores) VALUES (%s, %s, %s, %s)", (nombreproducto, precio, codigo,idproveedores))
             conn.commit()
@@ -133,6 +146,7 @@ def eliminar_producto(idproducto):
 #---------------------------------------------------Proveedores---------------------------------------------------------------------
 
 @app.route('/proveedores')
+@proteger_ruta
 def proveedores():
     try:    
         cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -205,6 +219,7 @@ def delet_contact(id):
 
 # Listar empleados
 @app.route('/empleado')
+@proteger_ruta
 def listar_empleado():
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -280,6 +295,7 @@ def eliminar_empleado(idempleado):
 
 #Client vista
 @app.route('/cliente')
+@proteger_ruta
 def listar_cliente():
     try:
         cursor = conn.cursor()
@@ -313,6 +329,7 @@ def agregar_cliente():
 
 # Editar un Cliente
 @app.route('/editar_cliente/<int:idcliente>', methods=['GET', 'POST'])
+@proteger_ruta
 def editar_cliente(idcliente):
     try:
         cursor = conn.cursor()
