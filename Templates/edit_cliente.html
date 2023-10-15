@@ -11,17 +11,17 @@
 </head>
 <body>
     <div class="container1" >
-        <h3 class="titulo">Actualizar Empleado</h3>
+        <h3 class="titulo">Actualizar Cliente</h3>
         <div class="contenedor-form" >
-            <form action="/actualizar_empleado/{{empleado.0}}" method="POST" >
+            <form action="/actualizar_cliente/{{cliente.0}}" method="POST" >
                 <div class="from-group">
-                    <label for="nombre">Nombre </label><br><input type"text" name="nombre" placeholder="Nombre Del Cliente" value={{cliente.0}} class="form-control" >
+                    <label for="nombre">Nombre </label><br><input type"text" name="nombre" placeholder="Nombre Del Cliente" value={{cliente.1}} class="form-control" >
                 </div>
                 <div class="from-group">
-                    <label for="usuario">Telefono</label><br><input type"text" name="usuario" placeholder="Usuario" value={{empleado.4}} class="form-control">
+                    <label for="usuario">Telefono</label><br><input type"text" name="telefono" placeholder="telefono" value={{cliente.2}} class="form-control">
                 </div>
                 <div class="from-group">
-                    <label for="Direccion">Direccion</label><br><input type"text" name="Direccion" placeholder="Direccion cliente" value={{empleado.4}} class="form-control">
+                    <label for="Direccion">Direccion</label><br><input type"text" name="direccion" placeholder="Direccion cliente" value={{cliente.3}} class="form-control">
                 </div>
                 
                 <div class="from-group d-grid gap-2 pt-2 ">

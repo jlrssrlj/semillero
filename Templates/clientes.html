@@ -28,24 +28,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for Cliente in cliente %}
+                    {% for cliente in cliente %}
                     <tr>
 
-                        <td>{{ Cliente[1] }}</td>
-                        <td>{{ Cliente[2] }}</td>
-                        <td>{{ Cliente[3] }}</td>
+                        <td>{{cliente.1}}</td>
+                        <td>{{cliente.2}}</td>
+                        <td>{{cliente.3}}</td>
 
 
                         <td>
-                            <a href="/editar_cliente/{{cliente.0}} " class=""><i class="ri-edit-line"></i></a>
-                            <a href="/eliminar_cliente/{{cliente.0}} " class=""><i class="ri-delete-bin-line"></i></a>
+                            <a href="/editar_cliente/{{cliente.0}}" class=""><i class="ri-edit-line"></i></a>
+                            <a href="/eliminar_cliente/{{cliente.0}}" class=""><i class="ri-delete-bin-line"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <!-- Formulario para agregar un nuevo proveedor -->
+        
         <div class="form-section">
             <div class="contenedor-form">
                 <h2 class="titulo">Agregar Cliente</h2>
