@@ -6,100 +6,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/estilos.css">
     <title>Proveedores</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/aplicativoback.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/fondo.css') }}">
+
 </head>
 
 <body class="cuerpo">
-    <div class="container">
-        <button class="btn btn-secondary btn-outline-dark" id="btnMostrarFormulario">Agregar Cliente</button>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="section">
-            <!-- Tabla de proveedores y formulario -->
-            <div id="contenedorTablaFormulario">
-                <div class="table-responsive" id="tablaClientes">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <!-- La siguiente línea oculta la columna "ID Proveedores" -->
-                                <th style="display: none;">Id Cliente</th>
-                                <th>Nombres</th>
-                                <th>telefono</th>
-                                <th>Dirección</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for Cliente in cliente %}
-                            <tr>
-                                <!-- La siguiente línea oculta la columna "ID Cliente" -->
-                                <td style="display: none;">{{ Cliente[0] }}</td>
-                                <td>{{ Cliente[1] }}</td>
-                                <td>{{ Cliente[2] }}</td>
-                                <td>{{ Cliente[3] }}</td>
-                                <td>{{ Cliente[4] }}</td>
-                                <td>
-                                    <a class="edit" title="Editar" data-toggle="tooltip" data-id="{{ cliente[0] }}"
-                                        href="#"><i class="material-icons">&#xE254;</i></a>
-                                    
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Formulario para agregar un nuevo proveedor -->
-                <div id="formularioAgregar" style="display: none;">
-                    <h2>Agregar Cliente</h2>
-                    <form method="POST" action="/agregar_cliente">
-                        <div class="form-group">
-                            <label for="nombre">Id Cliente</label>
-                            <input type="text" class="form-control" id="idcliente" name="idcliente" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nombre">Nombres</label>
-                            <input type="text" class="form-control" id="nombre" name="nombrecliente" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono">Telefono</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="direccion">Dirección</label>
-                            <input type="text" class="form-control" id="direccion" name="direccion" required>
-                        </div>
-                        <button type="submit" class="btn btn-success">Agregar</button>
-                    </form>
-                </div>
-                <!-- Formulario para editar un proveedor -->
-                <div id="formularioEditar" style="display: none;">
-                    <h2>Editar Cliente</h2>
-                    <form method="POST" action="/editar_cliente">
-                        <div class="form-group">
-                            <label for="nombreEditar">Nombre</label>
-                            <input type="text" class="form-control" id="nombreEditar" name="nombreEditar" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="telefonoEditar">NIT</label>
-                            <input type="text" class="form-control" id="telefonoEditar" name="telefonoEditar" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="direccionEditar">Dirección</label>
-                            <input type="text" class="form-control" id="direccionEditar" name="direccionEditar" required>
-                        </div>
-                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                    </form>
-                </div>
+    <div class="container-form">
+        <div class="table-section">
+            <h3 class="titulo">Clientes</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
 
+                        <th style="display: none;">Id Cliente</th>
+                        <th>Nombre</th>
+                        <th>telefono</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in cliente %}
+                    <tr>
+
+                        <td>{{cliente.1}}</td>
+                        <td>{{cliente.2}}</td>
+                        <td>{{cliente.3}}</td>
+
+
+                        <td>
+                            <a href="/editar_cliente/{{cliente.0}}" class=""><i class="ri-edit-line"></i></a>
+                            <a href="/eliminar_cliente/{{cliente.0}}" class=""><i class="ri-delete-bin-line"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="form-section">
+            <div class="contenedor-form">
+                <h2 class="titulo">Agregar Cliente</h2>
+                <form method="POST" action="/agregar_cliente">
+                    <div class="input-form">
+                        <label for="nombre">Nombres</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="input-form">
+                        <label for="telefono">Telefono</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="input-form">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Agregar</button>
+                </form>
             </div>
         </div>
 
+
+    </div>
 </body>
 
 </html>
-{% endblock  %}
+{% endblock %}
