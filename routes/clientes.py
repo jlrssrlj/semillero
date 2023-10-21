@@ -49,7 +49,6 @@ def agregar_cliente():
             cursor.execute("INSERT INTO cliente (nombrecliente, telefono, direccion) VALUES (%s, %s, %s)", (nombrecliente, telefonoc, direccionc))
             conn.commit()
             cursor.close()
-            flash('Cliente agregado con éxito', 'success')
     
     
         return redirect(url_for('cliente.listar_cliente'))
@@ -82,7 +81,7 @@ def update_cliente(id):
             conn.commit()
             return redirect(url_for('cliente.listar_cliente'))
    
-
+# Eliminar empleado
 @cliente_bp.route('/eliminar_cliente/<int:idcliente>')
 def eliminar_cliente(idcliente):
     cursor = conn.cursor()
