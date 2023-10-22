@@ -1,6 +1,4 @@
 
-<!-- #######################################VISTA ARQUEOOOOOOOOOOOOOO############################################# -->
-
 {% extends "layout.html" %}
 {% block body %}
 
@@ -11,92 +9,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ventas</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>        
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/estilos.css">
+
 </head>
 
 <body>
-    <!-- Barra de navegación-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/productos">
-                <img src="SUBMENU" alt="SUBMENU" class="navbar-logo">
-            </a>
+    <!-- ------------------------------------------------Tabla de ARQUEO------------------------------------------ -->
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/arqueo' %}active{% endif %}" href="/arqueo">Arqueo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/ventas' %}active{% endif %}" href="/ventas">Ventas</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="row text-center">
 
-            <!-- Formulario Arqueo de Caja-->
-            <div class="col-md-6" >     
-                <div class="card card-body">
-                    <form action='/agregar_arqueo' method="POST" >
-                        <div class="from-group">
-                            <input type = "number" name="monto" placeholder="Monto"  class="form-control" >
-                        </div>
-                        <div class="from-group">
-                            <input type = "date" name="apertura" placeholder="Apertura"  class="form-control">
-                        </div>
-                        <div class="from-group">
-                            <input type = "date" name="cierra" placeholder="Cierre"  class="form-control" >
-                        </div>
-                        <div class="from-group">
-                            <input type = "text" name="idempleado" placeholder="ID Empleado"  class="form-control" >
-                        </div>
-                        <div class="from-group d-grid gap-2 pt-2 ">
-                            <button type="submit"class="btn btn-succes btn-block" >
-                                Guardar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-                       
-            <div class="col-md-6" >
-                <table class="table table-striped table-bordered bg-white tables-sm">
-                    <thead>
-                        <tr>
-                            <td>Monto</td>
-                            <td>Apertura</td>
-                            <td>Cierre</td>
-                            <td>ID Empleado</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {%for row in list_users %}
-                        <tr>
-                            <td> {{row.1}}</td>
-                            <td> {{row.2}}</td>
-                            <td> {{row.3}}</td>
-                            <td> {{row.4}}</td>
-                            <td> 
-                                <a href="/editar_arqueo/{{row.0}} " class="btn btn-secondary " >Editar</a>
-                                <a href="/eliminar_arqueo/{{row.0}} " class="btn btn-danger  btn-delete" >Eliminar</a>
-                            </td>
-                        </tr>
-                        {%endfor%}
-                    </tbody>
-                </table>
-            </div>
-
+    <div class="container-form">      
+        <div class="table-section">
+            <h3 class="titulo">Arqueo</h3>
+            <table class="table table-striped table-bordered bg-white tables-sm">
+                <thead>
+                    <tr>
+                        <td>Monto</td>
+                        <td>Apertura</td>
+                        <td>Cierre</td>
+                        <td>ID Empleado</td>
+                        <td>Opciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for row in list_users %}
+                    <tr>
+                        <td> {{row.1}}</td>
+                        <td> {{row.2}}</td>
+                        <td> {{row.3}}</td>
+                        <td> {{row.4}}</td>
+                        <td> 
+                            <a href="/editar_arqueo/{{row.0}} "><i class="ri-edit-line"></i></a>
+                            <a href="/eliminar_arqueo/{{row.0}} "><i class="ri-delete-bin-line"></i></a>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
         </div>
 
-    </div>
-
+        <!-- ---------------------------------------Formulario Arqueo de Caja----------------------------------------- --> 
+        <div class="form-section">
+            <div class="contenedor-form">
+                <h3 class="titulo">Arqueo de Caja</h3>   
+                    <div class="card card-body">
+                        <form action='/agregar_arqueo' method="POST" >
+                            <div class="input-form">
+                                <label for="Monto">Monto</label><br>
+                                <input type = "number" name="monto" placeholder="Monto"  class="form-control" >
+                            </div>
+                            <div class="input-form">
+                                <label for="FechaAper">Fecha Apertura</label>
+                                <input type = "date" name="apertura" placeholder="Apertura"  class="form-control">
+                            </div>
+                            <div class="input-form">
+                                <label for="FechaCie">Fecha Cierre</label>
+                                <input type = "date" name="cierra" placeholder="Cierre"  class="form-control" >
+                            </div>
+                            <div class="input-form">
+                                <label for="ID_empleado">ID Empleado</label>
+                                <input type = "text" name="idempleado" placeholder="ID Empleado"  class="form-control" >
+                            </div>
+                            <div class="input-form">
+                                <button type="submit" class="btn">
+                                    Guardar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+            </div>    
+        </div> 
+    </div>    
 </body>
 
 </html>

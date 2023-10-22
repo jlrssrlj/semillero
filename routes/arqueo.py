@@ -47,3 +47,45 @@ def agregar_arqueo():
         conn.commit()
         cursor.close()
     return redirect(url_for('listar_arqueo'))
+
+#Actualizar arqueo
+
+
+# Editar arqueo
+@arqueo_bp.route('/editar_arqueo/<id>')
+def get_contact(id):
+    try:  
+        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute('SELECT*FROM arqueo WHERE idarqueo=%s', (id))
+        data=cur.fetchall()
+        return render_template('edit_arqueo.html', arqueo=data[0])
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+
+@arqueo_bp.route('/actualizarARQ/<id>', methods=["POST"])
+def update_contact(id):
+    try: 
+        if request.method == 'POST':
+            monto = request.form['monto'] 
+            apertura = request.form['apertura']
+            cierra = request.form['cierra']
+            idempleado = request.form['idempleado']
+            cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            cur.execute(""" UPDATE arqueo SET monto=%s, apertura=%s, cierra=%s, idempleado=%s  WHERE idarqueo=%s""", (monto, apertura, cierra, idempleado, id))
+            conn.commit()
+            return redirect(url_for('arqueo.listar_arqueo')) 
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+    
+#Eliminar arqueo
+
+@arqueo_bp.route('/eliminar_arqueo/<int:idarqueo>')
+def eliminar_arqueo(idarqueo):
+    try:
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("DELETE FROM arqueo WHERE idarqueo = %s", (idarqueo,))
+        conn.commit()
+        flash('El Arqueo se ha eliminado satisfactoriamente')
+        return redirect(url_for('listar_arqueo'))
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
