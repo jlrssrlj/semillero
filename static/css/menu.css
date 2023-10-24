@@ -45,8 +45,8 @@ body{
     float: left;
 }
 .menu .navbar ul li .texto{
-    font-size:18px ;
-    padding: 20px;
+    font-size:14px ;
+    padding: 15px;
     color: white;
     display: block;
     font-weight: bold;
