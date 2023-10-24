@@ -5,6 +5,8 @@ from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
+from routes.arqueo import arqueo_bp
+from routes.ventas import ventas_bp
 from flask_session import Session
 import json
 
@@ -51,10 +53,13 @@ def login():
 def caja():
     return render_template('caja.html')
 
+app.register_blueprint(arqueo_bp)
 app.register_blueprint(productos_bp)
 app.register_blueprint(proveedores_bp)
 app.register_blueprint(empleado_bp)
 app.register_blueprint(cliente_bp)
+app.register_blueprint(ventas_bp)
+
 
 @app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
