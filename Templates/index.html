@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>BusinessControl</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <link href="{{url_for('static', filename='img/favicon.png')}}" rel="icon">
+  <link href="{{url_for('static', filename='img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+  <link href="{{url_for('static', filename='vendor/aos/aos.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{url_for('static', filename='vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{url_for('static', filename='vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{url_for('static', filename='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/style.css') }}"rel="stylesheet" type="text/css">
+
+  
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">jorge.ramos-s@uniminuto.edu.co</a>
+        <i class="bi bi-phone-fill phone-icon"></i> 310 251 3062 
+      </div>
+      <div class="social-links d-none d-md-block">
+        <a href="https://twitter.com/UNIMINUTOBOGOTA" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="https://www.facebook.com/UNIMINUTOCOLOMBIA" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/uniminutocol/" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.linkedin.com/school/uniminutocol/?originalSubdomain=co" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="index.html">BusinessControl</a></h1>
+      
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Principal</a></li>
+          <li><a class="nav-link scrollto" href="#about">Nosotros</a></li>
+          <li><a class="nav-link scrollto" href="#services">Servicios</a></li>
+          <li><a class="nav-link scrollto" href="#pricing">Precios</a></li>
+          <li><a class="nav-link scrollto" href="#team">Equipo</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contacto</a></li>
+          <li><a class="nav-link scrollto" href="/login">Inicio de Sesion</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
+      <h1>BusinessControl</h1>
+      <h2>El mejor producto para administrar tu negocio</h2>
+      <a href="#about" class="btn-get-started scrollto">Comenzemos</a>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
+            <img src="{{url_for('static', filename='img/portada3.jfif')}}" width="1024" height="768" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right">
+            <h3>Software para negocios.</h3>
+            <p class="fst-italic">
+              Administra tu negocio con tranquilidad que BusinessControl Se encarga de lo demas
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> Control de inventario</li>
+              <li><i class="bi bi-check-circle"></i> Arqueo de caja</li>
+              <li><i class="bi bi-check-circle"></i> Asigna usuarios segun el rol </li>
+              <li><i class="bi bi-check-circle"></i> Control de proveedores </li>
+              <li><i class="bi bi-check-circle"></i> Control de gastos </li>
+              <li><i class="bi bi-check-circle"></i> Control de impresion </li>
+            </ul>
+            <p>
+              El software integral de gestión empresarial que ofrecemos es una solución avanzada que revoluciona la manera en que las empresas gestionan sus operaciones. 
+              Con un enfoque centrado en potenciar las áreas de ventas, inventario y relaciones con clientes, este sistema innovador brinda a las organizaciones las herramientas 
+              necesarias para optimizar sus procesos y maximizar su rendimiento. Desde el seguimiento detallado de las transacciones de ventas hasta la gestión en tiempo real del inventario,
+              pasando por la segmentación inteligente de clientes para estrategias de marketing personalizadas, este software se erige como el compañero indispensable para el éxito empresarial.
+              Al permitir una visión panorámica de todas las operaciones, además de integrar potentes herramientas de análisis y seguimiento de tendencias, las empresas pueden tomar decisiones
+              informadas y proactivas, asegurando una ventaja competitiva en el mercado actual. En resumen, nuestro software no solo simplifica la gestión diaria, sino que también impulsa el 
+              crecimiento a través de una combinación única de control de procesos y estrategias de marketing inteligentes.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-4" data-aos="fade-up">
+            <div class="box">
+              <span>01</span>
+              <h4>Eficiencia y velocidad</h4>
+              <p>Procesa transacciones de manera rapida y eficiente</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="150">
+            <div class="box">
+              <span>02</span>
+              <h4>Personalizacion</h4>
+              <p>configurable y adaptable a tus necesidades de negocio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="box">
+              <span>03</span>
+              <h4> Compatibilidad de hadware</h4>
+              <p>Nuestro aplicativo no requiere un hadware en especifico</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Why Us Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Servicioss</span>
+          <h2>Caracteristicas</h2>
+          <p>Contamos con varias funcionalidades para un mayor rendimiento</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4><a href="">Lorem Ipsum</a></h4>
+              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="150">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4><a href="">Sed ut perspiciatis</a></h4>
+              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4><a href="">Magni Dolores</a></h4>
+              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="450">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4><a href="">Nemo Enim</a></h4>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="600">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-slideshow"></i></div>
+              <h4><a href="">Dele cardo</a></h4>
+              <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="750">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-arch"></i></div>
+              <h4><a href="">Divera don</a></h4>
+              <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="text-center">
+          <h3>Call To Action</h3>
+          <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <a class="cta-btn" href="#">Call To Action</a>
+        </div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+    
+
+    <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Precios</span>
+          <h2>Precios</h2>
+          <p>Disponemos de diferentes versiones</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="150">
+            <div class="box">
+              <h3>Gratis</h3>
+              <h4><sup>$</sup>0<span> / Mes</span></h4>
+              <ul>
+                <li>Ingreso</li>
+                <li>Ventas</li>
+                <li class="na">Productos</li>
+                <li class="na">Control de inventario</li>
+                <li class="na">Creacion de usuarios</li>
+                <li class="na">Arqueo de caja</li>
+                <li class="na">Control de impresion</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Adquirir</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mt-4 mt-md-0" data-aos="zoom-in">
+            <div class="box featured">
+              <h3>Business</h3>
+              <h4><sup>$</sup>90.000<span> / Mes</span></h4>
+              <ul>
+                <li>Ingreso</li>
+                <li>Ventas</li>
+                <li >Productos</li>
+                <li >Control de inventario</li>
+                <li >Creacion de usuarios</li>
+                <li class="na">Arqueo de caja</li>
+                <li class="na">Control de impresion</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Adquirir</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
+            <div class="box">
+              <h3>Developer</h3>
+              <h4><sup>$</sup>140.000<span> / Mes</span></h4>
+              <ul>
+                <li>Ingreso</li>
+                <li>Ventas</li>
+                <li >Productos</li>
+                <li >Control de inventario</li>
+                <li >Creacion de usuarios</li>
+                <li >Arqueo de caja</li>
+                <li >Control de impresion</li>
+                <li >Facturacions</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Adquirir</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Equipo</span>
+          <h2>Equipo</h2>
+          <p>Equipo de Desarrollo.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="{{ url_for('static', filename='img/jorge.png') }}" alt="">
+              <h4>Jorge Ramos</h4>
+              <span>DBA</span>
+              <p>
+                Administrador de la base de datos
+              </p>
+              <div class="social">
+                <a href="https://www.facebook.com/jorge.l.ramos.71"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/comcorjorge/"><i class="bi bi-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/jorge-luis-ramos-002b83285/"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="{{ url_for('static', filename='img/team/team-2.png') }}" alt="">
+              <h4>Sarah Jhinson</h4>
+              <span>Product Manager</span>
+              <p>
+                Repellat fugiat adipisci nemo illum nesciunt voluptas repellendus. In architecto rerum rerum temporibus
+              </p>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="{{ url_for('static', filename='img/team/team-3.jpg') }}" alt="">
+              <h4>William Anderson</h4>
+              <span>CTO</span>
+              <p>
+                Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
+              </p>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Contacto</span>
+          <h2>Contacto</h2>
+          <p>Contamos con los siguientes canales de contacto</p>
+        </div>
+
+        <div class="row" data-aos="fade-up">
+          <div class="col-lg-6">
+            <div class="info-box mb-4">
+              <i class="bx bx-map"></i>
+              <h3>Ubicación</h3>
+              <p>Diagonal 81f #72c1, Bogota Dc</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-envelope"></i>
+              <h3>Email</h3>
+              <p>jorge.ramos-s@uniminuto.edu.co</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-phone-call"></i>
+              <h3>Contacto</h3>
+              <p>+57 3102513062</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row" data-aos="fade-up">
+
+          <div class="col-lg-6 ">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.4122018429757!2d-74.09157818856525!3d4.6982300416574665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9b31ce6d5835%3A0x3b5b6f123d35a1e3!2sUniminuto%20Calle%2080%20Sede%20Principal!5e0!3m2!1ses-419!2sco!4v1692561463853!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>            
+          </div>
+
+          <div class="col-lg-6">
+            <form action="/send_email" method="post" role="form" name="recipient" >
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Nombre" required>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Correo" required>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <input type="number" class="form-control" name="subject" id="subject" placeholder="Celular" required>
+              </div>
+              <div class="form-group mt-3">
+                <textarea class="form-control" name="message" rows="5" placeholder="Mensaje" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Escribenos</div>
+              </div>
+              <div class="text-center"><button type="submit">Enviar mensaje</button></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>BusinessControl</h3>
+              <p>
+                Cra. 74 #81 C-05 <br>
+                NY 535022, USA<br><br>
+                <strong>Phone:</strong> +57 6015933004<br>
+                <strong>Email:</strong> jorge.ramos-s@uniminuto.edu.co<br>
+                <strong>Email:</strong> miguel.rodriguez@uniminuto.edu.co<br>
+                
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Navegación</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Principal</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Nosotros</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Servicios</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terminos</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Politica de privacidad</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+            </ul>
+          </div>
+
+          
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Day</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BusinessControl</a>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+  <script src="{{ url_for('static', filename='vendor/aos/aos.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</body>
+
+</html>
