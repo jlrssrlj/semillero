@@ -31,7 +31,7 @@ def proteger_ruta(func):
 def listar_empleado():
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        s = "SELECT v.idventa, p.nombreproducto, p.precio, v.pago, c.nombrecliente, e.nombreempleado, v.horainicial FROM venta v inner JOIN empleado e ON v.idempleado = e.idempleado INNER JOIN cliente c ON v.idcliente = c.idcliente INNER JOIN producto p ON v.idproducto = p.idproducto"
+        s = "SELECT v.idventa, p.nombreproducto, p.precio, v.pago, c.nombrecliente, e.nombreempleado, v.horainicial FROM ventas v inner JOIN empleados e ON v.idempleado = e.idempleado INNER JOIN clientes c ON v.idcliente = c.idcliente INNER JOIN productos p ON v.idproducto = p.idproducto"
         cur.execute(s)
         list_users = cur.fetchall()
         return render_template('ventas.html', list_users=list_users)

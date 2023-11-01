@@ -30,7 +30,7 @@ def proteger_ruta(func):
 def listar_cliente():
     
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM cliente")
+        cursor.execute("SELECT * FROM clientes")
         cliente = cursor.fetchall()
         cursor.close()
         return render_template('clientes.html', cliente=cliente)
@@ -46,7 +46,7 @@ def agregar_cliente():
             direccionc = request.form['direccion']
             
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO cliente (nombrecliente, telefono, direccion) VALUES (%s, %s, %s)", (nombrecliente, telefonoc, direccionc))
+            cursor.execute("INSERT INTO clientes (nombrecliente, telefono, direccion) VALUES (%s, %s, %s)", (nombrecliente, telefonoc, direccionc))
             conn.commit()
             cursor.close()
             flash('Cliente agregado con éxito', 'success')
@@ -61,7 +61,7 @@ def agregar_cliente():
 def get_cliente(idcliente):
     
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute('SELECT * FROM cliente WHERE idcliente=%s', (idcliente))
+        cur.execute('SELECT * FROM clientes WHERE idcliente=%s', (idcliente))
         data = cur.fetchall()
         if data:
             return render_template('edit_cliente.html', cliente=data[0])
@@ -78,7 +78,7 @@ def update_cliente(id):
             telefono=request.form['telefono']
             direccion=request.form['direccion']
             cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cur.execute(""" UPDATE cliente SET nombrecliente=%s, telefono=%s, direccion=%s  WHERE idcliente=%s""", (nombrecliente, telefono, direccion, id))
+            cur.execute(""" UPDATE clientes SET nombrecliente=%s, telefono=%s, direccion=%s  WHERE idcliente=%s""", (nombrecliente, telefono, direccion, id))
             conn.commit()
             return redirect(url_for('cliente.listar_cliente'))
    
@@ -86,7 +86,7 @@ def update_cliente(id):
 @cliente_bp.route('/eliminar_cliente/<int:idcliente>')
 def eliminar_cliente(idcliente):
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM cliente WHERE idcliente = %s", (idcliente,))
+    cursor.execute("DELETE FROM clientes WHERE idcliente = %s", (idcliente,))
     conn.commit()
     cursor.close()
     return redirect(url_for('cliente.listar_cliente'))

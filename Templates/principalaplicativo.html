@@ -24,7 +24,8 @@
                         <td>Nombre</td>
                         <td>Precio</td>
                         <td>Codigo producto</td>
-                        <td>codigo proveedor</td>
+                        <td>codigo proveedor</td>                        
+                        <td>Stock</td>
                         <td>opciones</td>
 
                     </tr>
@@ -36,6 +37,7 @@
                         <td> {{row.2}}</td>
                         <td> {{row.3}}</td>
                         <td> {{row.4}}</td>
+                        <td> {{row.5}}</td>
                         <td>
                             <a href="/editar_producto/{{row.0}} " class=""><i class="ri-edit-line"></i></a>
                             <a href="/eliminar_producto/{{row.0}} " class=""><i class="ri-delete-bin-line"></i></a>
@@ -57,13 +59,16 @@
                     <div class="input-form">
                         <label for="precio">Precio</label><input type"text" name="precio" placeholder="Precio" class="form-control">
                     </div>
-                    
                     <div class="input-form">
                         <label for="Codigoproducto">Codigo</label><label for="Codigo Producto"></label><input type"text" name="codigo" placeholder="Codigo Del Producto" class="form-control">
                     </div>
                     <div class="input-form">
                         <label for="proveedor">Proveedor</label><input type"text" name="idproveedores" placeholder="Codigo proveedor" class="form-control">
                     </div>
+                    <div class="input-form">
+                        <label for="stock">Stock</label><input type"text" name="stock" placeholder="stock" class="form-control">
+                    </div>
+                    
                     <div class="input-form">
                         <button type="submit" class="btn">
                             Guardar

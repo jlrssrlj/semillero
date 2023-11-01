@@ -29,7 +29,7 @@ def proteger_ruta(func):
 def listar_empleado():
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        mostrar = "SELECT * FROM empleado ORDER BY idempleado ASC"
+        mostrar = "SELECT * FROM empleados ORDER BY idempleado ASC"
         cur.execute(mostrar)
         list_users = cur.fetchall()
         return render_template('empleado.html', list_users=list_users)
@@ -48,7 +48,7 @@ def agregar_empleado():
             clave = request.form['clave']
             
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO empleado (nombreempleado, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s)", (nombreempleado, cargo, correo,usuario, clave))
+            cursor.execute("INSERT INTO empleados (nombreempleado, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s)", (nombreempleado, cargo, correo,usuario, clave))
             conn.commit()
             cursor.close()
             return redirect(url_for('empleado.listar_empleado'))
@@ -60,7 +60,7 @@ def agregar_empleado():
 def get_empleado(id):
     try:
         cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute('SELECT*FROM empleado WHERE idempleado=%s', (id))
+        cur.execute('SELECT*FROM empleados WHERE idempleado=%s', (id))
         data=cur.fetchall()
         
         return render_template('empleado.edit_empleado.html', empleado=data[0])
@@ -77,7 +77,7 @@ def update_empleado(id):
             usuario = request.form['usuario']
             clave = request.form['clave']
             cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cur.execute(""" UPDATE empleado SET nombreempleado=%s, cargo=%s, correo=%s, usuario=%s, clave=%s  WHERE idempleado=%s""", (nombreempleado, cargo, correo, usuario, clave, id))
+            cur.execute(""" UPDATE empleados SET nombreempleado=%s, cargo=%s, correo=%s, usuario=%s, clave=%s  WHERE idempleado=%s""", (nombreempleado, cargo, correo, usuario, clave, id))
             conn.commit()
             return redirect(url_for('empleado.listar_empleado'))
     except Exception as ex:
@@ -88,7 +88,7 @@ def update_empleado(id):
 def eliminar_empleado(idempleado):
     try:
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM empleado WHERE idempleado = %s", (idempleado,))
+        cursor.execute("DELETE FROM empleados WHERE idempleado = %s", (idempleado,))
         conn.commit()
         cursor.close()
         flash('empleado eliminado con éxito', 'success')
