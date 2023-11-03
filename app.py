@@ -7,6 +7,7 @@ from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
 from routes.arqueo import arqueo_bp
 from routes.ventas import ventas_bp
+from routes.caja import caja_bp
 from flask_session import Session
 import json
 
@@ -34,6 +35,7 @@ def proteger_ruta(func):
     wrapper.__name__ = func.__name__
     return wrapper
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -48,10 +50,6 @@ def salir():
 def login():
     return render_template('login.html')
 
-@app.route('/caja')
-@proteger_ruta
-def caja():
-    return render_template('caja.html')
 
 app.register_blueprint(arqueo_bp)
 app.register_blueprint(productos_bp)
@@ -59,6 +57,7 @@ app.register_blueprint(proveedores_bp)
 app.register_blueprint(empleado_bp)
 app.register_blueprint(cliente_bp)
 app.register_blueprint(ventas_bp)
+app.register_blueprint(caja_bp)
 
 
 @app.route('/hacer_login', methods=["POST", "GET"])

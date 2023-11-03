@@ -1,16 +1,94 @@
 {% extends "layout.html" %}
 {% block body %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/estilos.css">
+    <title>Caja</title>
+     
 </head>
-<body>
-    <h5>Caja
 
-    </h5>
+<body>
+
+    
+        <div class="container-form">                       
+            <div class="table-section">
+                <h3 class="titulo">Productos</h3>
+                <table class="table table-striped table-bordered bg-white tables-sm">
+                    <thead>
+                        <tr>
+                            <td>Nombre</td>
+                            <td>Nit</td>
+                            <td>Direccion</td>
+                            <td>Telefono</td>
+                            <td>opciones</td>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for row in list_users %}
+                        <tr>
+                            <td> {{row.1}}</td>
+                            <td> {{row.2}}</td>
+                            <td> {{row.3}}</td>
+                            <td> {{row.4}}</td>
+                            <td> 
+                                <a href="/editar_proveedores/{{row.0}} "  ><i class="ri-edit-line"></a>
+                                <a href="/eliminar_proveedores/{{row.0}} "  ><i class="ri-delete-bin-line"></i></a>
+                            </td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+            
+            <div class="form-section">     
+                <div class="contenedor-form">
+                    <h3 class="titulo">Agregar Productos</h3>
+                    <form action='/agregar_proveedor' method="POST" >
+
+                        <label for="">Arqueo</label>
+                        
+                        <label for="cliente">Selecciona un cliente:</label>
+                        <select id="cliente" name="cliente">
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente }}">{{ cliente }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+
+                        <label for="producto">Selecciona un producto:</label>
+                        <select id="producto" name="producto">
+                            {% for producto in productos %}
+                                <option value="{{ producto }}">{{ producto }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+
+                        <div class="input-form">
+                            <button type="submit" class="btn" >
+                                AGREGAR
+                            </button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+            
+
+        </div>
+
+    
+
 </body>
+
 </html>
-{% endblock %}
+{% endblock  %}
