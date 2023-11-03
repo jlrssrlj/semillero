@@ -68,7 +68,7 @@ def hacer_login():
         correo = request.form['username']
         password = request.form['password']
 
-        cursor.execute('SELECT * FROM empleado WHERE usuario = %s AND clave = %s', (correo, password))
+        cursor.execute('SELECT * FROM empleados WHERE usuario = %s AND clave = %s', (correo, password))
         account = cursor.fetchone()
 
         if account:

@@ -28,7 +28,7 @@ def proteger_ruta(func):
 @arqueo_bp.route('/arqueo')
 def listar_arqueo():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    s = "SELECT * FROM arqueo"
+    s = "SELECT * FROM arqueos"
     cur.execute(s)
     list_users = cur.fetchall()
     return render_template('arqueo.html',  list_users= list_users)
@@ -43,7 +43,7 @@ def agregar_arqueo():
         idempleado = request.form['idempleado']
         
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO arqueo (monto, apertura, cierra, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
+        cursor.execute("INSERT INTO arqueos (monto, apertura, cierra, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
         conn.commit()
         cursor.close()
     return redirect(url_for('listar_arqueo'))
@@ -56,7 +56,7 @@ def agregar_arqueo():
 def get_contact(id):
     try:  
         cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute('SELECT*FROM arqueo WHERE idarqueo=%s', (id))
+        cur.execute('SELECT*FROM arqueos WHERE idarqueo=%s', (id))
         data=cur.fetchall()
         return render_template('edit_arqueo.html', arqueo=data[0])
     except Exception as ex:
@@ -71,7 +71,7 @@ def update_contact(id):
             cierra = request.form['cierra']
             idempleado = request.form['idempleado']
             cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cur.execute(""" UPDATE arqueo SET monto=%s, apertura=%s, cierra=%s, idempleado=%s  WHERE idarqueo=%s""", (monto, apertura, cierra, idempleado, id))
+            cur.execute(""" UPDATE arqueos SET monto=%s, apertura=%s, cierra=%s, idempleado=%s  WHERE idarqueo=%s""", (monto, apertura, cierra, idempleado, id))
             conn.commit()
             return redirect(url_for('arqueo.listar_arqueo')) 
     except Exception as ex:
@@ -83,7 +83,7 @@ def update_contact(id):
 def eliminar_arqueo(idarqueo):
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute("DELETE FROM arqueo WHERE idarqueo = %s", (idarqueo,))
+        cur.execute("DELETE FROM arqueos WHERE idarqueo = %s", (idarqueo,))
         conn.commit()
         flash('El Arqueo se ha eliminado satisfactoriamente')
         return redirect(url_for('listar_arqueo'))
