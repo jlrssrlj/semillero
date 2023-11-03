@@ -1,251 +1,182 @@
 
-/* General  */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-}
 
-.container {
-    margin-top: 50px;
-}
-
-/* LOGIN*/
-.login-form {
-    max-width: 300px;
-    margin: 0 auto;
+/* Estilos para el contenedor principal */
+.container-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide en dos columnas de igual tamaño */
+    gap: 20px; /* Espacio entre las dos secciones */
     padding: 20px;
+}
+
+/* Estilo del contenedor de la tabla */
+.table-section {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo del contenedor del formulario */
+.form-section {
     background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el título "Inventario" */
+.titulo {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333; /* Color del título */
+}
+
+/* Estilo para el botón "Guardar" */
+.btn-submit {
+    background-color: #007bff; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.logo {
-    width: 100px;
-    height: auto;
-    margin-bottom: 20px;
+/* Estilos para la tabla */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-.form-control {
-    margin-bottom: 10px;
+.table th, .table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+/* Estilos para el contenedor del formulario */
+.form-section {
+    background-color: #f0f0f0; /* Color de fondo del formulario */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.form-check {
+/* Estilo para el título "Ingreso de productos" */
+.titulo {
+    text-align: center;
+    margin-top: 0;
+    font-size: 24px;
+    color: #333; /* Color del título */
+}
+
+/* Estilo para los campos del formulario */
+.input-form {
     margin-bottom: 15px;
 }
 
-.forgot-password {
-    display: block;
-    margin-top: 10px;
-    color: #d9534f;
-    text-decoration: none;
+.input-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
-/* Barra de navegación  V1
-.navbar-dark {
-    background-color: #343a40;
-}
-
-.navbar-logo {
-    width: 40px;
-    height: auto;
-}
-
-.navbar-nav .nav-link {
-    color: #fff;
-}
-
-.form-control {
-    margin-right: 10px;
-}
-*/
-
-/* Barra de navegación V2 */
-.navbar-dark {
-    background-color: #222;
-}
-
-.navbar-logo {
-    width: 40px;
-    height: auto;
-}
-
-.navbar-nav .nav-link {
-    color: #fff;
-    transition: color 0.3s ease-in-out;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #f00; /* Red color on hover */
-}
-
-.form-control {
-    background-color: #333;
+/* Estilo para el botón "Guardar" */
+.btn-success {
+    background-color: #28a745; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
     border: none;
-    color: #fff;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.form-control:focus {
-    background-color: #444;
-    color: #fff;
-}
-
-/* Search button */
-.btn-outline-light {
-    color: #fff;
-    border-color: #fff;
-    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
-}
-
-.btn-outline-light:hover {
-    color: #f00;
-    border-color: #f00;
-}
-
-
-
- Pie de pagina V1
-
-.footer {
-    background-color: #343a40;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-}
-
-
-/* Pie de pagina V2 */
-.footer {
-    background-color: #222;
-    color: #fff;
-    padding: 0%;
-    text-align: center;
-}
-
-.footer h3 {
-    margin-bottom: 10px;
-    color: #f00; /* Red color for heading */
-}
-
-.footer p {
-    margin-bottom: 5px;
-}
-
-.footer hr {
-    border-color: #333; /* Darker line color */
-}
-
-.footer a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s ease-in-out;
-}
-
-.footer a:hover {
-    color: #f00;
-}
-
-/* Copyright text */
-.footer-copyright {
-    margin-top: 20px;
-    font-size: 14px;
-}
-
-
-
-/* Animación */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-/*Estilo de las tablas*/
-.table-wrapper {
-    width: 700px;
-    margin: 30px auto;
-    background: #fff;
-    padding: 20px;	
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-.table-title {
-    padding-bottom: 10px;
-    margin: 0 0 10px;
-}
-.table-title h2 {
-    margin: 6px 0 0;
-    font-size: 22px;
-}
-.table-title .add-new {
-    float: right;
-    height: 30px;
+    border-radius: 5px;
+    padding: 12px 20px;
+    cursor: pointer;
     font-weight: bold;
-    font-size: 12px;
-    text-shadow: none;
-    min-width: 100px;
-    border-radius: 50px;
-    line-height: 13px;
-}
-.table-title .add-new i {
-    margin-right: 4px;
-}
-table.table {
-    table-layout: fixed;
-}
-table.table tr th, table.table tr td {
-    border-color: #e9e9e9;
-}
-table.table th i {
-    font-size: 13px;
-    margin: 0 5px;
-    cursor: pointer;
-}
-table.table th:last-child {
-    width: 100px;
-}
-table.table td a {
-    cursor: pointer;
-    display: inline-block;
-    margin: 0 5px;
-    min-width: 24px;
-}    
-table.table td a.add {
-    color: #27C46B;
-}
-table.table td a.edit {
-    color: #FFC107;
-}
-table.table td a.delete {
-    color: #E34724;
-}
-table.table td i {
-    font-size: 19px;
-}
-table.table td a.add i {
-    font-size: 24px;
-    margin-right: -1px;
-    position: relative;
-    top: 3px;
-}    
-table.table .form-control {
-    height: 32px;
-    line-height: 32px;
-    box-shadow: none;
-    border-radius: 2px;
-}
-table.table .form-control.error {
-    border-color: #f50000;
-}
-table.table td .add {
-    display: none;
 }
 
+.btn-success:hover {
+    background-color: #218838; /* Cambio de color al pasar el mouse sobre el botón */
+}
+/* Estilos para el contenedor principal */
+.form-section {
+  background-color: #f5f5f5; /* Fondo similar al formulario */
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para destacar el formulario */
+}
+
+/* Estilos para el título */
+.titulo {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Estilos para el formulario */
+.contenedor-form {
+  background-color: #f5f5f5; /* Fondo similar al contenedor principal */
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para destacar el formulario */
+}
+
+/* Estilos para etiquetas de formulario */
+.contenedor-form label {
+  font-weight: bold;
+  display: block; /* Coloca las etiquetas en una línea separada */
+}
+
+/* Estilos para campos de formulario */
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Estilos para el botón */
+.btn {
+  color: #fff;
+  align-items: center;
+  height: 40px; /* Aumentado el alto del botón */
+  width: 100%; /* Ancho completo del contenedor */
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+  background: linear-gradient(to right, #ff0000, #000000); /* Gradiente de rojo a negro */
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: background-color 0.5s ease;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background-color: white; /* Cambia el fondo antes del hover */
+  transition: background-color 0.5s ease;
+}
+
+.btn:hover::before {
+  background-color: transparent; /* Cambia el fondo al hacer hover */
+}
+
+/* Media query para dispositivos con un ancho máximo de 767px */
+@media (max-width: 767px) {
+    .container-form {
+        grid-template-columns: 1fr; /* Cambia a una sola columna en dispositivos más pequeños */
+    }
+}
