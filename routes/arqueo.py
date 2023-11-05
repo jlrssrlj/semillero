@@ -1,19 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
-import psycopg2
-from psycopg2 import extras
+from conection import get_db_connection
 import json
 from flask_session import Session
 
 arqueo_bp = Blueprint('arqueo', __name__)
 
 
-with open('appsettings.json') as config_file:
-    config = json.load(config_file)
-
-db_url = config.get('DefaultConnection')
-
-
-conn = psycopg2.connect(db_url)
+mydb = get_db_connection()
+cur = mydb.cursor()
 
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
@@ -27,7 +21,7 @@ def proteger_ruta(func):
 #Mostrar la tabla de arqueo
 @arqueo_bp.route('/arqueo')
 def listar_arqueo():
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    
     s = "SELECT * FROM arqueos"
     cur.execute(s)
     list_users = cur.fetchall()
@@ -41,11 +35,10 @@ def agregar_arqueo():
         apertura = request.form['apertura']
         cierra = request.form['cierra']
         idempleado = request.form['idempleado']
-        
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO arqueos (monto, apertura, cierra, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
-        conn.commit()
-        cursor.close()
+ 
+        cur.execute("INSERT INTO arqueos (monto, apertura, cierra, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
+        mydb.commit()
+        cur.close()
     return redirect(url_for('listar_arqueo'))
 
 #Actualizar arqueo
@@ -55,7 +48,7 @@ def agregar_arqueo():
 @arqueo_bp.route('/editar_arqueo/<id>')
 def get_contact(id):
     try:  
-        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        
         cur.execute('SELECT*FROM arqueos WHERE idarqueo=%s', (id))
         data=cur.fetchall()
         return render_template('edit_arqueo.html', arqueo=data[0])
@@ -70,9 +63,9 @@ def update_contact(id):
             apertura = request.form['apertura']
             cierra = request.form['cierra']
             idempleado = request.form['idempleado']
-            cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            
             cur.execute(""" UPDATE arqueos SET monto=%s, apertura=%s, cierra=%s, idempleado=%s  WHERE idarqueo=%s""", (monto, apertura, cierra, idempleado, id))
-            conn.commit()
+            mydb.commit()
             return redirect(url_for('arqueo.listar_arqueo')) 
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
@@ -82,10 +75,10 @@ def update_contact(id):
 @arqueo_bp.route('/eliminar_arqueo/<int:idarqueo>')
 def eliminar_arqueo(idarqueo):
     try:
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        
         cur.execute("DELETE FROM arqueos WHERE idarqueo = %s", (idarqueo,))
-        conn.commit()
-        flash('El Arqueo se ha eliminado satisfactoriamente')
+        mydb.commit()
+        cur.close()
         return redirect(url_for('listar_arqueo'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500

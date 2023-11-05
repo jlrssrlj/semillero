@@ -1,19 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
-import psycopg2
-from psycopg2 import extras
 import json
 from flask_session import Session
+from conection import get_db_connection
 
 proveedores_bp = Blueprint('proveedores', __name__)
 
 
-with open('appsettings.json') as config_file:
-    config = json.load(config_file)
-
-db_url = config.get('DefaultConnection')
-
-
-conn = psycopg2.connect(db_url)
+mydb = get_db_connection()
 
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
@@ -28,7 +21,7 @@ def proteger_ruta(func):
 @proteger_ruta
 def proveedores():
     try:    
-        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = mydb.cursor()
         s="SELECT* FROM proveedores ORDER BY idproveedores ASC"
         cur.execute(s)
         list_users=cur.fetchall()
@@ -46,11 +39,11 @@ def agregar_proveedor():
             direccion = request.form['direccion']
             telefono = request.form['telefono']
             
-            cursor = conn.cursor()
+            cursor = mydb.cursor()
             cursor.execute("INSERT INTO proveedores (nombrepro, nit, direccion, telefono) VALUES (%s, %s, %s, %s)", (nombrepro, nit, direccion, telefono))
-            conn.commit()
+            mydb.commit()
             cursor.close()
-        return redirect(url_for('proveedores.proveedores'))  # Cambia 'proveedores.listar_proveedores' a 'proveedores.proveedores'
+        return redirect(url_for('proveedores.proveedores'))  
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 
@@ -59,8 +52,8 @@ def agregar_proveedor():
 @proveedores_bp.route('/editar_proveedores/<id>')
 def get_contact(id):
     try:  
-        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute('SELECT*FROM proveedores WHERE idproveedores=%s', (id))
+        cur = mydb.cursor()
+        cur.execute('SELECT*FROM proveedores WHERE idproveedores=%s', (int(float(id)),))
         data=cur.fetchall()
         return render_template('edit_proveedores.html', proveedores=data[0])
     except Exception as ex:
@@ -74,9 +67,10 @@ def update_contact(id):
             nit = request.form['nit']
             direccion = request.form['direccion']
             telefono = request.form['telefono']
-            cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            cur = mydb.cursor()
+            
             cur.execute("""UPDATE proveedores SET nombrepro=%s, nit=%s, direccion=%s, telefono=%s  WHERE idproveedores=%s""", (nombrepro, nit, direccion, telefono, id))
-            conn.commit()
+            mydb.commit()
             return redirect(url_for('proveedores.proveedores'))  # Cambia 'proveedores' a 'proveedores.proveedores'
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
@@ -86,10 +80,9 @@ def update_contact(id):
 @proveedores_bp.route('/eliminar_proveedores/<string:id>')
 def delete_contact(id):
     try:
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = mydb.cursor()
         cur.execute('DELETE FROM proveedores WHERE idproveedores = %s', (id,))
-        conn.commit()
-        flash('El contacto se ha eliminado satisfactoriamente')
+        cur.close()
         return redirect(url_for('proveedores.proveedores'))  # Cambia 'proveedores' a 'proveedores.proveedores'
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500

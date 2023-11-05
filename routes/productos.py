@@ -1,19 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
-import psycopg2
-from psycopg2 import extras
+from conection import get_db_connection
 import json
 from flask_session import Session
 
+mydb = get_db_connection()
+
 productos_bp = Blueprint('productos', __name__)
 
-
-with open('appsettings.json') as config_file:
-    config = json.load(config_file)
-
-db_url = config.get('DefaultConnection')
-
-
-conn = psycopg2.connect(db_url)
 
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
@@ -28,9 +21,8 @@ def proteger_ruta(func):
 @proteger_ruta
 def listar_productos():
     try:
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        s = "SELECT * FROM productos ORDER BY idproducto ASC"
-        cur.execute(s)
+        cur = mydb.cursor()
+        cur.execute("SELECT * FROM productos ORDER BY idproducto ASC")
         list_users = cur.fetchall()
         return render_template('principalaplicativo.html', list_users=list_users)
     except Exception as ex:
@@ -45,11 +37,11 @@ def agregar_producto():
             nombreproducto = request.form['nombreproducto']
             precio = request.form['precio']
             codigo = request.form['codigo']
-            idproveedores = request.form['idproveedores']            
             stock = request.form['stock']
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO productos (nombreproducto, precio, codigo, idproveedores, cantidad) VALUES (%s, %s, %s, %s, %s)", (nombreproducto, precio, codigo,idproveedores,stock))
-            conn.commit()
+            idproveedores = request.form['idproveedores'] 
+            cursor = mydb.cursor()
+            cursor.execute("INSERT INTO productos (nombreproducto, precio, codigo, cantidad, idproveedores) VALUES (%s, %s, %s, %s, %s)", (nombreproducto, precio,stock, codigo,idproveedores))
+            mydb.commit()
             cursor.close()
         return redirect(url_for('productos.listar_productos'))
     except Exception as ex:
@@ -60,8 +52,8 @@ def agregar_producto():
 @productos_bp.route('/editar_producto/<id>')
 def get_producto(id):
     try:
-        cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute('SELECT*FROM productos WHERE idproducto=%s', (id))
+        cur = mydb.cursor()
+        cur.execute('SELECT*FROM productos WHERE idproducto=%s', (int(float(id)),))
         data=cur.fetchall()
         
         return render_template('edit_producto.html', producto=data[0])
@@ -75,11 +67,11 @@ def update_producto(id):
             nombreproducto=request.form['nombreproducto']
             precio=request.form['precio']
             codigo=request.form['codigo']
-            idproveedores = request.form['idproveedores']
             stock = request.form['stock']
-            cur=conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cur.execute(""" UPDATE productos SET nombreproducto=%s, precio=%s, codigo=%s, idproveedores=%s, cantidad=%s  WHERE idproducto=%s""", (nombreproducto,precio,codigo,idproveedores,stock, id))
-            conn.commit()
+            idproveedores = request.form['idproveedores']
+            cur = mydb.cursor()
+            cur.execute(""" UPDATE productos SET nombreproducto=%s, precio=%s, codigo=%s, cantidad=%s, idproveedores=%s  WHERE idproducto=%s""", (nombreproducto,precio,codigo,stock,idproveedores, id))
+            mydb.commit()
             return redirect(url_for('productos.listar_productos'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
@@ -89,12 +81,11 @@ def update_producto(id):
 @productos_bp.route('/eliminar_producto/<int:idproducto>')
 def eliminar_producto(idproducto):
     try:
-        cursor = conn.cursor()
+        cursor = mydb.cursor()
         cursor.execute("DELETE FROM ventas WHERE idproducto = %s", (idproducto,))
         cursor.execute("DELETE FROM productos WHERE idproducto = %s", (idproducto,))
-        conn.commit()
-        cursor.close()
-        flash('Producto eliminado con éxito', 'success')
+        mydb.commit()
+        
         return redirect(url_for('productos.listar_productos'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
