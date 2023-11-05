@@ -38,7 +38,6 @@ def agregar_proveedor():
             nit = request.form['nit']
             direccion = request.form['direccion']
             telefono = request.form['telefono']
-            
             cursor = mydb.cursor()
             cursor.execute("INSERT INTO proveedores (nombrepro, nit, direccion, telefono) VALUES (%s, %s, %s, %s)", (nombrepro, nit, direccion, telefono))
             mydb.commit()
@@ -68,7 +67,6 @@ def update_contact(id):
             direccion = request.form['direccion']
             telefono = request.form['telefono']
             cur = mydb.cursor()
-            
             cur.execute("""UPDATE proveedores SET nombrepro=%s, nit=%s, direccion=%s, telefono=%s  WHERE idproveedores=%s""", (nombrepro, nit, direccion, telefono, id))
             mydb.commit()
             return redirect(url_for('proveedores.proveedores'))  # Cambia 'proveedores' a 'proveedores.proveedores'

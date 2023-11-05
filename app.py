@@ -20,6 +20,8 @@ app.register_blueprint(productos_bp)
 app.register_blueprint(proveedores_bp)
 app.register_blueprint(cliente_bp)
 app.register_blueprint(empleado_bp)
+app.register_blueprint(arqueo_bp)
+app.register_blueprint(ventas_bp)
 
 
 def proteger_ruta(func):

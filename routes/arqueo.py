@@ -33,13 +33,13 @@ def agregar_arqueo():
     if request.method == 'POST':
         monto = request.form['monto'] 
         apertura = request.form['apertura']
-        cierra = request.form['cierra']
+        cierra = request.form['cierre']
         idempleado = request.form['idempleado']
  
-        cur.execute("INSERT INTO arqueos (monto, apertura, cierra, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
+        cur.execute("INSERT INTO arqueos (monto, apertura, cierre, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
         mydb.commit()
         cur.close()
-    return redirect(url_for('listar_arqueo'))
+    return redirect(url_for('arqueo.listar_arqueo'))
 
 #Actualizar arqueo
 
@@ -49,7 +49,7 @@ def agregar_arqueo():
 def get_contact(id):
     try:  
         
-        cur.execute('SELECT*FROM arqueos WHERE idarqueo=%s', (id))
+        cur.execute('SELECT*FROM arqueos WHERE idarqueo=%s', (int(float(id)),))
         data=cur.fetchall()
         return render_template('edit_arqueo.html', arqueo=data[0])
     except Exception as ex:

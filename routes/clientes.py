@@ -53,7 +53,7 @@ def agregar_cliente():
 def get_cliente(idcliente):
     try:
         cur = mydb.cursor()
-        cur.execute('SELECT * FROM clientes WHERE idcliente=%s', (idcliente))
+        cur.execute('SELECT * FROM clientes WHERE idcliente=%s', (int(float(idcliente)),))
         mydb.commit()
         data = cur.fetchall()
         if data:
