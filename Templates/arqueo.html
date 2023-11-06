@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,16 +7,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ventas</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- ------------------------------------------------Tabla de ARQUEO------------------------------------------ -->
-  
-    <div class="container-form">
-        <div class="table-section">
-            
+    <div class="contenedor-form" id="form-container" style="display: none;">
+        <h3 class="titulo">Arqueo de Caja</h3>
+        <div class="card card-body">
+            <form action='/agregar_arqueo' method="POST" id="arqueo-form">
+                <div class="input-form">
+                    <label for="Monto">Monto de apertura</label><br>
+                    <input type="number" name="monto" placeholder="$valor$" class="form-control">
+                </div>
+                <div class="input-form">
+                    <label for="FechaAper">Fecha y hora de Apertura</label>
+                    <input type="datetime-local" name="apertura" class="form-control" value="{{ fecha_hora_apertura }}"
+                        readonly>
+                </div>
+                <div class="input-form">
+                    <label for="FechaCie">Fecha y hora de Cierre</label>
+                    <input type="datetime-local" name="cierre" class="form-control" value="{{ fecha_hora_cierre }}"
+                        readonly>
+                </div>
+                <div class="input-form">
+                    <label for="ID_empleado">ID Empleado</label>
+                    <input type="text" name="idempleado" placeholder="ID Empleado" class="form-control">
+                </div>
+                <div class="input-form">
+                    <button type="submit" class="btn" onclick="hideForm()">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="table-section">
+        
+        <button onclick="showForm()" class="btn" id="new-arqueo-button">Nuevo Arqueo</button>
+        <div class="card card-body">
             <h3 class="titulo">Arqueo</h3>
-            <button onclick="showForm()" class="btn" id="new-arqueo-button">Nuevo Arqueo</button>
             <table class="table table-striped table-bordered bg-white tables-sm">
                 <thead>
                     <tr>
@@ -36,51 +64,17 @@
                         <td>{{ row.3 }}</td>
                         <td>{{ row.4 }}</td>
                         <td>
-                            <a href="/editar_arqueo/{{ row.0 }}"><i class="ri-edit-line"></i></a>
-                            <a href="/eliminar_arqueo/{{ row.0 }}"><i class="ri-delete-bin-line"></i></a>
+                            <a href="/editar_arqueo/{{row.0}} "><i class="ri-edit-line"></i></a>
+                            <a href="{{ url_for('arqueo.eliminar_arqueo', idarqueo=row.0) }}"><i
+                                    class="ri-delete-bin-line"></i></a>
+
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-
         </div>
-
-        <!-- ---------------------------------------Formulario Arqueo de Caja----------------------------------------- -->
-
-        <div class="container-form">
-            <div class="contenedor-form" id="form-container" style="display: none;">
-                <h3 class="titulo">Arqueo de Caja</h3>
-                <div class="card card-body">
-                    <form action='/agregar_arqueo' method="POST" id="arqueo-form">
-                        <div class="input-form">
-                            <label for="Monto">Monto</label><br>
-                            <input type="number" name="monto" placeholder="Monto" class="form-control">
-                        </div>
-                        <div class="input-form">
-                            <label for="FechaAper">Fecha y hora de Apertura</label>
-                            <input type="datetime-local" name="apertura" class="form-control" value="{{ fecha_hora_apertura }}"
-                                readonly>
-                        </div>
-                        <div class="input-form">
-                            <label for="FechaCie">Fecha y hora de Cierre</label>
-                            <input type="datetime-local" name="cierre" class="form-control" value="{{ fecha_hora_cierre }}"
-                                readonly>
-                        </div>
-                        <div class="input-form">
-                            <label for="ID_empleado">ID Empleado</label>
-                            <input type="text" name="idempleado" placeholder="ID Empleado" class="form-control">
-                        </div>
-                        <div class="input-form">
-                            <button type="submit" class="btn" onclick="hideForm()">
-                                Guardar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-    
-
+    </div>
 
     </div>
 
@@ -106,4 +100,3 @@
 
 </html>
 {% endblock %}
-

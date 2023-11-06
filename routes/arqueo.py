@@ -3,7 +3,7 @@ from conection import get_db_connection
 import datetime
 from flask_session import Session
 
-# Crear el blueprint
+
 arqueo_bp = Blueprint('arqueo', __name__)
 
 # Obtener la conexión de la base de datos y el cursor
@@ -44,6 +44,15 @@ def agregar_arqueo():
         mydb.commit()
         cur.close()
     return redirect(url_for('arqueo.listar_arqueo'))
+@arqueo_bp.route('/editar_arqueo/<id>')
+def get_contact(id):
+    try:  
+        cur = mydb.cursor()
+        cur.execute('SELECT*FROM arqueos WHERE idarqueo=%s',  (int(float(id)),))
+        data=cur.fetchall()
+        return render_template('edit_arqueo.html', arqueo=data[0])
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 @arqueo_bp.route('/actualizar_arqueo/<int:idarqueo>', methods=['POST'])
 def actualizar_arqueo(idarqueo):
     if request.method == 'POST':

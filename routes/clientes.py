@@ -48,14 +48,13 @@ def agregar_cliente():
 
 
 #----------------------------------------------------------------------------------------------
-# Editar empleado
 @cliente_bp.route('/editar_cliente/<idcliente>')
 def get_cliente(idcliente):
     try:
         cur = mydb.cursor()
         cur.execute('SELECT * FROM clientes WHERE idcliente=%s', (int(float(idcliente)),))
-        mydb.commit()
         data = cur.fetchall()
+        cur.close()
         if data:
             return render_template('edit_cliente.html', cliente=data[0])
         else:
@@ -67,17 +66,19 @@ def get_cliente(idcliente):
 @cliente_bp.route('/actualizar_cliente/<id>', methods=["POST"])
 def update_cliente(id):
     try:
-        if request.method== 'POST':
-            nombrecliente=request.form['nombre']
-            telefono=request.form['telefono']
-            direccion=request.form['direccion']
+        if request.method == 'POST':
+            nombrecliente = request.form['nombre']
+            telefono = request.form['telefono']
+            direccion = request.form['direccion']
             cur = mydb.cursor()
-            cur.execute(""" UPDATE clientes SET nombrecliente=%s, telefono=%s, direccion=%s  WHERE idcliente=%s""", (nombrecliente, telefono, direccion, id))
+            cur.execute("""UPDATE clientes SET nombrecliente=%s, telefono=%s, direccion=%s WHERE idcliente=%s""",
+                        (nombrecliente, telefono, direccion, id))
             mydb.commit()
-        return redirect(url_for('cliente.listar_cliente'))
+            cur.close()
+            return redirect(url_for('cliente.listar_cliente'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
-   
+
 
 @cliente_bp.route('/eliminar_cliente/<int:idcliente>')
 def eliminar_cliente(idcliente):
@@ -89,4 +90,3 @@ def eliminar_cliente(idcliente):
         return redirect(url_for('cliente.listar_cliente'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
-        
