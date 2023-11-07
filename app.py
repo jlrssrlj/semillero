@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, sessions, url_for
-from flask_mysqldb import MySQL
+
 from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
