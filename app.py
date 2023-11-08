@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, sessions, url_for
-from flask_mysqldb import MySQL
 from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
@@ -76,4 +75,4 @@ def paginanoencontrada(error):
 
 if __name__ == "__main__":
     app.register_error_handler(404, paginanoencontrada)
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5500)

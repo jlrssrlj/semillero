@@ -1,19 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
-import psycopg2
-from psycopg2 import extras
 import json
 from flask_session import Session
+from conection import get_db_connection
 
 ventas_bp = Blueprint('ventas', __name__)
 
 
-with open('appsettings.json') as config_file:
-    config = json.load(config_file)
-
-db_url = config.get('DefaultConnection')
-
-
-conn = psycopg2.connect(db_url)
+mydb = get_db_connection()
+cur = mydb.cursor()
 
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
@@ -30,7 +24,7 @@ def proteger_ruta(func):
 @proteger_ruta
 def listar_empleado():
     try:
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        
         s = "SELECT v.idventa, p.nombreproducto, p.precio, v.pago, c.nombrecliente, e.nombreempleado, v.horainicial FROM ventas v inner JOIN empleados e ON v.idempleado = e.idempleado INNER JOIN clientes c ON v.idcliente = c.idcliente INNER JOIN productos p ON v.idproducto = p.idproducto"
         cur.execute(s)
         list_users = cur.fetchall()
