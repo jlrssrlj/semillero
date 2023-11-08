@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Empleado</title>
+</head>
+<body>
+    <div id="formularioEditar">
+        <h2>Editar Empleado</h2>
+        <form method="POST" action="{{ url_for('actualizar_empleado', idempleado=empleado[0]) }}">
+            <div class="form-group">
+                <label for="idempleadoEditar">ID</label>
+                <input type="text" class="form-control" id="idempleadoEditar" name="idempleado" readonly value="{{ empleado[0] }}">
+            </div>
+            <div class="form-group">
+                <label for="nombreEditar">Nombre empleado</label>
+                <input type="text" class="form-control" id="nombreempleadoEditar" name="nombreempleado" required value="{{ empleado[1] }}">
+            </div>
+            <div class="form-group">
+                <label for="cargoEditar">Cargo</label>
+                <input type="text" class="form-control" id="cargoEditar" name="cargo" required value="{{ empleado[2] }}">
+            </div>
+            <div class="form-group">
+                <label for="correoEditar">Correo</label>
+                <input type="text" class="form-control" id="correoEditar" name="correo" required value="{{ empleado[3] }}">
+            </div>
+            <div class="form-group">
+                <label for="usuarioEditar">Usuario</label>
+                <input type="text" class="form-control" id="usuarioEditar" name="usuario" required value="{{ empleado[4] }}">
+            </div>
+            <div class="form-group">
+                <label for="claveEditar">Clave</label>
+                <input type="text" class="form-control" id="claveEditar" name="clave" required value="{{ empleado[5] }}">
+            </div>
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        </form>
+    </div>
+</body>
+</html>
