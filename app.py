@@ -6,6 +6,7 @@ from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
 from routes.arqueo import arqueo_bp
 from routes.ventas import ventas_bp
+from routes.gastos import gastos_bp
 from flask_session import Session
 import json
 from conection import get_db_connection
@@ -22,6 +23,7 @@ app.register_blueprint(cliente_bp)
 app.register_blueprint(empleado_bp)
 app.register_blueprint(arqueo_bp)
 app.register_blueprint(ventas_bp)
+app.register_blueprint(gastos_bp)
 
 
 def proteger_ruta(func):
@@ -77,4 +79,4 @@ def paginanoencontrada(error):
 if __name__ == "__main__":
     app.register_error_handler(404, paginanoencontrada)
     app.run(debug=True, port=5000)
-    a
+   
