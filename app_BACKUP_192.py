@@ -50,7 +50,8 @@ def login():
     return render_template('login.html')
 
 
-<<<<<<< .mineapp.register_blueprint(arqueo_bp)
+<<<<<<< HEAD
+app.register_blueprint(arqueo_bp)
 app.register_blueprint(productos_bp)
 app.register_blueprint(proveedores_bp)
 app.register_blueprint(empleado_bp)
@@ -59,7 +60,9 @@ app.register_blueprint(ventas_bp)
 app.register_blueprint(caja_bp)
 
 
-=======>>>>>>> .theirs@app.route('/hacer_login', methods=["POST", "GET"])
+=======
+>>>>>>> fa6e0fbe88eae876d39b2b671a8f9f7eb2421712
+@app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         correo = request.form['username']

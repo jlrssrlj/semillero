@@ -7,48 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/estilos.css">
+    
     <title>Proveedores</title>
-
 </head>
 
 <body class="cuerpo">
-    <div class="container-form">
-        <div class="table-section">
-            <h3 class="titulo">Clientes</h3>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-
-                        <th style="display: none;">Id Cliente</th>
-                        <th>Nombre</th>
-                        <th>telefono</th>
-                        <th>Dirección</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cliente in cliente %}
-                    <tr>
-
-                        <td>{{cliente.1}}</td>
-                        <td>{{cliente.2}}</td>
-                        <td>{{cliente.3}}</td>
-
-
-                        <td>
-                            <a href="/editar_cliente/{{cliente.0}}" class=""><i class="ri-edit-line"></i></a>
-                            <a href="/eliminar_cliente/{{cliente.0}}" class=""><i class="ri-delete-bin-line"></i></a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="form-section">
-            <div class="contenedor-form">
-                <h2 class="titulo">Agregar Cliente</h2>
+    <div class="form-section">
+        <div class="contenedor-form" id="form-container" style="display: none;">
+            <h2 class="titulo">Agregar Cliente</h2>
+            <div class="card card-body">
                 <form method="POST" action="/agregar_cliente">
                     <div class="input-form">
                         <label for="nombre">Nombres</label>
@@ -66,9 +33,57 @@
                 </form>
             </div>
         </div>
-
-
     </div>
+    <div class="container-form">
+        <div class="table-section">
+            <h3 class="titulo">Clientes</h3>
+            <button onclick="showForm()" class="btn" id="new-producto-button">cliente nuevo</button>
+            <table class="table table-bordered bg-white tables-sm">
+                <thead>
+                    <tr>
+                        <th style="display: none;">Id Cliente</th>
+                        <th>Nombre</th>
+                        <th>telefono</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in cliente %}
+                    <tr>
+                        <td>{{cliente.1}}</td>
+                        <td>{{cliente.2}}</td>
+                        <td>{{cliente.3}}</td>
+                        <td>
+                            <a href="{{ url_for('cliente.get_cliente', idcliente=cliente[0]) }}"><i class="ri-edit-line"></i></a>
+                            <a href="/eliminar_cliente/{{cliente.0}}"><i class="ri-delete-bin-line"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+       
+    </div>
+
+    <script>
+        function showForm() {
+            var formContainer = document.getElementById('form-container');
+            var newClienteButton = document.getElementById('new-cliente-button');
+
+            formContainer.style.display = 'block';
+            newClienteButton.style.display = 'none';
+        }
+
+        function hideForm() {
+            var formContainer = document.getElementById('form-container');
+            var newClienteButton = document.getElementById('new-cliente-button');
+
+            formContainer.style.display = 'none';
+            newClienteButton.style.display = 'block';
+        }
+    </script>
 </body>
 
 </html>
