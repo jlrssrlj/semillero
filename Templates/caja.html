@@ -8,87 +8,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/estilos.css">
+    <link rel="stylesheet" href="../static/css/caja.css">
     <title>Caja</title>
-     
 </head>
 
 <body>
-
     
-        <div class="container-form">                       
-            <div class="table-section">
-                <h3 class="titulo">Productos</h3>
-                <table class="table table-striped table-bordered bg-white tables-sm">
-                    <thead>
+        <select id="clientes">
+        </select>
+    <div class="contenedor-form">
+        <div class="table-section" id="tablaProductos" style="display: none;">
+            <h3 class="titulo">Productos</h3>
+            <table class="table">
+                <!-- Encabezados de la tabla de productos -->
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Código</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <!-- Cuerpo de la tabla de productos -->
+                <tbody>
+                    {% for producto in productos %}
                         <tr>
-                            <td>Nombre</td>
-                            <td>Nit</td>
-                            <td>Direccion</td>
-                            <td>Telefono</td>
-                            <td>opciones</td>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {%for row in list_users %}
-                        <tr>
-                            <td> {{row.1}}</td>
-                            <td> {{row.2}}</td>
-                            <td> {{row.3}}</td>
-                            <td> {{row.4}}</td>
-                            <td> 
-                                <a href="/editar_proveedores/{{row.0}} "  ><i class="ri-edit-line"></a>
-                                <a href="/eliminar_proveedores/{{row.0}} "  ><i class="ri-delete-bin-line"></i></a>
+                            <td>{{ producto[1] }}</td>
+                            <td>{{ producto[2] }}</td>
+                            <td>{{ producto[3] }}</td>
+                            <td>
+                                <form method="post" action="/agregar" class="input-form">
+                                    <input type="hidden" name="idproducto" value="{{ producto[0] }}">
+                                    <label for="cantidad">Cantidad:</label>
+                                    <input type="number" name="cantidad" id="cantidad" value="1" min="1">
+                                    <input type="submit" value="Agregar al carrito" class="btn">
+                                </form>
                             </td>
                         </tr>
-                        {%endfor%}
-                    </tbody>
-                </table>
-            </div>
-
-
-
-            
-            <div class="form-section">     
-                <div class="contenedor-form">
-                    <h3 class="titulo">Agregar Productos</h3>
-                    <form action='/agregar_proveedor' method="POST" >
-
-                        <label for="">Arqueo</label>
-                        
-                        <label for="cliente">Selecciona un cliente:</label>
-                        <select id="cliente" name="cliente">
-                            {% for cliente in clientes %}
-                                <option value="{{ cliente }}">{{ cliente }}</option>
-                            {% endfor %}
-                        </select>
-                        <br>
-
-                        <label for="producto">Selecciona un producto:</label>
-                        <select id="producto" name="producto">
-                            {% for producto in productos %}
-                                <option value="{{ producto }}">{{ producto }}</option>
-                            {% endfor %}
-                        </select>
-                        <br>
-
-                        <div class="input-form">
-                            <button type="submit" class="btn" >
-                                AGREGAR
-                            </button>
-                        </div>
-                    </form>
-                    
-                </div>
-            </div>
-            
-
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+        
+        <div class="table-section" id="tablaCarrito" style="display: none;">
+            <h3 class="titulo">Carrito</h3>
+            <table class="table">
+                <!-- Encabezados de la tabla del carrito -->
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <!-- Cuerpo de la tabla del carrito -->
+                <tbody>
+                    {% for item in carrito %}
+                        <tr>
+                            <td>{{ item.nombreproducto }}</td>
+                            <td>{{ item.precio }}</td>
+                            <td>{{ item.cantidad }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectClientes = document.getElementById('clientes');
     
-
+            // Fetch para obtener clientes al cargar la página
+            fetch('/obtener_clientes')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(cliente => {
+                        const option = document.createElement('option');
+                        option.value = cliente.idcliente; // Asigna el ID del cliente al valor de la opción
+                        option.textContent = cliente.nombrecliente; // Asigna el nombre del cliente al texto de la opción
+                        selectClientes.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error al obtener clientes:', error));
+    
+            // Evento para mostrar las tablas al seleccionar un cliente
+            selectClientes.addEventListener('change', function() {
+                const clienteSeleccionado = this.value;
+                if (clienteSeleccionado !== '') {
+                    // Aquí podrías mostrar las tablas, por ejemplo:
+                    const tablaProductos = document.getElementById('tablaProductos');
+                    const tablaCarrito = document.getElementById('tablaCarrito');
+                    tablaProductos.style.display = 'block'; // Muestra la tabla de productos
+                    tablaCarrito.style.display = 'block'; // Muestra la tabla del carrito
+                } else {
+                    // Ocultar las tablas si no hay cliente seleccionado
+                    const tablaProductos = document.getElementById('tablaProductos');
+                    const tablaCarrito = document.getElementById('tablaCarrito');
+                    tablaProductos.style.display = 'none';
+                    tablaCarrito.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    
 </body>
-
-</html>
-{% endblock  %}
+{% endblock %}

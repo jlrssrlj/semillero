@@ -17,14 +17,6 @@ app.secret_key = 'semillero'
 
 mydb = get_db_connection()
 
-app.register_blueprint(productos_bp)
-app.register_blueprint(proveedores_bp)
-app.register_blueprint(cliente_bp)
-app.register_blueprint(empleado_bp)
-app.register_blueprint(arqueo_bp)
-app.register_blueprint(ventas_bp)
-
-
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
         if 'logueado' in session and session['logueado']:
@@ -50,7 +42,7 @@ def login():
     return render_template('login.html')
 
 
-<<<<<<< .mineapp.register_blueprint(arqueo_bp)
+app.register_blueprint(arqueo_bp)
 app.register_blueprint(productos_bp)
 app.register_blueprint(proveedores_bp)
 app.register_blueprint(empleado_bp)
@@ -59,7 +51,7 @@ app.register_blueprint(ventas_bp)
 app.register_blueprint(caja_bp)
 
 
-=======>>>>>>> .theirs@app.route('/hacer_login', methods=["POST", "GET"])
+@app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         correo = request.form['username']
@@ -84,4 +76,4 @@ def paginanoencontrada(error):
 if __name__ == "__main__":
     app.register_error_handler(404, paginanoencontrada)
     app.run(debug=True, port=5000)
-    a
+    
