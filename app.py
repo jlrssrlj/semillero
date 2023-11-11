@@ -61,9 +61,13 @@ def hacer_login():
         account = mycursor.fetchone()
 
         if account:
+            id_empleado = account[0]  
+            nombre_empleado = account[1] 
             session['logueado'] = True
             session['username'] = correo
-            return redirect(url_for('productos.listar_productos'))
+            session['idempleado'] = id_empleado  
+            session['nombre_empleado'] = nombre_empleado
+            return redirect(url_for('productos.listar_productos', idempleado=id_empleado))
         else:
             flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
             return render_template("login.html")

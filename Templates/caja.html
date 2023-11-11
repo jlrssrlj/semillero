@@ -13,11 +13,8 @@
 </head>
 
 <body>
-    
-        <select id="clientes">
-        </select>
     <div class="contenedor-form">
-        <div class="table-section" id="tablaProductos" style="display: none;">
+        <div class="table-section" id="tablaProductos" ">
             <h3 class="titulo">Productos</h3>
             <table class="table">
                 <!-- Encabezados de la tabla de productos -->
@@ -38,9 +35,11 @@
                             <td>{{ producto[3] }}</td>
                             <td>
                                 <form method="post" action="/agregar" class="input-form">
-                                    <input type="hidden" name="idproducto" value="{{ producto[0] }}">
+                                    <input type="hidden" name="idproducto" value="{{ producto[0] }}" class="form-control">
+                                    <input type="hidden" name="nombre" value="{{ producto[1] }}" class="form-control">
+                                    <input type="hidden" name="precio" value="{{ producto[2] }}" class="form-control">
                                     <label for="cantidad">Cantidad:</label>
-                                    <input type="number" name="cantidad" id="cantidad" value="1" min="1">
+                                    <input type="number" name="cantidad" id="cantidad" value="1" min="1" class="form-control">
                                     <input type="submit" value="Agregar al carrito" class="btn">
                                 </form>
                             </td>
@@ -50,67 +49,45 @@
             </table>
         </div>
         
-        <div class="table-section" id="tablaCarrito" style="display: none;">
+        <div class="table-section" id="tablaCarrito" ">
             <h3 class="titulo">Carrito</h3>
             <table class="table">
-                <!-- Encabezados de la tabla del carrito -->
                 <thead>
                     <tr>
-                        <th>Nombre del Producto</th>
+                        <th>Nombre</th>
                         <th>Precio</th>
-                        <th>Cantidad</th>
+                        <th>Código</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
-                <!-- Cuerpo de la tabla del carrito -->
+
                 <tbody>
-                    {% for item in carrito %}
-                        <tr>
-                            <td>{{ item.nombreproducto }}</td>
-                            <td>{{ item.precio }}</td>
-                            <td>{{ item.cantidad }}</td>
-                        </tr>
-                    {% endfor %}
+                    {%for row in list_users %}
+                    <tr>
+                        <td> {{row.1}}</td>
+                        <td> {{row.2}}</td>
+                        <td> {{row.3}}</td>
+                        <td> 
+                            <a href="/edit/{{row.0}} " class="btn btn-secondary " >Edit</a>
+                            <a href="/delete/{{row.0}} " class="btn btn-danger  btn-delete" >Delete</a>
+                        </td>
+                    </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>
     </div>
-
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectClientes = document.getElementById('clientes');
+        var arqueoExistente = {{ arqueo_existente|lower }};  // Asegúrate de que el valor esté en formato booleano
     
-            // Fetch para obtener clientes al cargar la página
-            fetch('/obtener_clientes')
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(cliente => {
-                        const option = document.createElement('option');
-                        option.value = cliente.idcliente; // Asigna el ID del cliente al valor de la opción
-                        option.textContent = cliente.nombrecliente; // Asigna el nombre del cliente al texto de la opción
-                        selectClientes.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error al obtener clientes:', error));
-    
-            // Evento para mostrar las tablas al seleccionar un cliente
-            selectClientes.addEventListener('change', function() {
-                const clienteSeleccionado = this.value;
-                if (clienteSeleccionado !== '') {
-                    // Aquí podrías mostrar las tablas, por ejemplo:
-                    const tablaProductos = document.getElementById('tablaProductos');
-                    const tablaCarrito = document.getElementById('tablaCarrito');
-                    tablaProductos.style.display = 'block'; // Muestra la tabla de productos
-                    tablaCarrito.style.display = 'block'; // Muestra la tabla del carrito
-                } else {
-                    // Ocultar las tablas si no hay cliente seleccionado
-                    const tablaProductos = document.getElementById('tablaProductos');
-                    const tablaCarrito = document.getElementById('tablaCarrito');
-                    tablaProductos.style.display = 'none';
-                    tablaCarrito.style.display = 'none';
-                }
-            });
-        });
+        if (!arqueoExistente) {
+            alert("No hay arqueo abierto el día de hoy. Por favor, realiza la apertura de arqueo.");
+        }
     </script>
     
+    
+    
 </body>
+</html>
 {% endblock %}
