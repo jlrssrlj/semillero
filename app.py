@@ -5,6 +5,7 @@ from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
 from routes.arqueo import arqueo_bp
 from routes.ventas import ventas_bp
+from routes.caja import caja_bp
 from flask_session import Session
 import json
 from conection import get_db_connection
@@ -15,14 +16,6 @@ app.secret_key = 'semillero'
 
 mydb = get_db_connection()
 
-app.register_blueprint(productos_bp)
-app.register_blueprint(proveedores_bp)
-app.register_blueprint(cliente_bp)
-app.register_blueprint(empleado_bp)
-app.register_blueprint(arqueo_bp)
-app.register_blueprint(ventas_bp)
-
-
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
         if 'logueado' in session and session['logueado']:
@@ -31,6 +24,7 @@ def proteger_ruta(func):
             return redirect(url_for('login'))
     wrapper.__name__ = func.__name__
     return wrapper
+
 
 @app.route('/')
 def index():
@@ -46,10 +40,15 @@ def salir():
 def login():
     return render_template('login.html')
 
-@app.route('/caja')
-@proteger_ruta
-def caja():
-    return render_template('caja.html')
+
+app.register_blueprint(arqueo_bp)
+app.register_blueprint(productos_bp)
+app.register_blueprint(proveedores_bp)
+app.register_blueprint(empleado_bp)
+app.register_blueprint(cliente_bp)
+app.register_blueprint(ventas_bp)
+app.register_blueprint(caja_bp)
+
 
 @app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
@@ -75,4 +74,5 @@ def paginanoencontrada(error):
 
 if __name__ == "__main__":
     app.register_error_handler(404, paginanoencontrada)
-    app.run(debug=True, port=5500)
+    app.run(debug=True, port=5000)
+    
