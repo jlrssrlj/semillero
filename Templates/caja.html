@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/caja.css">
+    <title>Caja</title>
+</head>
+
+<body>
+    <div class="contenedor-form">
+        <div class="table-section" id="tablaProductos" ">
+            <h3 class="titulo">Productos</h3>
+            <table class="table">
+                <!-- Encabezados de la tabla de productos -->
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Código</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <!-- Cuerpo de la tabla de productos -->
+                <tbody>
+                    {% for producto in productos %}
+                        <tr>
+                            <td>{{ producto[1] }}</td>
+                            <td>{{ producto[2] }}</td>
+                            <td>{{ producto[3] }}</td>
+                            <td>
+                                <form method="post" action="/agregar" class="input-form">
+                                    <input type="hidden" name="idproducto" value="{{ producto[0] }}" class="form-control">
+                                    <input type="hidden" name="nombre" value="{{ producto[1] }}" class="form-control">
+                                    <input type="hidden" name="precio" value="{{ producto[2] }}" class="form-control">
+                                    <label for="cantidad">Cantidad:</label>
+                                    <input type="number" name="cantidad" id="cantidad" value="1" min="1" class="form-control">
+                                    <input type="submit" value="Agregar al carrito" class="btn">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="table-section" id="tablaCarrito" ">
+            <h3 class="titulo">Carrito</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Código</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {%for row in list_users %}
+                    <tr>
+                        <td> {{row.1}}</td>
+                        <td> {{row.2}}</td>
+                        <td> {{row.3}}</td>
+                        <td> 
+                            <a href="/edit/{{row.0}} " class="btn btn-secondary " >Edit</a>
+                            <a href="/delete/{{row.0}} " class="btn btn-danger  btn-delete" >Delete</a>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        var arqueoExistente = {{ arqueo_existente|lower }};  // Asegúrate de que el valor esté en formato booleano
+    
+        if (!arqueoExistente) {
+            alert("No hay arqueo abierto el día de hoy. Por favor, realiza la apertura de arqueo.");
+        }
+    </script>
+    
+    
+    
+</body>
+</html>
+{% endblock %}
