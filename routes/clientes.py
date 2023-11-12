@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 from conection import get_db_connection
 import json
+from proteger import proteger_ruta
 from flask_session import Session
 
 cliente_bp = Blueprint('cliente', __name__)
@@ -8,25 +9,19 @@ cliente_bp = Blueprint('cliente', __name__)
 
 mydb = get_db_connection()
 
-def proteger_ruta(func):
-    def wrapper(*args, **kwargs):
-        if 'logueado' in session and session['logueado']:
-            return func(*args, **kwargs)
-        else:
-            return redirect(url_for('login'))
-    wrapper.__name__ = func.__name__
-    return wrapper
 
 #Client vista
 @cliente_bp.route('/cliente')
 @proteger_ruta
 def listar_cliente():
-    
+    try:
         cur = mydb.cursor()
         cur.execute("SELECT * FROM clientes")
         cliente = cur.fetchall()
         cur.close()
         return render_template('clientes.html', cliente=cliente)
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
    
 
 #Agregar cliente 

@@ -24,7 +24,7 @@
                 </label>
                 <nav class="navbar">
                     <ul>
-                        <li><a class="texto " href="/caja">Caja</a></li>
+                        <li><a class="texto {% if request.path == '/caja' %}active{% endif %}" href="/caja">Caja</a></li>
                         <li><a class="texto {% if request.path == '/arqueo' %}active{% endif %}" href="/arqueo">Arqueo</a></li>
                         <li><a class="texto {% if request.path == '/ventas' %}active{% endif %}" href="/ventas">Ventas</a></li>
                         <li><a class="texto {% if request.path == '/gastos' %}active{% endif %}" href="/gastos">Gastos</a></li>

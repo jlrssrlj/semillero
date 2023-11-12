@@ -1,16 +1,15 @@
+<!-- Template ventas.html -->
 {% extends "layout.html" %}
-{% block body %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h5>Caja
 
-    </h5>
-</body>
-</html>
+{% block body %}
+    <h1>Ventasdsadas</h1>
+    <div class="productos">
+        {% for producto in productos %}
+            <form action="/realizar_preventa" method="post" class="producto-form">
+                <input type="" name="producto_id" value="{{ producto.idproducto }}">
+                <button type="submit">{{ producto.nombreproducto }}</button>
+            </form>
+        {% endfor %}
+    </div>
 {% endblock %}
+

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session
 from conection import get_db_connection
 import datetime
+from proteger import proteger_ruta
 from flask_session import Session
 
 
@@ -9,15 +10,6 @@ arqueo_bp = Blueprint('arqueo', __name__)
 # Obtener la conexión de la base de datos y el cursor
 mydb = get_db_connection()
 
-# Definir el decorador para proteger la ruta
-def proteger_ruta(func):
-    def wrapper(*args, **kwargs):
-        if 'logueado' in session and session['logueado']:
-            return func(*args, **kwargs)
-        else:
-            return redirect(url_for('login'))
-    wrapper.__name__ = func.__name__
-    return wrapper
 
 # Mostrar la tabla de arqueo
 @arqueo_bp.route('/arqueo')
