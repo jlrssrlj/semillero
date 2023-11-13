@@ -45,7 +45,7 @@ def agregar_arqueo():
 
                 cur.execute("INSERT INTO arqueos (monto, apertura, cierre, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
                 mydb.commit()
-
+                
                 # Obtener el ID del arqueo recién insertado
                 id_arqueo = cur.lastrowid
 

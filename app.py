@@ -59,26 +59,30 @@ def hacer_login():
             mycursor.execute('SELECT * FROM empleados WHERE usuario = %s AND clave = %s', (correo, password))
             account = mycursor.fetchone()
 
-            account_dict = dict(zip(mycursor.column_names, account))
-
             if account:
+                account_dict = dict(zip(mycursor.column_names, account))
+
                 session['logueado'] = True
                 session['username'] = correo
                 session['cargo'] = account_dict['cargo']
                 session['idempleado'] = account_dict['idempleado']
-                
+
                 if session['cargo'] == "administrador":
                     return redirect(url_for('ventas.listar_empleado'))
-                elif session['cargo'] == "mesero":
+                elif session['cargo'] == "vendedor":
                     return redirect(url_for('nombre_de_la_funcion_del_mesero'))
                 elif session['cargo'] == "cajero": 
                     return redirect(url_for('arqueocajero.listar_arqueo'))
-                
             else:
                 flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
-    except Exception as ex:
-        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+                #
+        else:
+           
+            flash('Falta el nombre de usuario o la contraseña.', 'error')
+            
 
+    except Exception as ex:
+        flash(f"Error: {str(ex)}", 'error')
     
     return render_template('login.html')
 
