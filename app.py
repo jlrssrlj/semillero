@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, url_for
+from flask_caching import Cache
 from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
@@ -15,6 +16,11 @@ from proteger import proteger_ruta
 
 app = Flask(__name__)
 app.secret_key = 'semillero'
+cache = Cache(app)
+
+# Configuración de la caché
+app.config['CACHE_TYPE'] = 'simple'
+cache.init_app(app)
 
 mydb = get_db_connection()
 
@@ -37,6 +43,7 @@ def index():
 def salir():
     session.pop('logueado', None)
     session.pop('username', None)
+    cache.clear()
     return redirect(url_for('index'))
 
 @app.route('/login')
