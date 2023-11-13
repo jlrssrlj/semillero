@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, url_for
+from flask_caching import Cache
 from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
@@ -16,6 +17,11 @@ from proteger import proteger_ruta
 
 app = Flask(__name__)
 app.secret_key = 'semillero'
+cache = Cache(app)
+
+# Configuración de la caché
+app.config['CACHE_TYPE'] = 'simple'
+cache.init_app(app)
 
 mydb = get_db_connection()
 
@@ -40,6 +46,7 @@ def index():
 def salir():
     session.pop('logueado', None)
     session.pop('username', None)
+    cache.clear()
     return redirect(url_for('index'))
 
 @app.route('/login')
@@ -54,7 +61,7 @@ def caja():
 
 @app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
-    #try:
+    try:
         if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
             correo = request.form['username']
             password = request.form['password']
@@ -62,25 +69,29 @@ def hacer_login():
             mycursor.execute('SELECT * FROM empleados WHERE usuario = %s AND clave = %s', (correo, password))
             account = mycursor.fetchone()
 
-            account_dict = dict(zip(mycursor.column_names, account))
-
             if account:
+                account_dict = dict(zip(mycursor.column_names, account))
+
                 session['logueado'] = True
                 session['username'] = correo
                 session['cargo'] = account_dict['cargo']
                 session['idempleado'] = account_dict['idempleado']
-                
+
                 if session['cargo'] == "administrador":
-                    return redirect(url_for('listar_empleado'))
-                elif session['cargo'] == "mesero":
+                    return redirect(url_for('ventas.listar_empleado'))
+                elif session['cargo'] == "vendedor":
                     return redirect(url_for('nombre_de_la_funcion_del_mesero'))
                 elif session['cargo'] == "cajero": 
                     return redirect(url_for('arqueocajero.listar_arqueo'))
-                
             else:
                 flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
-    #except Exception as ex:
-        #return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+                #
+        else:
+           
+            flash('Falta el nombre de usuario o la contraseña.', 'error')
+    except Exception as ex:
+        flash(f"Error: {str(ex)}", 'error')
+    
         return render_template('login.html')
 
 

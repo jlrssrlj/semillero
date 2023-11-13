@@ -24,7 +24,7 @@ def enviar_correo(correo, contrasena):
 
     # Mensaje del correo
     subject = 'BusinessControl - Contraseña generada'
-    message = f'Tu nueva contraseña es: {contrasena} ingresa en: AGREGAR URL'
+    message = f'Su contraseña de ingreso al aplicattvo es: {contrasena} Puede ingresar atravez de: AGREGAR URL'
 
     msg = MIMEMultipart()
     msg['From'] = smtp_user

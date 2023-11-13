@@ -21,25 +21,22 @@
                         <input type="text" name="factura" placeholder="# factura" class="form-control">
                     </div>
                     <div class="input-form">
-                        <label for="valor">Valor</label>
-                        <input type="text" name="valor" placeholder="Valor" class="form-control">
+                        <label for="valor">valor</label><input type="text" name="valor" placeholder="Valor" class="form-control">
                     </div>
                     <div class="input-form">
-                        <label for="nombreproveedor">Proveedor</label>
-                        <select name="nombreproveedor" class="form-control">
-                            {% for proveedor in proveedores %}
-                                <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    
+                        <label for="proveedor">proveedor</label><input type="text" name="nombreproveedor" placeholder="proveedor" class="form-control">
+                    </div>                   
                     <div class="input-form">
                         <label for="pago">Medio de pago</label>
-                        <input type="text" name="pago" placeholder="Pago" class="form-control">
+                        <select name="pago" class="form-control">
+                            <option value="nequi">Nequi</option>
+                            <option value="daviplata">Daviplata</option>
+                            <option value="efectivo">Efectivo</option>
+                            <option value="credito">Crédito</option>
+                        </select>
                     </div>
                     <div class="input-form">
-                        <label for="idarqueo">Id arqueo</label>
-                        <input type="number" name="idarqueo" placeholder="Id arqueo" class="form-control" >
+                        <label for="idproveedores">idproveedores</label><input type="number" name="idproveedores" placeholder="idproveedores" class="form-control">
                     </div>
                     <div class="input-form">
                         <button type="submit" class="btn" onclick="hideForm()">Guardar</button>
