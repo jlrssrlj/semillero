@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session
 from conection import get_db_connection
-import json
+from proteger import proteger_ruta
 from flask_session import Session
 
 # Obtener la conexión y el cursor
@@ -10,15 +10,7 @@ cur = mydb.cursor()
 # Crear el Blueprint
 empleado_bp = Blueprint('empleado', __name__)
 
-# Función para proteger la ruta
-def proteger_ruta(func):
-    def wrapper(*args, **kwargs):
-        if 'logueado' in session and session['logueado']:
-            return func(*args, **kwargs)
-        else:
-            return redirect(url_for('login'))
-    wrapper.__name__ = func.__name__
-    return wrapper
+
 
 # Listar empleados
 @empleado_bp.route('/empleado')

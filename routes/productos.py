@@ -1,21 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 from conection import get_db_connection
-import json
+from proteger import proteger_ruta
 from flask_session import Session
 
 mydb = get_db_connection()
 
 productos_bp = Blueprint('productos', __name__)
 
-
-def proteger_ruta(func):
-    def wrapper(*args, **kwargs):
-        if 'logueado' in session and session['logueado']:
-            return func(*args, **kwargs)
-        else:
-            return redirect(url_for('login'))
-    wrapper.__name__ = func.__name__
-    return wrapper
 
 @productos_bp.route('/productos', methods =['GET'])
 @proteger_ruta
