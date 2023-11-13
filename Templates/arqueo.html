@@ -19,7 +19,20 @@
                     <label for="Monto">Monto de apertura</label><br>
                     <input type="number" name="monto" placeholder="$valor$" class="form-control">
                 </div>
-                
+                <div class="input-form">
+                    <label for="FechaAper">Fecha y hora de Apertura</label>
+                    <input type="datetime-local" name="apertura" class="form-control" value="{{ fecha_hora_apertura }}"
+                        readonly>
+                </div>
+                <div class="input-form">
+                    <label for="FechaCie">Fecha y hora de Cierre</label>
+                    <input type="datetime-local" name="cierre" class="form-control" value="{{ fecha_hora_cierre }}"
+                        readonly>
+                </div>
+                <div class="input-form">
+                    <label for="ID_empleado">ID Empleado</label>
+                    <input type="text" name="idempleado" placeholder="ID Empleado" class="form-control">
+                </div>
                 <div class="input-form">
                     <button type="submit" class="btn" onclick="hideForm()">
                         Guardar

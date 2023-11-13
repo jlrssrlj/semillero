@@ -29,15 +29,13 @@ def agregar_gastos():
             valor = request.form['valor']
             nombreproveedor = request.form['nombreproveedor']
             pago = request.form['pago']
-            idarqueo = session.get('idarqueo_actual', None)
-
-            if idarqueo is not None:
-                with mydb.cursor() as cursor:
-                    cursor.execute("INSERT INTO gastos (factura, valor, nombreproveedor, pago, idarqueo) VALUES (%s, %s, %s, %s, %s)",
-                                   (factura, valor, nombreproveedor, pago, idarqueo))
-                mydb.commit()
-
-            return redirect(url_for('gastos.listar_gastos'))
+            idproveedores = request.form['idproveedores']
+            idarqueo = request.form['idarqueo']
+            with mydb.cursor() as cursor:
+                cursor.execute("INSERT INTO gastos (factura, valor, nombreproveedor, pago, idproveedores, idarqueo) VALUES (%s, %s, %s, %s, %s,%s)",
+                               (factura, valor, nombreproveedor, pago, idproveedores, idarqueo))
+            mydb.commit()
+        return redirect(url_for('gastos.listar_gastos'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 

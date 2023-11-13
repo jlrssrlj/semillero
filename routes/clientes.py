@@ -32,21 +32,11 @@ def agregar_cliente():
             nombrecliente = request.form['nombre']
             telefonoc = request.form['telefono']
             direccionc = request.form['direccion']
-<<<<<<< HEAD
-            
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO cliente (nombrecliente, telefono, direccion) VALUES (%s, %s, %s)", (nombrecliente, telefonoc, direccionc))
-            conn.commit()
-            cursor.close()
-    
-    
-=======
             mydb.commit()
             cur = mydb.cursor()
             cur.execute("INSERT INTO clientes (nombrecliente, telefono, direccion) VALUES (%s, %s, %s)", (nombrecliente, telefonoc, direccionc))
             mydb.commit()
             cur.close()
->>>>>>> b3befb7fb69396020b795ffa7576d2c66704ba45
         return redirect(url_for('cliente.listar_cliente'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
@@ -81,15 +71,10 @@ def update_cliente(id):
             mydb.commit()
             cur.close()
             return redirect(url_for('cliente.listar_cliente'))
-<<<<<<< HEAD
-   
-# Eliminar empleado
-=======
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 
 
->>>>>>> b3befb7fb69396020b795ffa7576d2c66704ba45
 @cliente_bp.route('/eliminar_cliente/<int:idcliente>')
 def eliminar_cliente(idcliente):
     try:
