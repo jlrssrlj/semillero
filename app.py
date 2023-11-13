@@ -9,6 +9,7 @@ from routes.ventas import ventas_bp
 from routes.gastos import gastos_bp
 from routes.arqueocajero import arqueocajero
 from routes.gastoscajero import gastoscajero
+from routes.accesos import accesos_bp
 import json
 from conection import get_db_connection
 from proteger import proteger_ruta
@@ -33,6 +34,7 @@ app.register_blueprint(ventas_bp)
 app.register_blueprint(gastos_bp)
 app.register_blueprint(arqueocajero)
 app.register_blueprint(gastoscajero)
+app.register_blueprint(accesos_bp)
 
 
 @app.route('/')
@@ -43,11 +45,12 @@ def index():
 def salir():
     session.pop('logueado', None)
     session.pop('username', None)
-    cache.clear()
+    
     return redirect(url_for('index'))
 
 @app.route('/login')
 def login():
+    cache.clear()
     return render_template('login.html')
 
 @app.route('/caja')
@@ -92,7 +95,6 @@ def hacer_login():
         flash(f"Error: {str(ex)}", 'error')
     
     return render_template('login.html')
-
 
 
 def paginanoencontrada(error):

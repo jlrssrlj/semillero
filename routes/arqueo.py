@@ -22,7 +22,7 @@ def listar_arqueo():
         cur = mydb.cursor()
         idempleado = session.get('idempleado', None)
         if idempleado is not None:
-            s = "SELECT * FROM arqueos"
+            s = "SELECT arqueos.idarqueo, arqueos.monto,arqueos.apertura,arqueos.cierre, empleados.nombreempleado FROM arqueos INNER JOIN empleados ON arqueos.idempleado = empleados.idempleado;"
             cur.execute(s)
             list_users = cur.fetchall()
             cur.close()
@@ -30,7 +30,7 @@ def listar_arqueo():
             return render_template('arqueo.html', list_users=list_users_formatted)
     except Exception as ex:
         flash(f"Error: {str(ex)}", 'error')
-        return redirect(url_for('arqueocajero.listar_arqueo'))
+        return redirect(url_for('listar_arqueo'))
 
 # Agregar Caja
 @arqueo_bp.route('/agregar_arqueo', methods=['POST'])
