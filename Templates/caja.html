@@ -1,0 +1,15 @@
+<!-- Template ventas.html -->
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Ventasdsadas</h1>
+    <div class="productos">
+        {% for producto in productos %}
+            <form action="/realizar_preventa" method="post" class="producto-form">
+                <input type="" name="producto_id" value="{{ producto.idproducto }}">
+                <button type="submit">{{ producto.nombreproducto }}</button>
+            </form>
+        {% endfor %}
+    </div>
+{% endblock %}
+

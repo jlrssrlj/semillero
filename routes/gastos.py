@@ -53,7 +53,7 @@ def get_gastos(idgastos):
 
 @gastos_bp.route('/actualizar_gastos/<int:id>', methods=["POST"])
 def update_gastos(id):
-   # try:
+    try:
         if request.method == 'POST':
             factura = request.form['factura']
             valor = request.form['valor']
@@ -68,8 +68,8 @@ def update_gastos(id):
                 """, (factura, valor, nombreproveedor, pago, idproveedores, id))
             mydb.commit()
             return redirect(url_for('gastos.listar_gastos'))
-    #except Exception as ex:
-     #   return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 
 # Eliminar gastos
 @gastos_bp.route('/eliminar_gastos/<int:idgastos>')

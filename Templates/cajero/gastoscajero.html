@@ -28,7 +28,7 @@
                         <label for="nombreproveedor">Proveedor</label>
                         <select name="nombreproveedor" class="form-control">
                             {% for proveedor in proveedores %}
-                                <option value="{{ proveedor[1] }}">{{ proveedor[1] }}</option>
+                                <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="input-form">
                         <label for="idarqueo">Id arqueo</label>
-                        <input type="number" name="idarqueo" placeholder="Id arqueo" class="form-control">
+                        <input type="number" name="idarqueo" placeholder="Id arqueo" class="form-control" >
                     </div>
                     <div class="input-form">
                         <button type="submit" class="btn" onclick="hideForm()">Guardar</button>
@@ -59,7 +59,7 @@
                         <th>Numero de factura</th>
                         <th>Valor</th>
                         <th>Proveedor</th>
-                        <th>Pago</th>
+                        <th>Medio de pago</th>
                         <th>Id proveedor</th>
                         <th>Id arqueo</th>
                         

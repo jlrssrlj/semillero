@@ -1,5 +1,5 @@
 
-from flask import  redirect, url_for,  session, sessions, url_for
+from flask import  redirect, url_for,  session, url_for
 
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
