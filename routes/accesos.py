@@ -19,8 +19,8 @@ def generar_contrasena(longitud):
 def enviar_correo(correo, contrasena):
     smtp_server = 'smtp.gmail.com'  # Servidor SMTP de Gmail
     smtp_port = 587  # Puerto de Gmail
-    smtp_user = 'diegoruizagudelo@gmail.com'  
-    smtp_pass = 'rtfk cfdq pche yazj'  #Contraseña generada para aplicaciones
+    smtp_user = 'crmbusinesscontrol@gmail.com'  
+    smtp_pass = 'mohg blwy uifr kota'  #Contraseña generada para aplicaciones
 
     # Mensaje del correo
     subject = 'BusinessControl - Contraseña generada'
