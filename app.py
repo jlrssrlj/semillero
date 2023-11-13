@@ -10,6 +10,7 @@ from routes.gastos import gastos_bp
 from routes.accesos import accesos_bp
 from routes.arqueocajero import arqueocajero
 from routes.gastoscajero import gastoscajero
+from routes.accesos import accesos_bp
 import json
 from conection import get_db_connection
 from proteger import proteger_ruta
@@ -36,8 +37,6 @@ app.register_blueprint(arqueocajero)
 app.register_blueprint(gastoscajero)
 app.register_blueprint(accesos_bp)
 
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -46,11 +45,12 @@ def index():
 def salir():
     session.pop('logueado', None)
     session.pop('username', None)
-    cache.clear()
+    
     return redirect(url_for('index'))
 
 @app.route('/login')
 def login():
+    cache.clear()
     return render_template('login.html')
 
 @app.route('/caja')
@@ -85,7 +85,7 @@ def hacer_login():
                     return redirect(url_for('arqueocajero.listar_arqueo'))
             else:
                 flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
-                #
+                
         else:
            
             flash('Falta el nombre de usuario o la contraseña.', 'error')
@@ -93,7 +93,6 @@ def hacer_login():
         flash(f"Error: {str(ex)}", 'error')
     
         return render_template('login.html')
-
 
 
 def paginanoencontrada(error):

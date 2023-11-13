@@ -24,7 +24,7 @@ def enviar_correo(correo, contrasena):
 
     # Mensaje del correo
     subject = 'BusinessControl - Contraseña generada'
-    message = f'Su contraseña de ingreso al aplicattvo es: {contrasena} Puede ingresar atravez de: AGREGAR URL'
+    message = f'Gracis por registrarse a nuestro aplicativo Tu nueva contraseña es: {contrasena} podras ingresar por el siguiente link'
 
     msg = MIMEMultipart()
     msg['From'] = smtp_user
@@ -45,7 +45,7 @@ def accesos():
             nombreempleado = request.form['nombreempleado']
             cargo = request.form['cargo']
             correo = request.form['correo']
-            usuario = nombreempleado
+            usuario = request.form['usuario']
             # Contraseña aleatoria de 6 caracteres
             clave = generar_contrasena(6)
             cur = mydb.cursor()
