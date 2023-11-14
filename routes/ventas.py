@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
-import json
+from proteger import proteger_ruta
 from flask_session import Session
 from conection import get_db_connection
 

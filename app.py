@@ -1,15 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, sessions, url_for
-
+from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, url_for
 from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
 from routes.arqueo import arqueo_bp
 from routes.ventas import ventas_bp
-from routes.caja import caja_bp
-from flask_session import Session
+from routes.gastos import gastos_bp
+from routes.accesos import accesos_bp
+from routes.arqueocajero import arqueocajero
+from routes.gastoscajero import gastoscajero
 import json
 from conection import get_db_connection
+from proteger import proteger_ruta
 
 
 app = Flask(__name__)
@@ -17,14 +19,17 @@ app.secret_key = 'semillero'
 
 mydb = get_db_connection()
 
-def proteger_ruta(func):
-    def wrapper(*args, **kwargs):
-        if 'logueado' in session and session['logueado']:
-            return func(*args, **kwargs)
-        else:
-            return redirect(url_for('login'))
-    wrapper.__name__ = func.__name__
-    return wrapper
+app.register_blueprint(productos_bp)
+app.register_blueprint(proveedores_bp)
+app.register_blueprint(cliente_bp)
+app.register_blueprint(empleado_bp)
+app.register_blueprint(arqueo_bp)
+app.register_blueprint(ventas_bp)
+app.register_blueprint(gastos_bp)
+app.register_blueprint(arqueocajero)
+app.register_blueprint(gastoscajero)
+app.register_blueprint(accesos_bp)
+
 
 
 @app.route('/')
@@ -41,38 +46,44 @@ def salir():
 def login():
     return render_template('login.html')
 
-
-app.register_blueprint(arqueo_bp)
-app.register_blueprint(productos_bp)
-app.register_blueprint(proveedores_bp)
-app.register_blueprint(empleado_bp)
-app.register_blueprint(cliente_bp)
-app.register_blueprint(ventas_bp)
-app.register_blueprint(caja_bp)
+@app.route('/caja')
+@proteger_ruta
+def caja():
+    return render_template('caja.html')
 
 
 @app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        correo = request.form['username']
-        password = request.form['password']
-        mycursor = mydb.cursor()
-        mycursor.execute('SELECT * FROM empleados WHERE usuario = %s AND clave = %s', (correo, password))
-        account = mycursor.fetchone()
+    #try:
+        if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+            correo = request.form['username']
+            password = request.form['password']
+            mycursor = mydb.cursor()
+            mycursor.execute('SELECT * FROM empleados WHERE usuario = %s AND clave = %s', (correo, password))
+            account = mycursor.fetchone()
 
-        if account:
-            id_empleado = account[0]  
-            nombre_empleado = account[1] 
-            session['logueado'] = True
-            session['username'] = correo
-            session['idempleado'] = id_empleado  
-            session['nombre_empleado'] = nombre_empleado
-            return redirect(url_for('productos.listar_productos', idempleado=id_empleado))
-        else:
-            flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
-            return render_template("login.html")
+            account_dict = dict(zip(mycursor.column_names, account))
 
-    return render_template('login.html')
+            if account:
+                session['logueado'] = True
+                session['username'] = correo
+                session['cargo'] = account_dict['cargo']
+                session['idempleado'] = account_dict['idempleado']
+                
+                if session['cargo'] == "administrador":
+                    return redirect(url_for('ventas.listar_empleado'))
+                elif session['cargo'] == "mesero":
+                    return redirect(url_for('nombre_de_la_funcion_del_mesero'))
+                elif session['cargo'] == "cajero": 
+                    return redirect(url_for('arqueocajero.listar_arqueo'))
+                
+            else:
+                flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
+    #except Exception as ex:
+        #return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+        return render_template('login.html')
+
+
 
 def paginanoencontrada(error):
     return "<h1>La página que intenta encontrar no existe<h1>", 404
@@ -80,4 +91,4 @@ def paginanoencontrada(error):
 if __name__ == "__main__":
     app.register_error_handler(404, paginanoencontrada)
     app.run(debug=True, port=5000)
-    
+   

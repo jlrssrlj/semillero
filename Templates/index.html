@@ -18,6 +18,7 @@
   <link href="{{url_for('static', filename='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/style.css') }}"rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/tiempo.css') }}"rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/registro.css') }}"rel="stylesheet" type="text/css">
 
 </head>
 
@@ -360,7 +361,7 @@
               <h4>Sarah Jhinson</h4>
               <span>Product Manager</span>
               <p>
-                Repellat fugiat adipisci nemo illum nesciunt voluptas repellendus. In architecto rerum rerum temporibus
+                 Aqui info
               </p>
               <div class="social">
                 <a href=""><i class="bi bi-twitter"></i></a>
@@ -377,7 +378,7 @@
               <h4>William Anderson</h4>
               <span>CTO</span>
               <p>
-                Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
+                Aqui info
               </p>
               <div class="social">
                 <a href=""><i class="bi bi-twitter"></i></a>
@@ -432,35 +433,43 @@
 
         <div class="row" data-aos="fade-up">
 
-          <div class="col-lg-6 ">
+          <div class="col-lg-7 ">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.4122018429757!2d-74.09157818856525!3d4.6982300416574665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9b31ce6d5835%3A0x3b5b6f123d35a1e3!2sUniminuto%20Calle%2080%20Sede%20Principal!5e0!3m2!1ses-419!2sco!4v1692561463853!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>            
           </div>
 
-          <div class="col-lg-6">
-            <form action="/send_email" method="post" role="form" name="recipient" >
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Nombre" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Correo" required>
-                </div>
-              </div>
-              <div class="form-group mt-3">
-                <input type="number" class="form-control" name="subject" id="subject" placeholder="Celular" required>
-              </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Mensaje" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Escribenos</div>
-              </div>
-              <div class="text-center"><button type="submit">Enviar mensaje</button></div>
-            </form>
-          </div>
+          <div class="col-lg-4">
+            <form class="form" action="/accesos" method="post" role="form" name="recipient">
+              <p class="title">Registro </p>
+                  <div class="flex">
+                  <label>
+                      <input type="text" placeholder="Nombre"  class="input" name="nombreempleado" id="nombre" required>
+                <!--  <input type="text" placeholder="Nombre" class="form-control" name="nombreempleado"  id="nombre"  required> -->
+                  </label>
+          
+                  <label>
+                      <input type="text" name="apellido" class="input" id="apellido" placeholder="Apellido" required>
+                 <!-- <input type="text" name="apellido" class="form-control" id="apellido" placeholder="Apellido" required> -->
+                  </label>
+              </div>  
+                      
+              <label>
+                      <input type="email" class="input" name="correo" id="correo"placeholder="Correo" required>
+                <!--  <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo" required> -->
+              </label> 
+                  
+              <label>
+                      <input type="text" class="input" name="usuario" id="usuario" placeholder="Nombre de usuario">
+                <!--  <input type="text" class="form-control" name="usuario" id="usuario" placeholder="Nombre de usuario"> -->
+              </label>
+          
+                      <div class="col-md-6 form-group mt-3">
+                      <input type="text" class="form-control" name="cargo" id="cargo" placeholder="Cargo" required value="administrador" hidden> 
+                      </div>
 
+              <button class="submit">Solicitar</button>
+              <p class="signin">Ya tiene una cuenta ? <a href="/login">Inicio de Sesión</a> </p>
+          </form>
+          </div>
         </div>
 
       </div>
