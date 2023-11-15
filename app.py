@@ -71,7 +71,7 @@ def hacer_login():
                 session['idempleado'] = account_dict['idempleado']
                 
                 if session['cargo'] == "administrador":
-                    return redirect(url_for('listar_empleado'))
+                    return redirect(url_for('ventas.listar_empleado'))
                 elif session['cargo'] == "mesero":
                     return redirect(url_for('nombre_de_la_funcion_del_mesero'))
                 elif session['cargo'] == "cajero": 
