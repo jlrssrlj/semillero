@@ -143,7 +143,7 @@ def convertir_venta():
 
    
     cantidades_vendidas = {}
-    
+
     for producto in productos_en_carrito:
         id_producto = producto[0]
         cantidad_vendida = producto[1]
