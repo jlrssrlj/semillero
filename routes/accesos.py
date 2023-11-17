@@ -24,7 +24,7 @@ def enviar_correo(correo, contrasena):
 
     # Mensaje del correo
     subject = 'BusinessControl - Contraseña generada'
-    message = f'Gracis por registrarse a nuestro aplicativo Tu nueva contraseña es: {contrasena} podras ingresar por el siguiente link'
+    message = f'Gracis por registrarse a nuestro aplicativo Tu nueva contraseña es: {contrasena}      .Podras ingresar dando clic en el siguiente enlace: '
 
     msg = MIMEMultipart()
     msg['From'] = smtp_user
@@ -48,14 +48,14 @@ def accesos():
             usuario = request.form['usuario']
             # Contraseña aleatoria de 6 caracteres
             clave = generar_contrasena(6)
-
-            # Utilizar with para asegurarse de cerrar la conexión correctamente
-            with mydb.cursor() as cur:
-                cur.execute("INSERT INTO empleados (nombreempleado, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s)", (nombreempleado, cargo, correo, usuario, clave))
-                mydb.commit()
-                # Enviar la contraseña al correo ingresado por el usuario
-                enviar_correo(correo, clave)
+            cur = mydb.cursor()
+            cur.execute("INSERT INTO empleados (nombreempleado, cargo, correo, usuario, clave) VALUES (%s, %s, %s, %s, %s)", (nombreempleado, cargo, correo, usuario, clave))
+            mydb.commit()
+            # Envia la contraseña al correo ingresado por el usuario
+            enviar_correo(correo, clave)
+            cur.close()
 
             return render_template('login.html')
     except Exception as ex:
         return jsonify({'mensaje': f"Error al enviar credenciales {str(ex)}"}), 500
+

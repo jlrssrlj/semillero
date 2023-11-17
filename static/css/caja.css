@@ -80,17 +80,17 @@ body {
 .input-form input[type="text"],
 .input-form input[type="password"],
 .input-form input[type="datetime-local"] {
-    width: calc(100% - 24px);
-    padding: 12px;
+    width: calc(100% - 80%);
+    padding: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .btn {
     background-color: #5a1212;
     color: #fff;
-    padding: 12px 20px;
+    padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -122,5 +122,21 @@ body {
     }
 }
 
+#tablaCarrito {
+    max-height: 690px; /* Establece la altura máxima para mostrar la barra de desplazamiento */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando los datos superen la altura */
+}
 
+#tablaproducto {
+    max-height: 690px; /* Establece la altura máxima para mostrar la barra de desplazamiento */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando los datos superen la altura */
+}
 
+.input-form select {
+    font-size: 16px; /* Cambia el tamaño de la fuente */
+    padding: 8px; /* Añade espacio interno alrededor del texto dentro del select */
+    border: 1px solid #ccc; /* Añade un borde */
+    border-radius: 4px; /* Redondea las esquinas del select */
+    background-color: #fff; /* Establece un color de fondo */
+    width: 100%; /* Opcional: ajusta el ancho del select */
+}

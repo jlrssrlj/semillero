@@ -69,7 +69,7 @@ def update_empleado(id):
         return jsonify({'mensaje': f"Error al actualizar empleado: {str(ex)}"}), 500
 
 # Eliminar empleado
-@empleado_bp.route('/eliminar_empleado/<string:idempleado>')
+@empleado_bp.route('/eliminar_empleado/<int:idempleado>')
 def eliminar_empleado(idempleado):
     try:
         cur.execute("DELETE FROM empleados WHERE idempleado = %s", (idempleado,))
@@ -77,4 +77,5 @@ def eliminar_empleado(idempleado):
         return redirect(url_for('empleado.listar_empleado'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error al eliminar empleado: {str(ex)}"}), 500
+
 

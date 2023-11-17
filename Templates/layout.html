@@ -24,10 +24,10 @@
                 </label>
                 <nav class="navbar">
                     <ul>
-                        <li><a class="texto " href="/caja">Caja</a></li>
+                        <li><a class="texto {% if request.path == '/caja' %}active{% endif %}" href="/caja">Caja</a></li>
                         <li><a class="texto {% if request.path == '/arqueo' %}active{% endif %}" href="/arqueo">Arqueo</a></li>
                         <li><a class="texto {% if request.path == '/ventas' %}active{% endif %}" href="/ventas">Ventas</a></li>
-                        <li><a class="texto" href="">Gastos</a></li>
+                        <li><a class="texto {% if request.path == '/gastos' %}active{% endif %}" href="/gastos">Gastos</a></li>
                         <li><a class="texto {% if request.path == '/productos' %}active{% endif %}" href="/productos">Productos</a></li>
                         <li><a class="texto {% if request.path == '/proveedores' %}active{% endif %}" href="/proveedores">Proveedores</a></li>
                         <li><a class="texto {% if request.path == '/empleado' %}active{% endif %}" href="/empleado">Empleados</a></li>

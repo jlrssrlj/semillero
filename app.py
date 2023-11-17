@@ -1,24 +1,36 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, url_for
 
+
+from flask_caching import Cache
+
 from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
 from routes.arqueo import arqueo_bp
 from routes.ventas import ventas_bp
-from routes.caja import caja_bp
 from routes.gastos import gastos_bp
+from routes.caja import caja_bp
 from routes.accesos import accesos_bp
-from flask_session import Session
 from routes.arqueocajero import arqueocajero
 from routes.gastoscajero import gastoscajero
+
 import json
 from conection import get_db_connection
 from proteger import proteger_ruta
 
+from routes.accesos import accesos_bp
+import json
+from conection import get_db_connection
+from proteger import proteger_ruta
 
 app = Flask(__name__)
 app.secret_key = 'semillero'
+cache = Cache(app)
+
+# Configuración de la caché
+app.config['CACHE_TYPE'] = 'simple'
+cache.init_app(app)
 
 mydb = get_db_connection()
 
@@ -32,7 +44,16 @@ app.register_blueprint(gastos_bp)
 app.register_blueprint(arqueocajero)
 app.register_blueprint(gastoscajero)
 app.register_blueprint(accesos_bp)
+app.register_blueprint(caja_bp)
 
+def proteger_ruta(func):
+    def wrapper(*args, **kwargs):
+        if 'logueado' in session and session['logueado']:
+            return func(*args, **kwargs)
+        else:
+            return redirect(url_for('login'))
+    wrapper.__name__ = func.__name__
+    return wrapper
 
 
 @app.route('/')
@@ -43,10 +64,12 @@ def index():
 def salir():
     session.pop('logueado', None)
     session.pop('username', None)
+    
     return redirect(url_for('index'))
 
 @app.route('/login')
 def login():
+    cache.clear()
     return render_template('login.html')
 
 @app.route('/caja')
@@ -65,27 +88,30 @@ def hacer_login():
             mycursor.execute('SELECT * FROM empleados WHERE usuario = %s AND clave = %s', (correo, password))
             account = mycursor.fetchone()
 
-            account_dict = dict(zip(mycursor.column_names, account))
-
             if account:
+                account_dict = dict(zip(mycursor.column_names, account))
+
                 session['logueado'] = True
                 session['username'] = correo
                 session['cargo'] = account_dict['cargo']
                 session['idempleado'] = account_dict['idempleado']
-                
+
                 if session['cargo'] == "administrador":
                     return redirect(url_for('ventas.listar_empleado'))
-                elif session['cargo'] == "mesero":
+                elif session['cargo'] == "vendedor":
                     return redirect(url_for('nombre_de_la_funcion_del_mesero'))
                 elif session['cargo'] == "cajero": 
                     return redirect(url_for('arqueocajero.listar_arqueo'))
-                
             else:
                 flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
+                
+        else:
+           
+            flash('Falta el nombre de usuario o la contraseña.', 'error')
     except Exception as ex:
-        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+        flash(f"Error: {str(ex)}", 'error')
+    
         return render_template('login.html')
-
 
 
 def paginanoencontrada(error):
