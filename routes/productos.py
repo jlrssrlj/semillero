@@ -82,5 +82,3 @@ def eliminar_producto(idproducto):
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 
 
-
-

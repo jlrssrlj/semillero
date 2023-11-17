@@ -1,12 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify, url_for
+
 from routes.productos import productos_bp
 from routes.proveedores import proveedores_bp
 from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
 from routes.arqueo import arqueo_bp
 from routes.ventas import ventas_bp
+from routes.caja import caja_bp
 from routes.gastos import gastos_bp
 from routes.accesos import accesos_bp
+from flask_session import Session
 from routes.arqueocajero import arqueocajero
 from routes.gastoscajero import gastoscajero
 import json
@@ -54,7 +57,7 @@ def caja():
 
 @app.route('/hacer_login', methods=["POST", "GET"])
 def hacer_login():
-    #try:
+    try:
         if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
             correo = request.form['username']
             password = request.form['password']
@@ -79,8 +82,8 @@ def hacer_login():
                 
             else:
                 flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
-    #except Exception as ex:
-        #return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
         return render_template('login.html')
 
 
