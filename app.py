@@ -9,11 +9,14 @@ from routes.empleado import empleado_bp
 from routes.clientes import cliente_bp
 from routes.arqueo import arqueo_bp
 from routes.ventas import ventas_bp
+from routes.cajavendedor import cajavendedor_bp
 from routes.gastos import gastos_bp
 from routes.caja import caja_bp
 from routes.accesos import accesos_bp
 from routes.arqueocajero import arqueocajero
+from routes.cajacajero import cajacajero_bp
 from routes.gastoscajero import gastoscajero
+
 
 import json
 from conection import get_db_connection
@@ -45,6 +48,8 @@ app.register_blueprint(arqueocajero)
 app.register_blueprint(gastoscajero)
 app.register_blueprint(accesos_bp)
 app.register_blueprint(caja_bp)
+app.register_blueprint(cajacajero_bp)
+app.register_blueprint(cajavendedor_bp)
 
 def proteger_ruta(func):
     def wrapper(*args, **kwargs):
@@ -90,18 +95,19 @@ def hacer_login():
 
             if account:
                 account_dict = dict(zip(mycursor.column_names, account))
-
+                id_empleado = account[0]
+                nombre_empleado = account[1]
                 session['logueado'] = True
                 session['username'] = correo
                 session['cargo'] = account_dict['cargo']
-                session['idempleado'] = account_dict['idempleado']
-
+                session['idempleado'] = id_empleado
+                session['nombre_empleado'] = nombre_empleado
                 if session['cargo'] == "administrador":
                     return redirect(url_for('ventas.listar_empleado'))
                 elif session['cargo'] == "vendedor":
-                    return redirect(url_for('nombre_de_la_funcion_del_mesero'))
+                    return redirect(url_for('cajavendedor.cajavendedor'))
                 elif session['cargo'] == "cajero": 
-                    return redirect(url_for('arqueocajero.listar_arqueo'))
+                    return redirect(url_for('arqueocajero.listar_arqueo', idempleado = id_empleado))
             else:
                 flash('Credenciales incorrectas. Inténtalo de nuevo.', 'error')
                 
@@ -112,7 +118,6 @@ def hacer_login():
         flash(f"Error: {str(ex)}", 'error')
     
         return render_template('login.html')
-
 
 def paginanoencontrada(error):
     return "<h1>La página que intenta encontrar no existe<h1>", 404

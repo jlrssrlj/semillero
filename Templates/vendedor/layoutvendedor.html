@@ -15,7 +15,7 @@
     <header>
         <div class="content">
             <div class="menu container">
-                <a class="logo" href="/cajero">
+                <a class="logo" href="/vendedor">
                     <i class="ri-home-line"></i><span>bisnesscontrol</span>
                 </a>
                 <input type="checkbox" id="menu">
@@ -24,9 +24,7 @@
                 </label>
                 <nav class="navbar">
                     <ul>
-                        <li><a class="texto {% if request.path == url_for('arqueocajero.listar_arqueo') %}active{% endif %}" href="{{ url_for('arqueocajero.listar_arqueo') }}">Arqueo</a></li>
-                        <li><a class="texto {% if request.path == url_for('gastoscajero.listar_gastos') %}active{% endif %}" href="{{ url_for('gastoscajero.listar_gastos') }}">Gastos</a></li>
-                        <li><a class="texto {% if request.path == '/cajacajero' %}active{% endif %}" href="/cajacajero">Caja</a></li>
+                        <li><a class="texto {% if request.path == '/cajavendedor' %}active{% endif %}" href="/cajavendedor">Caja</a></li>
                         <li><a class="texto {% if request.path == '/salir' %}active{% endif %}" href="/salir">Salir</a></li>
                     </ul>
                 </nav>

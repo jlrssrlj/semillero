@@ -140,3 +140,21 @@ body {
     background-color: #fff; /* Establece un color de fondo */
     width: 100%; /* Opcional: ajusta el ancho del select */
 }
+
+.input-form select {
+    font-size: 16px; /* Cambia el tamaño de la fuente */
+    padding: 8px; /* Añade espacio interno alrededor del texto dentro del select */
+    border: 1px solid #ccc; /* Añade un borde */
+    border-radius: 4px; /* Redondea las esquinas del select */
+    background-color: #fff; /* Establece un color de fondo */
+    width: 100%; /* Opcional: ajusta el ancho del select */
+}
+
+.clienteselec{
+    font-size: 16px; /* Cambia el tamaño de la fuente */
+    padding: 8px; /* Añade espacio interno alrededor del texto dentro del select */
+    border: 1px solid #ccc; /* Añade un borde */
+    border-radius: 4px; /* Redondea las esquinas del select */
+    background-color: #fff; /* Establece un color de fondo */
+    width: 40%; /* Opcional: ajusta el ancho del select */
+}

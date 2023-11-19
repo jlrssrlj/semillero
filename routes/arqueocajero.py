@@ -26,7 +26,7 @@ def listar_arqueo():
             list_users_formatted = [(user[0], locale.currency(user[1], grouping=True), user[2], user[3]) for user in list_users]
 
             return render_template('cajero/arqueocajero.html', list_users=list_users_formatted)
-    
+
     except Exception as ex:
         flash(f"Error: {str(ex)}", 'error')
         return redirect(url_for('arqueocajero.listar_arqueo'))

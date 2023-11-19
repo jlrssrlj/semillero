@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "cajero/layoutcajero.html" %}
 {% block body %}
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
                 </thead>
                 
                 <tbody>
-                    <form id="agregarForm" action="/clienteht" method="post">
+                    <form id="agregarForm" action="/clienteht_cajero" method="post">
                         <div class="cliente-selector">
                             <label for="cliente">Seleccione un cliente:</label>
                             <select name="cliente" id="cliente" class="clienteselec">
@@ -39,7 +39,7 @@
                             </select>
                             <input type="hidden" name="cliente_id" id="cliente_id">
                             <input type="hidden" name="cliente_nombre" id="cliente_nombre">
-                            <button type="button" class="btn" onclick="validarCliente()">Aceptar</button>
+                            <button type="button" class="btn" onclick="validarCliente_cajacajero()">Aceptar</button>
                         </div>
                     </form>
 
@@ -51,7 +51,7 @@
                             <td>
                                 
 
-                                <form method="post" action="/agregar" class="input-form" onsubmit="validarExistencias(event)">
+                                <form method="post" action="/agregar_cajacajero" class="input-form" onsubmit="validarExistencias(event)">
                                     <input type="hidden" name="idproducto" value="{{ producto[0] }}" class="form-control">
                                     <input type="hidden" name="nombre" value="{{ producto[1] }}" class="form-control">
                                     <input type="hidden" name="precio" value="{{ producto[2] }}" class="form-control">
@@ -89,7 +89,7 @@
                         <td>{{ item[5] }}</td>
                         <td>{{ item[10] }}</td>
                         <td>
-                            <a href="/eliminar_carrito/{{ item[0] }}" class="btn btn-danger btn-delete" data-idcarrito="{{ item[0] }}">Delete</a>
+                            <a href="/eliminar_carrito_cajacajero/{{ item[0] }}" class="btn btn-danger btn-delete" data-idcarrito="{{ item[0] }}">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -122,7 +122,7 @@
         </div>
     
     <script>
-        function validarCliente() {
+        function validarCliente_cajacajero() {
             var selectedCliente = document.getElementById('cliente');
             var selectedClienteId = selectedCliente.options[selectedCliente.selectedIndex].value;
             
@@ -164,7 +164,7 @@
             
             let medioPago = document.getElementById('medio_pago').value; 
             
-            fetch('/convertir_venta', {
+            fetch('/convertir_venta_cajacajero', {
                 method: 'POST',
                 body: JSON.stringify({ medioPago: medioPago }),
                 headers: {
@@ -173,7 +173,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    window.location.href = '/caja'; // Redirige a caja.html
+                    window.location.href = '/cajacajero'; // Redirige a cajacajero.html
                 } else {
                     throw new Error('Error al convertir a venta');
                 }
