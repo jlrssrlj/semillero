@@ -25,7 +25,7 @@ def proteger_ruta(func):
 def listar_empleado():
     try:
         
-        s = "SELECT v.idventa, p.nombreproducto, p.precio, v.pago, c.nombrecliente, e.nombreempleado, v.horainicial FROM ventas v inner JOIN empleados e ON v.idempleado = e.idempleado INNER JOIN clientes c ON v.idcliente = c.idcliente INNER JOIN productos p ON v.idproducto = p.idproducto"
+        s = "SELECT v.idventa, p.nombreproducto, p.precio, v.pago, c.nombrecliente, e.nombreempleado, v.horainicial FROM ventas v inner JOIN empleados e ON v.idempleado = e.idempleado INNER JOIN clientes c ON v.idcliente = c.idcliente INNER JOIN productos p ON v.idproducto = p.idproducto ORDER BY v.horainicial DESC"
         cur.execute(s)
         list_users = cur.fetchall()
         return render_template('ventas.html', list_users=list_users)
