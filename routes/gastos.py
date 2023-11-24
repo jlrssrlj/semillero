@@ -15,10 +15,17 @@ def listar_gastos():
     try:
         with mydb.cursor() as cur:
             cur.execute("SELECT * FROM gastos ORDER BY idgastos ASC")
-            gastos = cur.fetchall()
-        return render_template('gastos.html', gastos=gastos)
+            columns = [column[0] for column in cur.description]
+            gastos = [dict(zip(columns, row)) for row in cur.fetchall()]
+        # Calcular el total de gastos
+        total_gastos = sum(gasto['valor'] for gasto in gastos)
+
+        # Guardar el total en la sesión
+        session['total_gastos'] = total_gastos
+        return render_template('gastos.html', gastos=gastos,total_gastos=total_gastos)
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+    
 
 # Agregar gastos
 @gastos_bp.route('/agregar_gastos', methods=['POST'])
@@ -29,17 +36,21 @@ def agregar_gastos():
             valor = request.form['valor']
             nombreproveedor = request.form['nombreproveedor']
             pago = request.form['pago']
+            idproveedores = request.form['idproveedores']
             idarqueo = session.get('idarqueo_actual', None)
 
             if idarqueo is not None:
                 with mydb.cursor() as cursor:
-                    cursor.execute("INSERT INTO gastos (factura, valor, nombreproveedor, pago, idarqueo) VALUES (%s, %s, %s, %s, %s)",
-                                   (factura, valor, nombreproveedor, pago, idarqueo))
+                    cursor.execute("INSERT INTO gastos (factura, valor, nombreproveedor, pago, idproveedores, idarqueo) VALUES (%s, %s, %s, %s,%s, %s)",
+                                   (factura, valor, nombreproveedor, pago,idproveedores, idarqueo))
                 mydb.commit()
-
+                
+                
             return redirect(url_for('gastos.listar_gastos'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+
+
 
 # Editar gastos
 @gastos_bp.route('/editar_gastos/<int:idgastos>')
@@ -81,5 +92,14 @@ def eliminar_gastos(idgastos):
             cursor.execute("DELETE FROM gastos WHERE idgastos = %s", (idgastos,))
             mydb.commit()
         return redirect(url_for('gastos.listar_gastos'))
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+    
+@gastos_bp.route('/obtener_total_gastos', methods=['GET'])
+def obtener_total_gastos():
+    try:
+        # Recuperar el total de gastos desde la sesión
+        total_gastos = session.get('total_gastos', 0)
+        return jsonify({'total_gastos': total_gastos})
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500

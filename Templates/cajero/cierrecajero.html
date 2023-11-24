@@ -1,6 +1,5 @@
-{% extends 'layout.html' %} 
-
-{%block body%}
+{% extends "cajero/layoutcajero.html" %}
+{% block body %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +14,7 @@
     <div class="container1" >
         <h3 class="titulo">Actualizar</h3>
         <div class="contenedor-form">
-            <form action="{{ url_for('arqueo.actualizar_arqueo', idarqueo=arqueo.0) }}" method="POST">
+            <form action="{{ url_for('arqueocajero.actualizar_arqueo', idarqueo=arqueo.0) }}" method="POST">
                 <div class="input-form">
                     <label for="Monto">Monto de cierre</label><br>
                     <input type = "number" name="montocierre" placeholder="Monto"  class="form-control" >

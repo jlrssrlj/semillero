@@ -37,7 +37,10 @@
                     <tr>
                         <th>Monto</th>
                         <th>Apertura</th>
-                        <th>Cierre</th>
+                        <th>Hora cierre</th>
+                        <th>Monto de cierre</th>
+                        <th>Diferencia</th>
+                        <th>Opciones</th>
                         
                     </tr>
                 </thead>
@@ -47,8 +50,10 @@
                         <td>{{ row.1 }}</td>
                         <td>{{ row.2 }}</td>
                         <td>{{ row.3 }}</td>
+                        <td>{{ row.5 }}</td>
+                        <td>{{ row.6 }}</td>
+                        <td><a href="/editar_arqueocajero/{{row.0}} "><i class="ri-edit-line"></i></a></td>
                         
-                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

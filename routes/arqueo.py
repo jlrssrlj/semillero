@@ -22,11 +22,11 @@ def listar_arqueo():
         cur = mydb.cursor()
         idempleado = session.get('idempleado', None)
         if idempleado is not None:
-            s = "SELECT arqueos.idarqueo, arqueos.monto,arqueos.apertura,arqueos.cierre, empleados.nombreempleado FROM arqueos INNER JOIN empleados ON arqueos.idempleado = empleados.idempleado;"
+            s = "SELECT arqueos.idarqueo, arqueos.monto,arqueos.apertura,arqueos.cierre,empleados.nombreempleado, arqueos.montocierre, arqueos.diferencia  FROM arqueos INNER JOIN empleados ON arqueos.idempleado = empleados.idempleado;"
             cur.execute(s)
             list_users = cur.fetchall()
             cur.close()
-            list_users_formatted = [(user[0], locale.currency(user[1], grouping=True), user[2], user[3], user[4]) for user in list_users]
+            list_users_formatted = [(user[0], locale.currency(user[1], grouping=True), user[2], user[3], user[4], user[5], user[6]) for user in list_users]
             return render_template('arqueo.html', list_users=list_users_formatted)
     except Exception as ex:
         flash(f"Error: {str(ex)}", 'error')
@@ -42,6 +42,7 @@ def agregar_arqueo():
 
             if idempleado is not None:
                 monto = request.form['monto']
+                session['monto'] = int(monto)
                 # Capturar la fecha y hora actual al momento de la apertura
                 apertura = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 cierra = None  # Establecer como None inicialmente, ya que se registrará al momento del cierre
@@ -49,13 +50,18 @@ def agregar_arqueo():
         
                 cur.execute("INSERT INTO arqueos (monto, apertura, cierre, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
                 mydb.commit()
+                session['monto'] = float(monto)
                 cur.close()
                  # Obtener el ID del arqueo recién insertado
                 id_arqueo = cur.lastrowid
+                
 
                 # Almacenar el idarqueo en la sesión
                 session['idarqueo_actual'] = id_arqueo
+                
                 return redirect(url_for('arqueo.listar_arqueo'))
+            
+
         return render_template('arqueo.html')  
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
@@ -69,19 +75,31 @@ def get_contact(id):
         return render_template('edit_arqueo.html', arqueo=data[0])
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+    
+
 @arqueo_bp.route('/actualizar_arqueo/<int:idarqueo>', methods=['POST'])
 def actualizar_arqueo(idarqueo):
     try:
         if request.method == 'POST':
             cur = mydb.cursor()
-            monto = request.form['monto']
+            total_ventas = session.get('total_ventas')
+            total_gastos = session.get('total_gastos')
+            monto = session.get('monto')
+            # Calcular el monto segun sitema
+            total = monto + total_ventas - total_gastos
+            montocierre = float(request.form['montocierre'])
+            diferencia = montocierre-total
             # Capturar la fecha y hora actual al momento del cierre
             cierra = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            idempleado = request.form['idempleado']
-
-            cur.execute("UPDATE arqueos SET monto=%s, cierra=%s, idempleado=%s WHERE idarqueo=%s", (monto, cierra, idempleado, idarqueo))
+            idempleado = session.get('idempleado', None)
+            print("ventas",total_ventas)
+            print("gastos",total_gastos)
+            print("apertura",monto)
+            print("diferencia:", diferencia)
+            cur.execute("UPDATE arqueos SET montocierre=%s, cierre=%s, idempleado=%s,diferencia=%s WHERE idarqueo=%s", (montocierre, cierra, idempleado,diferencia, idarqueo))
             mydb.commit()
             cur.close()
+            
         return redirect(url_for('arqueo.listar_arqueo'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
@@ -97,3 +115,4 @@ def eliminar_arqueo(idarqueo):
         return redirect(url_for('arqueo.listar_arqueo'))
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+

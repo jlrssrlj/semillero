@@ -23,7 +23,7 @@ def listar_arqueo():
             list_users = cur.fetchall()
             cur.close()
             
-            list_users_formatted = [(user[0], locale.currency(user[1], grouping=True), user[2], user[3]) for user in list_users]
+            list_users_formatted = [(user[0], locale.currency(user[1], grouping=True), user[2], user[3],user[4],user[5]) for user in list_users]
 
             return render_template('cajero/arqueocajero.html', list_users=list_users_formatted)
 
@@ -58,6 +58,34 @@ def agregar_arqueo():
     except Exception as ex:
        flash(f"Error: {str(ex)}", 'error')
        return redirect(url_for('arqueocajero.listar_arqueo'))
+    
+@arqueocajero.route('/editar_arqueocajero/<id>')
+def get_contact(id):
+    try:  
+        cur = mydb.cursor()
+        cur.execute('SELECT*FROM arqueos WHERE idarqueo=%s',  (int(float(id)),))
+        data=cur.fetchall()
+        return render_template('cajero/cierrecajero.html', arqueo=data[0])
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
+    
+
+@arqueocajero.route('/actualizar_arqueoqueocajero/<int:idarqueo>', methods=['POST'])
+def actualizar_arqueo(idarqueo):
+    try:
+        if request.method == 'POST':
+            cur = mydb.cursor()
+            montocierre = request.form['montocierre']
+            # Capturar la fecha y hora actual al momento del cierre
+            cierra = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            idempleado = session.get('idempleado', None)
+
+            cur.execute("UPDATE arqueos SET montocierre=%s, cierre=%s, idempleado=%s WHERE idarqueo=%s", (montocierre, cierra, idempleado, idarqueo))
+            mydb.commit()
+            cur.close()
+        return redirect(url_for('arqueocajero.listar_arqueo'))
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 
 
 

@@ -40,6 +40,8 @@
                         <th>Apertura</th>
                         <th>Cierre</th>
                         <th>Empleado</th>
+                        <th>Monto de cierre</th>
+                        <th>Diferencia</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
@@ -50,6 +52,8 @@
                         <td>{{ row.2 }}</td>
                         <td>{{ row.3 }}</td>
                         <td>{{ row.4 }}</td>
+                        <td>{{ row.5 }}</td>
+                        <td>{{ row.6}}</td>
                         <td>
                             <a href="/editar_arqueo/{{row.0}} "><i class="ri-edit-line"></i></a>
                             <a href="{{ url_for('arqueo.eliminar_arqueo', idarqueo=row.0) }}"><i

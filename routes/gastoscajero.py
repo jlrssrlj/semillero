@@ -9,33 +9,30 @@ mydb = get_db_connection()
 
 gastoscajero = Blueprint('gastoscajero', __name__)
 
-def obtener_proveedores():
-    cur = mydb.cursor()
-    cur.execute("SELECT idproveedores, nombrepro FROM proveedores")
-    proveedores = cur.fetchall()
-    cur.close()
-    return proveedores
-
-@gastoscajero.route('/gastocajero', methods=['GET'])
-def mostrar_formulario_gastos():
-    proveedores = obtener_proveedores()
-    return render_template('cajero/gastoscajero.html', proveedores=proveedores)
-
 @gastoscajero.route('/gastoscajero', methods=['GET'])
 @proteger_ruta
 def listar_gastos():
     try:
         with mydb.cursor() as cur:
             cur.execute("SELECT * FROM gastos ORDER BY idgastos ASC")
-            gastos = cur.fetchall()
+            # Convertir cada fila en un diccionario
+            columns = [column[0] for column in cur.description]
+            gastos = [dict(zip(columns, row)) for row in cur.fetchall()]
 
-        return render_template('cajero/gastoscajero.html', gastos=gastos)
+        # Calcular el total de gastos
+        total_gastos = sum(gasto['valor'] for gasto in gastos)
+
+        # Guardar el total en la sesión
+        session['total_gastos'] = total_gastos
+
+        return render_template('cajero/gastoscajero.html', gastos=gastos,total_gastos=total_gastos)
     except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 
+
 @gastoscajero.route('/agregar_gastoscajero', methods=['POST'])
 def agregar_gastos():
-    try:
+    #try:
         if request.method == 'POST':
             factura = request.form['factura']
             valor = request.form['valor']
@@ -55,6 +52,14 @@ def agregar_gastos():
             mydb.commit()
 
         return redirect(url_for('gastoscajero.listar_gastos'))
-    except Exception as ex:
+    #except Exception as ex:
         return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
 
+@gastoscajero.route('/obtener_total_gastos', methods=['GET'])
+def obtener_total_gastos():
+    try:
+        # Recuperar el total de gastos desde la sesión
+        total_gastos = session.get('total_gastos', 0)
+        return jsonify({'total_gastos': total_gastos})
+    except Exception as ex:
+        return jsonify({'mensaje': f"Error: {str(ex)}"}), 500
