@@ -47,7 +47,6 @@ def agregar_arqueo():
                 apertura = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 cierra = None  # Establecer como None inicialmente, ya que se registrará al momento del cierre
                 
-        
                 cur.execute("INSERT INTO arqueos (monto, apertura, cierre, idempleado) VALUES (%s, %s, %s, %s)", (monto, apertura, cierra, idempleado))
                 mydb.commit()
                 session['monto'] = float(monto)
